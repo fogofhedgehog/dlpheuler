@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019/01/12 20:23:54.000.459,=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/01/12 20:24:38.000.314,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/01/12 20:24:38.000.314,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2019/01/12 20:25:00.000.633,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker_aut.dproj=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,78 @@
+object AddNewTaskForm: TAddNewTaskForm
+  Left = 0
+  Top = 0
+  Caption = 'Add New Task'
+  ClientHeight = 518
+  ClientWidth = 359
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object HeaderLabel: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 8.000000000000000000
+    Size.Width = 121.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Add New Task'
+    TabOrder = 0
+  end
+  object TaskNumberEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 1
+    ReadOnly = True
+    Position.X = 8.000000000000000000
+    Position.Y = 80.000000000000000000
+  end
+  object TaskDescriptionEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 2
+    Position.X = 8.000000000000000000
+    Position.Y = 144.000000000000000000
+    Size.Width = 337.000000000000000000
+    Size.Height = 233.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object ParamsAmountEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 3
+    Position.X = 8.000000000000000000
+    Position.Y = 416.000000000000000000
+  end
+  object TaskDescriptionLabel: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 120.000000000000000000
+    Text = 'Task Description'
+    TabOrder = 4
+  end
+  object TaskNumLabel: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 56.000000000000000000
+    Text = 'Task Number'
+    TabOrder = 5
+  end
+  object ParamsAmountLabel: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 392.000000000000000000
+    Text = 'Amount of Parameters'
+    TabOrder = 6
+  end
+  object ReturnButton: TButton
+    Position.X = 120.000000000000000000
+    Position.Y = 464.000000000000000000
+    TabOrder = 7
+    Text = 'Add Task'
+    OnClick = ReturnButtonClick
+  end
+  object ParamErrorLabel: TLabel
+    StyledSettings = [Family, Size, Style]
+    Position.X = 8.000000000000000000
+    Position.Y = 440.000000000000000000
+    Size.Width = 57.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.FontColor = claCrimson
+    TabOrder = 9
+  end
+end

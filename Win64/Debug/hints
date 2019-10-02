@@ -1,0 +1,90 @@
+Any natural number. Time for 2000000000 is about 20 sec.
+Any natural number below 4500000000000000000.
+Any natural number higher than 1 and below 4500000000000000000. Primes higher then 10000000000000000 demands nore than 20 sec.
+Theoretically, naturals from 2 to 9. But 8 and 9 looks like demands too much time. 7 demands about 3 minutes.
+Any natural number from 2 to 42. Higher numbers gives incorrect decision.
+Any natural number from 2 to about 130000.
+Any natural number higher than 2. 1000000 demands about 20 sec.
+Any natural number from 2 to 20.
+No parameter.
+Any natural number higher than 3. 14000000 demands about 20 sec.
+No parameter.
+Any natural number higher than 3. 1100 requires about 15 sec.
+No parameter.
+Any natural number higher than 11. 7000000 requires about 20 sec.
+Any natural number from 1 to 33. Higher numbers gives incorrect results.
+Any natural number. 36000 demands about 20 sec.
+Any natural number from 1 to 9999.
+No parameters. Triangle is in file 'tsk18.txt'.
+ 
+Any natural number from 1 to 999.
+Any natural number from 3 to 20000000. 2000000 demands about 14 sec.
+ 
+ 
+Any natural number below 3628800.
+Any natural number greater than 2. 5000 demands about 30 sec.
+Any natural number. 10000 demands about 20 sec.
+Any natural number. 10000 demands about 30 sec.
+Any odd natural number greater than 3 and below approximately 1.3 billion.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+Any natural number higher than 100. 20000000 demands about 35 secs. Maybe all primes over 1000000 are not circular.
+Any natural number. 10000000 demands about 22 sec.
+No parameter.
+No parameter.
+Any natural number over 13. 4000 demands about 27 sec.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+Any natural number. 13000 demands about 20 sec.
+No parameter.
+Any natural number. 100000000 demands about 15 sec.
+No parameter.
+No parameter.
+Any natural number.
+No parameter.
+No parameter.
+Any natural number over 1, but default value demands about 3.5 min.
+Any natural number. 10000 takes about 25 sec.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+Any natural number over 1. 200000 takes about 22 sec.
+Any natural number over 2. 1500 demande about 40 sec.
+Any natural number over 2. 20000 demands about 18 sec.
+No parameters. Triangle is in file 'tsk67.txt'.
+No parameter.
+Any natural number over 7. 3000000 demands about 17 sec.
+Any natural number, but default value demands about 100 sec.
+Any natural number over 8. 4000000 demands about 25 sec.
+Any natural number over 8. 3000000 demands about 17 sec.
+Any natural number over 2. 50000 demands about 25 sec.
+No parameter.
+Any natural number. 150000000 demands about 20 sec.
+Any natural number over 1. Default demands about 20 sec.
+Any natural number. 3000000 demands about 18 sec.
+No parameter.
+Not realised in programming for a while, made by hand.
+Any natural number over 1. Default demands about 8 sec, 1000 - 180.
+No parameter. Matrix is in file 'tsk81.txt'.
+No parameter. Matrix is in file 'tsk82.txt'.
+No parameter. Matrix is in file 'tsk83.txt'.
+No parameter.
+No parameter.
+Any natural number. Default demands about 19 sec.
+Any natural number. 3000000000 demands about 20 sec.
+No parameter.
+No parameter. Charset is in file 'tsk89.txt'.
+No parameter.

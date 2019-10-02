@@ -1,0 +1,11 @@
+unit eulclass;
+
+interface
+
+uses classes, System.SysUtils, Classes, math, FMX.Dialogs, Generics.Collections;
+
+Type TPuzzle
+
+implementation
+
+end.

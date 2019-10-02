@@ -1,0 +1,18 @@
+program euler;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  eulerproj in 'eulerproj.pas' {Form1},
+  NewTaskCreate in 'NewTaskCreate.pas' {AddNewTaskForm},
+  eulertask in 'eulertask.pas',
+  fogmath in 'fogmath.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TAddNewTaskForm, AddNewTaskForm);
+  Application.Run;
+end.

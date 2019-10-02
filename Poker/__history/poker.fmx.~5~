@@ -1,0 +1,118 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 688
+  ClientWidth = 1096
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object LLCornerLayout: TLayout
+    Anchors = []
+    Margins.Left = 40.000000000000000000
+    Margins.Bottom = 30.000000000000000000
+    Position.Y = 586.577819824218800000
+    Size.Width = 545.000000000000000000
+    Size.Height = 105.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object CreditwordLabel: TLabel
+      Align = Scale
+      AutoTranslate = False
+      StyledSettings = []
+      Margins.Left = 40.000000000000000000
+      Margins.Right = 200.000000000000000000
+      Margins.Bottom = 40.000000000000000000
+      Position.X = 40.000000000000000000
+      Position.Y = 48.000000000000000000
+      Size.Width = 153.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Cambria'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.FontColor = claBlue
+      TextSettings.WordWrap = False
+      TextSettings.Trimming = None
+      Text = 'Credits'
+      TabOrder = 0
+      TabStop = False
+    end
+    object CreditAmountLabel: TLabel
+      Anchors = [akLeft, akBottom]
+      StyledSettings = [Style]
+      Margins.Bottom = 40.000000000000000000
+      Position.X = 111.000000000000000000
+      Position.Y = 46.000000000000000000
+      Size.Width = 41.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Myanmar Text'
+      TextSettings.Font.Size = 18.000000000000000000
+      TextSettings.FontColor = claBlue
+      TextSettings.VertAlign = Leading
+      TextSettings.Trimming = None
+      Text = '0'
+      TabOrder = 1
+    end
+  end
+  object ScaledLayout1: TScaledLayout
+    Align = Client
+    OriginalWidth = 50.000000000000000000
+    OriginalHeight = 50.000000000000000000
+    Margins.Top = 100.000000000000000000
+    Margins.Bottom = 100.000000000000000000
+    Size.Width = 1096.000000000000000000
+    Size.Height = 488.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object RLCornerLayout: TLayout
+    Anchors = []
+    Position.X = 544.000000000000000000
+    Position.Y = 586.577819824218800000
+    Size.Width = 553.000000000000000000
+    Size.Height = 105.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object BetwordLabel: TLabel
+      Align = Scale
+      AutoTranslate = False
+      EnableDragHighlight = False
+      Enabled = False
+      StyledSettings = []
+      Margins.Left = 40.000000000000000000
+      Margins.Right = 200.000000000000000000
+      Margins.Bottom = 40.000000000000000000
+      Position.X = 344.000000000000000000
+      Position.Y = 48.000000000000000000
+      Size.Width = 145.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Cambria'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.FontColor = claBlue
+      TextSettings.WordWrap = False
+      TextSettings.Trimming = None
+      Text = 'Bet'
+      TabOrder = 0
+      TabStop = False
+    end
+    object BetAmountLabel: TLabel
+      Anchors = [akLeft, akBottom]
+      StyledSettings = [Style]
+      Margins.Bottom = 40.000000000000000000
+      Position.X = 399.000000000000000000
+      Position.Y = 49.000000000000000000
+      Size.Width = 41.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Myanmar Text'
+      TextSettings.Font.Size = 18.000000000000000000
+      TextSettings.FontColor = claBlue
+      TextSettings.VertAlign = Leading
+      TextSettings.Trimming = None
+      Text = '0'
+      TabOrder = 1
+    end
+  end
+end

@@ -1,0 +1,65 @@
+unit NewTaskCreate;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Edit;
+
+type
+  TAddNewTaskForm = class(TForm)
+    HeaderLabel: TLabel;
+    TaskNumberEdit: TEdit;
+    TaskDescriptionEdit: TEdit;
+    ParamsAmountEdit: TEdit;
+    TaskDescriptionLabel: TLabel;
+    TaskNumLabel: TLabel;
+    ParamsAmountLabel: TLabel;
+    ReturnButton: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure ReturnButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+var
+  AddNewTaskForm: TAddNewTaskForm;
+
+implementation
+
+{$R *.fmx}
+uses eulerproj;
+
+procedure TAddNewTaskForm.FormCreate(Sender: TObject);
+begin
+TaskNumberEdit.Text:=TaskHlpr.TaskNum.ToString;
+end;
+
+procedure TAddNewTaskForm.ReturnButtonClick(Sender: TObject);
+type TaskDescript=record
+  TaskNum:integer;
+  TaskText:string[254];
+  ParamAmount:integer;
+  end;
+var f: file of TaskDescript;
+  a, b: TaskDescript;
+begin
+  TaskHlpr.TaskText:=TaskDescriptionEdit.Text;
+  TaskHlpr.ParamAmount:=ParamsAmountEdit.Text.ToInteger;
+  a.TaskNum:=TaskHlpr.TaskNum;
+  a.TaskText:=TaskHlpr.TaskText;
+  a.ParamAmount:=TaskHlpr.ParamAmount;
+  if not (a.TaskText='') then
+  begin
+    AssignFile (f,'Tasks.desc');
+    Reset (f);
+    while not Eof (f) do Read (f, b);
+    write (f, a);
+    CloseFile (f);
+    AddNewTaskForm.Hide;
+    Form1.Show
+  end;
+end;
+end.
