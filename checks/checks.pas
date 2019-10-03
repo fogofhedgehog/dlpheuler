@@ -1,0 +1,40 @@
+unit checks;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Platform,
+  FMX.Controls.Presentation, FMX.StdCtrls, System.Rtti, FMX.Clipboard, chkhlpr;
+
+type
+  TForm1 = class(TForm)
+    GetFromClipButton: TButton;
+    procedure GetFromClipButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.fmx}
+{$R *.LgXhdpiPh.fmx ANDROID}
+{$R *.Windows.fmx MSWINDOWS}
+
+procedure TForm1.GetFromClipButtonClick(Sender: TObject);
+var a: string;
+    b: TValue;
+    EditClp: IFMXExtendedClipboardService;
+begin
+  if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, EditClp) then
+    a:= EditClp.GetText;
+    showmessage(unixtime(a).ToString);
+
+end;
+
+end.

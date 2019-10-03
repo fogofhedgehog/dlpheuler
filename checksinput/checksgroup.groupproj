@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9DEE7D2C-F5AE-443D-8895-4DE49C2BE21E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="checks.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\checks\checksinput.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="checks">
+        <MSBuild Projects="checks.dproj"/>
+    </Target>
+    <Target Name="checks:Clean">
+        <MSBuild Projects="checks.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="checks:Make">
+        <MSBuild Projects="checks.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="checksinput">
+        <MSBuild Projects="..\checks\checksinput.dproj"/>
+    </Target>
+    <Target Name="checksinput:Clean">
+        <MSBuild Projects="..\checks\checksinput.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="checksinput:Make">
+        <MSBuild Projects="..\checks\checksinput.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="checks;checksinput"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="checks:Clean;checksinput:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="checks:Make;checksinput:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

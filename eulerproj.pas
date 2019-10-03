@@ -8,7 +8,8 @@ uses
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.ListBox, FMX.Edit,
   Generics.Collections, NewTaskCreate, eulertask, FMX.ListView.Types,
   FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView,
-  FMX.ScrollBox, FMX.Memo;
+  FMX.ScrollBox, FMX.Memo, FMX.Clipboard, System.Rtti,
+  FMX.Platform, FMX.Surfaces;
 
 type
   TForm1 = class(TForm)
@@ -95,6 +96,8 @@ end;
 
 procedure TForm1.CalculateButtonClick(Sender: TObject);
 var TaskChoise, Param1, resulting :int64;
+    Clpbrd: IFMXExtendedClipboardService;
+    Value: Tvalue;
 begin
   TimeStart:=DateTimeToTimeStamp(Time);
   TaskChoise:=TaskNumberComboBox.Items[TaskNumberComboBox.ItemIndex].ToInteger;
@@ -329,6 +332,10 @@ begin
   resulting:= twotileplacement(Param1);
   if TaskChoise = 115 then
   resulting:= tiles50placement;
+  if TaskChoise = 116 then
+  resulting:= twotofourtilecvrg(Param1);
+  if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
+    Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
   TimeEnd.Date:=TimeEnd.Date - TimeStart.Date;
   TimeEnd.Time:=TimeEnd.Time - TimeStart.Time;

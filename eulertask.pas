@@ -122,6 +122,7 @@ function bouncypart: int64;
 function bouncyamount (pwr: int64): int64;
 function twotileplacement(leng: int64): int64;
 function tiles50placement: int64;
+function twotofourtilecvrg(leng: int64): int64;
 
 implementation
 
@@ -4599,6 +4600,37 @@ begin
     leng:= leng + 1
   end;
   result:= leng;
+end;
+
+function twotofourtilecvrg(leng: int64): int64;
+var i, j, r, bars, blnks: int64;
+begin
+  result:= 0;
+  for i := 1 to leng div 2 do                   // 2-tiled bars
+  begin
+    r:= 1;
+    blnks:= leng - i * 2;
+    for j:= 1 to i do
+      r:= r * (leng - i + 1 - j) div j;
+    result:= result + r
+  end;
+  for i := 1 to leng div 3 do                   // 3-tiled bars
+  begin
+    r:= 1;
+    blnks:= leng - i * 3;
+    for j:= 1 to i do
+      r:= r * (leng - i * 2 + 1 - j) div j;
+    result:= result + r
+  end;
+  for i := 1 to leng div 4 do                   // 4-tiled bars
+  begin
+    r:= 1;
+    blnks:= leng - i * 4;
+    for j:= 1 to i do
+      r:= r * (leng - i * 3 + 1 - j) div j;
+    result:= result + r
+  end;
+
 end;
 
 end.
