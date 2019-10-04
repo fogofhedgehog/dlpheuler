@@ -123,6 +123,7 @@ function bouncyamount (pwr: int64): int64;
 function twotileplacement(leng: int64): int64;
 function tiles50placement: int64;
 function twotofourtilecvrg(leng: int64): int64;
+function twothreefourtilecvrg(leng: int64): int64;
 
 implementation
 
@@ -4602,7 +4603,7 @@ begin
   result:= leng;
 end;
 
-function twotofourtilecvrg(leng: int64): int64;
+function twotofourtilecvrg(leng: int64): int64;         // Task 116 - 20492570929
 var i, j, r, bars, blnks: int64;
 begin
   result:= 0;
@@ -4630,6 +4631,10 @@ begin
       r:= r * (leng - i * 3 + 1 - j) div j;
     result:= result + r
   end;
+end;
+
+function twothreefourtilecvrg(leng: int64): int64;
+begin
 
 end;
 
