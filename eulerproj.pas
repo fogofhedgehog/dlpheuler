@@ -334,6 +334,8 @@ begin
   resulting:= tiles50placement;
   if TaskChoise = 116 then
   resulting:= twotofourtilecvrg(Param1);
+  if TaskChoise = 117 then
+  resulting:= twothreefourtilecvrg(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

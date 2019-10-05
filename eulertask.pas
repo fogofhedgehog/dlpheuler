@@ -4491,7 +4491,7 @@ begin
   end;
 end;
 
-function bouncyamount (pwr: int64): int64;
+function bouncyamount (pwr: int64): int64;       // Task 113 - 51161058134250
 var i, j, k, ic, ic1, ic2, dc, dc1, dc2, powr, incr, decr: int64;
     a: array [0 .. 10] of array of int64;
 begin
@@ -4634,8 +4634,45 @@ begin
 end;
 
 function twothreefourtilecvrg(leng: int64): int64;
+var i, bars2, bars3, bars4, r: int64;
+  j: Int64;
 begin
-
+  result:= 0;
+  for i:= leng div 2 downto 2 do
+  begin
+    bars4:= 0;
+    bars3:= 1;
+    bars2:= i - bars4 - bars3;
+    while bars2 * 2 + bars3 * 3 + bars4 * 4 <= leng do
+    begin
+      r:= 1;
+      if bars2 >= bars3 then
+      begin
+        for j:= i downto bars2 + 1 do
+          r:= r * j;
+        r:= r div factorial(bars3) div factorial(bars4);
+      end
+      else
+      begin
+        for j:= i downto bars3 + 1 do
+          r:= r * j;
+        r:= r div factorial(bars2) div factorial(bars4);
+      end;
+      for j:= 1 to i do
+        r:= r * (i + (leng - bars2 * 2 - bars3 * 3 - bars4 * 4) + 1 - j) div j;                          //(leng - bars2 - bars3 * 2 - bars4 * 3 + 1 - j) div j;
+      result:= result + r;
+      bars3:= bars3 + 1;
+      bars2:= bars2 - 1;
+      if (bars2 * 2 + bars3 * 3 + bars4 * 4 > leng) or ((bars2 = 0) and (bars4 = 0) or (bars2 < 0)) then
+      begin
+        bars3:= 0;
+        bars4:= bars4 + 1;
+        bars2:= i - bars4
+      end;
+      if (bars2 * 2 + bars3 * 3 + bars4 * 4 > leng) or (bars4 = i) then break
+    end;
+  end;
+  result:= result + twotofourtilecvrg(leng) + 1;                   // all coverages with no-mixed tiles
 end;
 
 end.
