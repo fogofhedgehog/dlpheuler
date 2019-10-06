@@ -2,11 +2,11 @@ unit chkhlpr;
 
 interface
 
-uses system.sysutils, System.StrUtils, FMX.StdCtrls, FMX.DateTimeCtrls;
+uses system.sysutils, System.StrUtils;
 
 function unixtime(dat: string): int64;
 function ReceiptPerekrestok(a: string): string;
-function ReceiptPyaterochka(a, tm: string): string;
+function ReceiptPyaterochka(a: string): string;
 function digmounthtotext(a: integer): string;
 
 implementation
@@ -129,11 +129,11 @@ begin
   DeleteFile('exmpl.txt')
 end;
 
-function ReceiptPyaterochka(a, tm: string): string;
-var rd, rd1, nam, qn, tot: string;
+function ReceiptPyaterochka(a: string): string;
+var rd, rd1: string;
     f: text;
     q, summa: extended;
-    pri, qi, summai, i: int64;
+    pri, qi, summai: int64;
 begin
   AssignFile(f, 'exmpl.txt');
   rewrite(f);
@@ -144,75 +144,38 @@ begin
   Readln (f, rd);
   Readln (f, rd);
   Readln (f, rd1);
-  rd:= rd1[1] + rd1[2] + ' ' + digmounthtotext((rd1[4] + rd1[5]).ToInteger) + ' ' + rd1[7] + rd1[8] + rd1[9] + rd1[10] + ', ';
-  if (LeftStr(tm, 2) = '12') and (tm[10] = 'A') then tm:= '0' + RightStr(tm, length(tm) - 2);
-  if tm[10] = 'P' then
-    if LeftStr(tm, 2) <> '12' then tm:= (LeftStr(tm, 2).Tointeger + 12).ToString + RightStr(tm, length(tm) - 2);
-  rd:= rd + LeftStr(tm, 5);
+  rd:= rd1[1] + rd1[2] + ' ' + digmounthtotext((rd1[4] + rd1[5]).ToInteger) + ' ' + rd1[7] + rd1[8] + rd1[9] + rd1[10] + ',';
+
   result:= '{"cashTotalSum":0,"dateTime":';
   rd:= unixtime(rd).ToString;
-  result:= result + rd;
-  result:= result + ',"discount":null,"discountSum":null,"ecashTotalSum":null,"fiscalDocumentNumber":null,"fiscalDriveNumber":null,"fiscalSign":null,"items":[{"modifiers":null,"name":";';
+  a:= a + rd;
+  a:= a + ',"discount":null,"discountSum":null,"ecashTotalSum":null,"fiscalDocumentNumber":null,"fiscalDriveNumber":null,"fiscalSign":null,"items":[{"modifiers":null,"name":";';
   Readln (f, rd);
   Readln (f, rd);
   Readln (f, rd);
-  while LeftStr(rd, 5) <> 'Итого' do
+  Readln (f, rd);
+  Readln (f, rd);
+  while rd <> 'Итого:' do
   begin
-    nam:= '';
-    i:= 1;
-    while rd[i] <> #9 do
-    begin
-      nam:= nam + rd[i];
-      i:= i + 1
-    end;
-    result:= result + nam;
-    i:= i + 1;
-    qn:= '';
-    while rd[i] <> #9 do
-    begin
-      qn:= qn + rd[i];
-      i:= i + 1
-    end;
-    i:= i + 1;
-    tot:= '';
-    while i <= length(rd) do
-    begin
-      if rd[i] <> ' '
-      then
-        tot:= tot + rd[i]
-      else
-        tot:= tot + '.';
-        i:= i + 1
-    end;
+    result:= result + rd;
+    Readln (f, rd);
     result:= result + '","nds0":null,"nds10":null,"nds18":null,"ndsCalculated10":null,"ndsCalculated18":null,"ndsNo":null,"price":';
-    q:= qn.ToExtended;
-    summa:= tot.ToExtended;
+    q:= rd.ToExtended;
+    Readln (f, rd);
+    summa:= rd.ToExtended;
     result:= result + Trunc(summa / q * 100).ToString + ',"quantity":' + q.ToString + ',"sum":' +
     Trunc(summa * 100).ToString + ',"storno":false},{"modifiers":null,"name":"';
-    Readln(f, rd);
-    if q > 1 then Readln(f, rd)
+    Readln(f, rd)
   end;
   result:= LeftStr(result, length(result) - 27);
   result:= result + '],"kktNumber":null,"kktRegId":null,"markup":null,"markupSum":null,"modifiers":null,"nds0":null,"nds10":null,"nds18"'
   + ':null,"ndsCalculated10":null,"ndsCalculated18":null,"ndsNo":null,"operationType":1,"operator":null,"requestNumber":null,"retailPlaceAddress":null,"shiftNumber":null,"stornoItems":null,"taxationType":null,"totalSum":';
-  i:= 1;
-  while rd[i] <> #9 do
-    i:= i + 1;
-  i:= i + 1;
-  tot:= '';
-  while i <= length(rd) do
-  begin
-    if rd[i] <> ' '
-    then
-      tot:= tot + rd[i]
-    else
-      tot:= tot + '.';
-      i:= i + 1
-  end;
-  summa:= tot.ToExtended;
-  result:= result + Trunc(summa * 100).ToString + ',"user":"Пятёрочка","userInn":null}';
+  Readln(f, rd);
+  summa:= rd.ToExtended;
+  result:= result + Trunc(summa * 100).ToString + ',"user":"Перекрёсток","userInn":null}';
   CloseFile(f);
   DeleteFile('exmpl.txt')
+
 end;
 
 function digmounthtotext(a: integer): string;

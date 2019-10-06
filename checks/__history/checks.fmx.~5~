@@ -9,8 +9,8 @@ object Form1: TForm1
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
   object GetFromClipButton: TButton
-    Position.X = 48.000000000000000000
-    Position.Y = 176.000000000000000000
+    Position.X = 80.000000000000000000
+    Position.Y = 360.000000000000000000
     Size.Width = 193.000000000000000000
     Size.Height = 44.000000000000000000
     Size.PlatformDefault = False
@@ -51,28 +51,5 @@ object Form1: TForm1
     TabOrder = 4
     Viewport.Width = 181.000000000000000000
     Viewport.Height = 277.000000000000000000
-  end
-  object QTimeTimeEdit: TTimeEdit
-    Format = 'hh:nn'
-    Time = 0.541666666666666600
-    Position.X = 104.000000000000000000
-    Position.Y = 344.000000000000000000
-    Size.Width = 73.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 5
-    Visible = False
-    ParentShowHint = False
-    ShowHint = False
-  end
-  object EnterTimeButton: TButton
-    Position.X = 64.000000000000000000
-    Position.Y = 384.000000000000000000
-    Size.Width = 177.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 6
-    Text = 'Enter Time (13:00 by default}'
-    Visible = False
   end
 end

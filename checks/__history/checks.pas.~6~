@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Platform,
   FMX.Controls.Presentation, FMX.StdCtrls, System.Rtti, FMX.Clipboard, chkhlpr,
-  System.StrUtils, FMX.ScrollBox, FMX.Memo, FMX.DateTimeCtrls;
+  System.StrUtils, FMX.ScrollBox, FMX.Memo;
 
 type
   TForm1 = class(TForm)
@@ -15,8 +15,6 @@ type
     PyaterochkaRadioButton: TRadioButton;
     ReadShowClipbrdButton: TButton;
     ClpbrdMemo: TMemo;
-    QTimeTimeEdit: TTimeEdit;
-    EnterTimeButton: TButton;
     procedure GetFromClipButtonClick(Sender: TObject);
     procedure ReadShowClipbrdButtonClick(Sender: TObject);
   private
@@ -35,7 +33,7 @@ implementation
 {$R *.Windows.fmx MSWINDOWS}
 
 procedure TForm1.GetFromClipButtonClick(Sender: TObject);
-var a, json, tm: string;
+var a, json: string;
     EditClp: IFMXExtendedClipboardService;
 begin
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, EditClp) then
@@ -43,21 +41,7 @@ begin
   if not PerekrRadioButton.IsChecked and not PyaterochkaRadioButton.IsChecked then
     ShowMessage('Необходимо выбрать магазин');
   if PerekrRadioButton.IsChecked then json:= ReceiptPerekrestok(a);
-  if PyaterochkaRadioButton.IsChecked then
-  begin
-    QTimeTimeEdit.Visible:= True;
-    EnterTimeButton.Visible:= True;
-    while True do
-    begin
-      Application.ProcessMessages;
-      if EnterTimeButton.IsPressed then break;
-    end;
-    QTimeTimeEdit.Visible:= False;
-    EnterTimeButton.Visible:= False;
-    tm:= TimetoStr(QTimeTimeEdit.Time);
-    if tm[2] = ':' then tm:= '0' + tm;
-    json:= ReceiptPyaterochka(a, tm);
-  end;
+  if PyaterochkaRadioButton.IsChecked then json:= ReceiptPyaterochka(a);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, EditClp) then
     EditClp.SetText(json);
 end;

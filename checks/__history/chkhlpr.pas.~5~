@@ -189,8 +189,7 @@ begin
     summa:= tot.ToExtended;
     result:= result + Trunc(summa / q * 100).ToString + ',"quantity":' + q.ToString + ',"sum":' +
     Trunc(summa * 100).ToString + ',"storno":false},{"modifiers":null,"name":"';
-    Readln(f, rd);
-    if q > 1 then Readln(f, rd)
+    Readln(f, rd)
   end;
   result:= LeftStr(result, length(result) - 27);
   result:= result + '],"kktNumber":null,"kktRegId":null,"markup":null,"markupSum":null,"modifiers":null,"nds0":null,"nds10":null,"nds18"'
