@@ -17,8 +17,6 @@ type
     ClpbrdMemo: TMemo;
     QTimeTimeEdit: TTimeEdit;
     EnterTimeButton: TButton;
-    PyatImageControl: TImageControl;
-    PerekrImageControl: TImageControl;
     procedure GetFromClipButtonClick(Sender: TObject);
     procedure ReadShowClipbrdButtonClick(Sender: TObject);
   private
@@ -46,7 +44,7 @@ begin
     ShowMessage('Необходимо выбрать магазин');
   if PerekrRadioButton.IsChecked then
     begin
-      if (LeftStr(a, 12) <> 'Кассовый чек') or (not RightStr(a, 6).Contains('балл'))
+      if (LeftStr(a, 12) <> 'Кассовый чек') and (not RightStr(a, 6).Contains('балл'))
       then
       begin
         ShowMessage('Скопированы некорректные данные');
@@ -67,13 +65,7 @@ begin
     EnterTimeButton.Visible:= False;
     tm:= TimetoStr(QTimeTimeEdit.Time);
     if tm[2] = ':' then tm:= '0' + tm;
-    if (LeftStr(a, 12) <> 'Кассовый чек') or (not RightStr(a, 15).Contains('Итого'))
-    then
-    begin
-      ShowMessage('Скопированы некорректные данные');
-    end
-    else
-      json:= ReceiptPyaterochka(a, tm);
+    json:= ReceiptPyaterochka(a, tm);
   end;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, EditClp) then
     EditClp.SetText(json);
