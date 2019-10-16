@@ -66,6 +66,7 @@ function check3on3(qset: TList<int64>): boolean;   // helper function for task 1
 function check4on4(qset: TList<int64>): boolean;   // helper function for task 105
 function check5on5(qset: TList<int64>): boolean;   // helper function for task 105
 function check6on6(qset: TList<int64>): boolean;   // helper function for task 105
+function nextpermutation(a: string): string;
 
 implementation
 
@@ -1811,6 +1812,31 @@ begin
   sums.Destroy;
 end;
 
-
+function nextpermutation(a: string): string;
+var i, j, k: integer;
+begin
+  for i:= length(a) downto 2 do
+    if a[i] > a[i - 1] then break;
+  if i = 1
+  then
+    result:= ''
+  else
+  begin
+    for j:= length(a) downto i do
+      if a[j] > a[i - 1]
+      then
+        break;
+      result:= '';
+      for k := 1 to i - 2 do
+        result:= result + a[k];
+      result:= result + a[j];
+      for k:= length(a) downto i do
+        if k = j
+        then
+          result:= result + a[i - 1]
+        else
+          result:= result + a[k];
+  end;
+end;
 
 end.

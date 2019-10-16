@@ -336,6 +336,10 @@ begin
   resulting:= twotofourtilecvrg(Param1);
   if TaskChoise = 117 then
   resulting:= twothreefourtilecvrg(Param1);
+  if TaskChoise = 118 then
+  resulting:= primesetscount;
+  if TaskChoise = 119 then
+  resulting:= digitssum(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

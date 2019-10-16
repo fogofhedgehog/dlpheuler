@@ -124,6 +124,8 @@ function twotileplacement(leng: int64): int64;
 function tiles50placement: int64;
 function twotofourtilecvrg(leng: int64): int64;
 function twothreefourtilecvrg(leng: int64): int64;
+function primesetscount: int64;
+function digitssum(number: int64): int64;
 
 implementation
 
@@ -4673,6 +4675,103 @@ begin
     end;
   end;
   result:= result + twotofourtilecvrg(leng) + 1;                   // all coverages with no-mixed tiles
+end;
+
+function primesetscount: int64;                                  // Task 118 - 44680
+var i, j, k, cnt, cnt1: int64;
+    places: array [1 .. 25] of integer;
+    cph: array [1 .. 6] of integer;
+    cp, cphr, cc: string;
+    flag: boolean;
+begin
+  places[1]:= 111123;
+  places[2]:= 11115;
+  places[3]:= 111222;
+  places[4]:= 11124;
+  places[5]:= 11133;
+  places[6]:= 1116;
+  places[7]:= 11223;
+  places[8]:= 1125;
+  places[9]:= 1134;
+  places[10]:= 117;
+  places[11]:= 12222;
+  places[12]:= 1224;
+  places[13]:= 1233;
+  places[14]:= 126;
+  places[15]:= 135;
+  places[16]:= 144;
+  places[17]:= 18;
+  places[18]:= 2223;
+  places[19]:= 225;
+  places[20]:= 234;
+  places[21]:= 27;
+  places[22]:= 333;
+  places[23]:= 36;
+  places[24]:= 45;
+  places[25]:= 9;
+  cp:= '123456789';
+  result:= 0;
+  while cp <> '' do
+  begin
+    for i:= 1 to 25 do
+    begin;
+      cnt:= length(places[i].ToString);
+      cnt1:= 0;
+      for j:= 1 to cnt do
+      begin
+        cphr:= '';
+        cc:= places[i].ToString;
+        for k:= 1 to StrToInt(cc[j]) do
+          cphr:= cphr + cp[k + cnt1];
+        cph[j]:= cphr.ToInteger;
+        cnt1:= cnt1 + StrToInt(cc[j])
+      end;
+      flag:= true;
+      for j:= 1 to cnt - 1 do
+        if cph[j] > cph [j + 1] then
+        begin
+          flag:= false;
+          break
+        end;
+      if flag then
+        for j:= 1 to cnt do
+          if not IsPrime(cph[j]) then
+          begin
+            flag:= false;
+            break
+          end;
+      if flag then
+        result:= result + 1
+    end;
+    cp:= nextpermutation(cp);
+  end;
+end;
+
+function digitssum(number: int64): int64;      // Task 119 - 248155780267521
+var i, i1, j, ds, cnt: int64;
+    numbers: TList<int64>;
+begin
+  numbers:= TList<int64>.Create;
+  numbers.Clear;
+  for i:= 2 to 144 do
+  begin
+    j:= 2;
+    while powerint64(i, j) < 10000000000000000 do
+    begin
+      i1:= powerint64(i, j);
+      ds:= 0;
+      while i1 <> 0 do
+      begin
+        ds:= ds + i1 mod 10;
+        i1:= i1 div 10
+      end;
+      if ds = i then
+        numbers.Add(powerint64(i, j));
+      j:= j + 1
+    end;
+  end;
+  numbers.Sort;
+  result:= numbers[number - 1];
 end;
 
 end.
