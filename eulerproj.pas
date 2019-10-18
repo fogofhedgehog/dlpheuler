@@ -340,6 +340,10 @@ begin
   resulting:= primesetscount;
   if TaskChoise = 119 then
   resulting:= digitssum(Param1);
+  if TaskChoise = 120 then
+  resulting:= remaindersum(Param1);
+  if TaskChoise = 121 then
+  resulting:= prizefund(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

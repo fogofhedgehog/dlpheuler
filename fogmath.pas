@@ -67,6 +67,7 @@ function check4on4(qset: TList<int64>): boolean;   // helper function for task 1
 function check5on5(qset: TList<int64>): boolean;   // helper function for task 105
 function check6on6(qset: TList<int64>): boolean;   // helper function for task 105
 function nextpermutation(a: string): string;
+function addbin(a, b: string): string;
 
 implementation
 
@@ -1837,6 +1838,66 @@ begin
         else
           result:= result + a[k];
   end;
+end;
+
+function addbin(a, b: string): string;
+var i, j, ovfl: integer;
+    c: string;
+    isCorrect: boolean;
+begin
+  isCorrect:= True;
+  for i:= 1 to length(a) do
+  begin
+    if (a[i] <> '0') and (a[i] <> '1') then
+    begin
+      ShowMessage('Incorrect data');
+      result:= 'ERROR';
+      isCorrect:= False
+    end;
+  end;
+  for i:= 1 to length(b) do
+  begin
+    if isCorrect then
+      if (b[i] <> '0') and (b[i] <> '1') then
+      begin
+        ShowMessage('Incorrect data');
+        result:= 'ERROR';
+        isCorrect:= False
+      end;
+  end;
+  if isCorrect then
+  begin
+    if length(a) < length(b) then
+    begin
+      c:= a;
+      a:= b;
+      b:= c
+    end;
+    result:= '';
+    ovfl:= 0;
+    for i:= 0 to length(b) - 1 do
+    begin
+      j:= StrToInt(a[length(a) - i]) + StrToInt(b[length(b) - i]) + ovfl;
+      ovfl:= j div 2;
+      result:= (j mod 2).ToString + result
+    end;
+    i:= length(a) - length(b);
+    while (ovfl = 1) and (i >= 1) do
+    begin
+      j:= StrToInt(a[i]) + ovfl;
+      ovfl:= j div 2;
+      result:= (j mod 2).ToString + result;
+      i:= i - 1
+    end;
+    if ovfl = 1
+    then
+      result:= '1' + result;
+    while i >= 1 do
+    begin
+      result:= a[i] + result;
+      i:= i - 1
+    end
+  end
 end;
 
 end.

@@ -3,9 +3,10 @@ unit fogmath;
 interface
 
 uses
-  System.SysUtils, Classes, math, FMX.Dialogs, Generics.Collections, eulclass;
+  System.SysUtils, Classes, math, FMX.Dialogs, Generics.Collections, eulclass,
+  velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals;
 
-function CheckPalindrNum (number:int64): boolean;
+function CheckPalindrNum (number:int64): boolean;   //  check if the number is palindrome
 function CheckPalindrStr (txt: string): boolean;
 function IsPrime (number:int64): boolean;
 function DigToChr (number: int64): string;
@@ -54,8 +55,18 @@ function isperfect(num: int64): boolean;
 procedure readsudoku(fname: string; number: int64; var m: Puzzle);
 procedure checksudoku(var m: Puzzle; var lowestx, lowesty: int64; var changed, allcorrect: boolean);
 procedure checksinglefieldsudoku(m: Puzzle; x, y: int64; var used: TList<int64>);
-function sortstring(word: string): string;
-function detsquarematrix (matrix: TList<int64>): int64;
+function sortstring(word: string): string;   //sorts the string ascending
+function detsquarematrix (matrix: TList<int64>): biginteger;   // calculates the determinant of square matrix
+function checktwoontwo(a1, a2, a3, a4, a5, a6, a7: int64): boolean;    // helper function for task 103
+function checkthreeonthree(a1, a2, a3, a4, a5, a6, a7: int64): boolean;    // helper function for task 103
+function ispandigital(a: int64): boolean;    // checks if the 9-digit number is pandigital
+function isspecial(qset: TList<int64>): boolean;   // helper function for task 105
+function check2on2(qset: TList<int64>): boolean;   // helper function for task 105
+function check3on3(qset: TList<int64>): boolean;   // helper function for task 105
+function check4on4(qset: TList<int64>): boolean;   // helper function for task 105
+function check5on5(qset: TList<int64>): boolean;   // helper function for task 105
+function check6on6(qset: TList<int64>): boolean;   // helper function for task 105
+function nextpermutation(a: string): string;
 
 implementation
 
@@ -1378,72 +1389,454 @@ begin
       end;
 end;
 
-function detsquarematrix (matrix: TList<int64>): int64;
+function detsquarematrix (matrix: TList<int64>): biginteger;
 var i, j, k: int64;
-    koef: extended;
-    a, b: array of array of extended;
+    koef, rslt: bigdecimal;
+    a, b: array of array of bigdecimal;
 begin
   SetLength(a, trunc(sqrt(matrix.Count)), trunc(sqrt(matrix.Count)));
+  rslt:= 1;
+//    for i:= 0 to length(a) - 1 do
+//      for j:= 0 to length(a) - 1 do
+//      begin
+//        a[i, j]:= extended(matrix[k]);
+//        k:= k + 1
+//      end;
   k:= 0;
-  for i:= 0 to length(a) - 1 do
-    for j:= 0 to length(a) - 1 do
+  if matrix.count = 0 then rslt:= 0;
+  if matrix.count = 1 then rslt:= matrix[0];
+  if matrix.count = 4 then rslt:= matrix[0] * matrix[3] - matrix[1] * matrix[2];
+  if matrix.count > 4 then
+  begin
+    for i:= 0 to length(a) - 1 do
+      for j:= 0 to length(a) - 1 do
+      begin
+        a[i, j]:= matrix[k];
+        k:= k + 1
+      end;
+    if a[0, 0] = 0 then
     begin
-      a[i, j]:= extended(matrix[k]);
-      k:= k + 1
+      rslt:= 1;
+      k:= 0;
+      for j:= 1 to length(a) do
+        if a[j, 0] <> 0 then
+        begin
+          k:= j;
+          break
+          end;
+      if k = 0 then rslt:= 0;
+      for j:= 0 to length(a) - 1 do
+        a[0, j]:= a[0, j] + a[k, j];
     end;
-  if a[0, 0] = 0 then
-  begin
-    result:= 1;
-    k:= 0;
-    for j:= 1 to length(a) do
-      if a[j, 0] <> 0 then
-      begin
-        k:= j;
-        break
-      end;
-    if k = 0 then result:= 0;
-    for j:= 0 to length(a) - 1 do
-      a[0, j]:= a[0, j] + a[k, j];
-  end;
-  if result <> 0 then
-  begin
-    result:= 1;
-    for i:= 0 to length(a) - 3 do
+    if rslt <> 0 then
     begin
-      SetLength(b, length(a) - 1, length(a) - 1);
-      for j:= 1 to length(a) - 1 do
+      rslt:= 1;
+      for i:= 0 to length(a) - 3 do
       begin
-        koef:= -a[j, 0]/a[0, 0];
-        for k:= 0 to length(a) - 1 do
-          a[j, k]:= a[j, k] + a[0, k] * koef;
-      end;
-      result:= result * a[0, 0];
-      for j := 0 to length(b) - 1 do
-        for k:= 0 to length(b) - 1 do
-          b[j, k]:= a[j + 1, k + 1];
-      SetLength(a, length(b), length(b));
-      for j := 0 to length(b) - 1 do
-        for k:= 0 to length(b) - 1 do
-          a[j, k]:= b[j, k];
-      if a[0, 0] = 0 then
+        SetLength(b, length(a) - 1, length(a) - 1);
         for j:= 1 to length(a) - 1 do
-          if a[j, 0] <> 0 then
+        begin
+          koef:= -a[j, 0]/a[0, 0];
+          for k:= 0 to length(a) - 1 do
+            a[j, k]:= a[j, k] + a[0, k] * koef;
+        end;
+        rslt:= rslt * a[0, 0];
+        for j := 0 to length(b) - 1 do
+          for k:= 0 to length(b) - 1 do
+            b[j, k]:= a[j + 1, k + 1];
+        SetLength(a, length(b), length(b));
+        for j := 0 to length(b) - 1 do
+          for k:= 0 to length(b) - 1 do
+            a[j, k]:= b[j, k];
+        if a[0, 0] = 0 then
+          for j:= 1 to length(a) - 1 do
+            if a[j, 0] <> 0 then
+            begin
+              for k:= 0 to length(a) - 1 do
+                a[0, k]:= a[0, k] + a[j, k];
+              break
+            end;
+        if a[0, 0] = 0 then
+        begin
+          rslt:= 0;
+          break
+        end;
+      end;
+      if rslt <> 0
+      then
+        rslt:= rslt * (a[0, 0] * a[1, 1] - a[0, 1] * a[1, 0])
+    end;
+  end;
+  rslt:= rslt.RoundTo(0);
+  result:= rslt.AsBigInteger;
+end;
+
+function checktwoontwo(a1, a2, a3, a4, a5, a6, a7: int64): boolean;    // helper function for task 103
+var a: array[1 .. 7] of int64;
+    i, j, k, l: int64;
+begin
+  result:= true;
+  a[1]:= a1;
+  a[2]:= a2;
+  a[3]:= a3;
+  a[4]:= a4;
+  a[5]:= a5;
+  a[6]:= a6;
+  a[7]:= a7;
+  for i:= 1 to 4 do
+  begin
+    j:= i + 1;
+    while j < 8 do
+    begin
+      k:= i + 1;
+      if k = j then
+        k:= k + 1;
+      begin
+        while k < 7 do
+        begin
+          if k = j then
+            k:= k + 1;
+          l:= k + 1;
+          while l < 8 do
           begin
-            for k:= 0 to length(a) - 1 do
-              a[0, k]:= a[0, k] + a[j, k];
+            if a[i] + a[j] = a[k] + a[l] then
+            begin
+              result:= false;
+              break
+            end;
+            l:= l + 1;
+            if l = j then
+              l:= l + 1;
+            if not result then break
+          end;
+          if not result then break;
+          k:= k + 1
+        end;
+        if not result then break;
+      end;
+      if not result then break;
+      j:= j + 1
+    end;
+    if not result then break;
+  end;
+end;
+
+function checkthreeonthree(a1, a2, a3, a4, a5, a6, a7: int64): boolean;    // helper function for task 103
+var a: array[1 .. 7] of int64;
+begin
+  result:= true;
+  a[1]:= a1;
+  a[2]:= a2;
+  a[3]:= a3;
+  a[4]:= a4;
+  a[5]:= a5;
+  a[6]:= a6;
+  a[7]:= a7;
+  if a[1] + a[2] + a[4] = a[3] + a[5] + a[6] then result:= false;
+  if a[1] + a[2] + a[4] = a[3] + a[5] + a[7] then result:= false;
+  if a[1] + a[2] + a[4] = a[3] + a[6] + a[7] then result:= false;
+  if a[1] + a[2] + a[5] = a[3] + a[4] + a[6] then result:= false;
+  if a[1] + a[2] + a[5] = a[3] + a[4] + a[7] then result:= false;
+  if a[1] + a[2] + a[5] = a[3] + a[6] + a[7] then result:= false;
+  if a[1] + a[2] + a[6] = a[3] + a[4] + a[5] then result:= false;
+  if a[1] + a[2] + a[6] = a[3] + a[4] + a[7] then result:= false;
+  if a[1] + a[2] + a[6] = a[3] + a[5] + a[7] then result:= false;
+  if a[1] + a[2] + a[7] = a[3] + a[4] + a[5] then result:= false;
+  if a[1] + a[2] + a[7] = a[3] + a[4] + a[6] then result:= false;
+  if a[1] + a[2] + a[7] = a[3] + a[5] + a[6] then result:= false;
+  if a[1] + a[3] + a[4] = a[2] + a[5] + a[6] then result:= false;
+  if a[1] + a[3] + a[4] = a[2] + a[5] + a[7] then result:= false;
+  if a[1] + a[3] + a[4] = a[2] + a[6] + a[7] then result:= false;
+  if a[1] + a[3] + a[5] = a[2] + a[4] + a[6] then result:= false;
+  if a[1] + a[3] + a[5] = a[2] + a[4] + a[7] then result:= false;
+  if a[1] + a[3] + a[5] = a[2] + a[6] + a[7] then result:= false;
+  if a[1] + a[3] + a[6] = a[2] + a[4] + a[5] then result:= false;
+  if a[1] + a[3] + a[6] = a[2] + a[4] + a[7] then result:= false;
+  if a[1] + a[3] + a[6] = a[2] + a[5] + a[7] then result:= false;
+  if a[1] + a[3] + a[7] = a[2] + a[4] + a[5] then result:= false;
+  if a[1] + a[3] + a[7] = a[2] + a[4] + a[6] then result:= false;
+  if a[1] + a[3] + a[7] = a[2] + a[5] + a[6] then result:= false;
+  if a[1] + a[4] + a[5] = a[2] + a[3] + a[6] then result:= false;
+  if a[1] + a[4] + a[5] = a[2] + a[3] + a[7] then result:= false;
+  if a[1] + a[4] + a[5] = a[2] + a[6] + a[7] then result:= false;
+  if a[1] + a[4] + a[6] = a[2] + a[3] + a[5] then result:= false;
+  if a[1] + a[4] + a[6] = a[2] + a[3] + a[7] then result:= false;
+  if a[1] + a[4] + a[6] = a[2] + a[5] + a[7] then result:= false;
+  if a[1] + a[4] + a[7] = a[2] + a[3] + a[5] then result:= false;
+  if a[1] + a[4] + a[7] = a[2] + a[3] + a[6] then result:= false;
+  if a[1] + a[4] + a[7] = a[2] + a[5] + a[6] then result:= false;
+  if a[1] + a[5] + a[6] = a[2] + a[3] + a[4] then result:= false;
+  if a[1] + a[5] + a[6] = a[2] + a[3] + a[7] then result:= false;
+  if a[1] + a[5] + a[6] = a[2] + a[4] + a[7] then result:= false;
+  if a[1] + a[5] + a[7] = a[2] + a[3] + a[4] then result:= false;
+  if a[1] + a[5] + a[7] = a[2] + a[3] + a[6] then result:= false;
+  if a[1] + a[5] + a[7] = a[2] + a[4] + a[6] then result:= false;
+  if a[1] + a[6] + a[7] = a[2] + a[3] + a[4] then result:= false;
+  if a[1] + a[6] + a[7] = a[2] + a[3] + a[5] then result:= false;
+  if a[1] + a[6] + a[7] = a[2] + a[4] + a[5] then result:= false;
+end;
+
+function ispandigital(a: int64): boolean;  // checks if the 9-digit number is pandigital
+var numberstr: string;
+begin
+  result:= true;
+  if (a < 123456789) or (a > 987654321) then
+    result:= false;
+  if result then
+  begin
+    numberstr:= sortstring(a.ToString);
+    if not((numberstr[1] = '1') and (numberstr[2] = '2') and (numberstr[3] = '3') and
+    (numberstr[4] = '4') and (numberstr[5] = '5') and (numberstr[6] = '6') and
+    (numberstr[7] = '7') and (numberstr[8] = '8') and (numberstr[9] = '9')) then
+      result:= false;
+  end;
+end;
+
+function isspecial(qset: TList<int64>): boolean;
+var i, j: int64;
+begin
+  result:= True;
+  if qset[qset.Count - 1] >= qset[0] + qset[1] then
+    result:= false;
+  if result then
+    if qset[qset.Count - 1] + qset[qset.Count - 2] >= qset[0] + qset[1] + qset[2] then
+    result:= false;
+  if result then
+    if qset[qset.Count - 1] + qset[qset.Count - 2] + qset[qset.Count - 3] >= qset[0] + qset[1] + qset[2] + qset[3] then
+    result:= false;
+  if result then
+    if not check2on2(qset) then
+      result:= false;
+  if result then
+    if not check3on3(qset) then
+      result:= false;
+  if qset.Count > 7 then
+    if result then
+      if not check4on4(qset) then
+        result:= false;
+  if qset.Count > 8 then
+    if result then
+    if qset[qset.Count - 1] + qset[qset.Count - 2] + qset[qset.Count - 3] + qset[qset.Count - 4] >=
+    qset[0] + qset[1] + qset[2] + qset[3] + qset[4] then
+      result:= false;
+  if qset.Count > 9 then
+    if result then
+      if not check5on5(qset) then
+        result:= false;
+  if qset.Count > 10 then
+    if result then
+    if qset[qset.Count - 1] + qset[qset.Count - 2] + qset[qset.Count - 3] + qset[qset.Count - 4]
+    + qset[qset.Count - 5] >= qset[0] + qset[1] + qset[2] + qset[3] + qset[4] + qset[5] then
+      result:= false;
+  if qset.Count > 11 then
+    if result then
+      if not check6on6(qset) then
+        result:= false;
+end;
+
+function check2on2(qset: TList<int64>): boolean;
+var i, j, k, l: int64;
+begin
+  result:= True;
+  for i:= 0 to qset.Count - 4 do
+  begin
+    j:= i + 3;
+    while j < qset.Count do
+    begin
+      k:= i + 1;
+      while k <= j - 2 do
+      begin
+        l:= k + 1;
+        while l <= j - 1 do
+        begin
+          if qset[i] + qset[j] = qset[k] + qset[l] then
+          begin
+            result:= False;
             break
           end;
-      if a[0, 0] = 0 then
-      begin
-        result:= 0;
-        break
+          l:= l + 1
+        end;
+        if not result then break;
+        k:= k + 1
       end;
+      if not result then break;
+      j:= j + 1
     end;
-    if result <> 0 then
-    result:= result * (a[0, 0] * a[1, 1] - a[0, 1] * a[1, 0]);
+    if not result then break;
   end;
+end;
 
+function check3on3(qset: TList<int64>): boolean;
+var i, j, k: int64;
+    sums: TList<int64>;
+begin
+  sums:= TList<int64>.Create;
+  sums.Clear;
+  for i:= 0 to qset.Count - 3 do
+  begin
+    for j:= i + 1 to qset.Count - 2 do
+    begin
+      for k:= j + 1 to qset.Count - 1 do
+      begin
+        if sums.Contains(qset[i] + qset[j] + qset[k]) then
+        begin
+          result:= False;
+          break
+        end
+        else
+          sums.Add(qset[i] + qset[j] + qset[k]);
+      end;
+      if not result then
+        break;
+    end;
+    if not result then
+      break;
+  end;
+  sums.Destroy;
+end;
 
+function check4on4(qset: TList<int64>): boolean;
+var i, j, k, l: int64;
+    sums: TList<int64>;
+begin
+  sums:= TList<int64>.Create;
+  sums.Clear;
+  for i:= 0 to qset.Count - 4 do
+  begin
+    for j:= i + 1 to qset.Count - 3 do
+    begin
+      for k:= j + 1 to qset.Count - 2 do
+      begin
+        for l:= k + 1 to qset.Count - 1 do
+        begin
+          if sums.Contains(qset[i] + qset[j] + qset[k]+ qset[l]) then
+          begin
+            result:= False;
+            break
+          end
+          else
+            sums.Add(qset[i] + qset[j] + qset[k] + qset[l]);
+        end;
+        if not result then
+          break;
+      end;
+      if not result then
+        break;
+    end;
+    if not result then
+      break;
+  end;
+  sums.Destroy;
+end;
+
+function check5on5(qset: TList<int64>): boolean;
+var i, j, k, l, m: int64;
+    sums: TList<int64>;
+begin
+  sums:= TList<int64>.Create;
+  sums.Clear;
+  for i:= 0 to qset.Count - 5 do
+  begin
+    for j:= i + 1 to qset.Count - 4 do
+    begin
+      for k:= j + 1 to qset.Count - 3 do
+      begin
+        for l:= k + 1 to qset.Count - 2 do
+        begin
+          for m := l + 1 to qset.Count - 1 do
+          begin
+            if sums.Contains(qset[i] + qset[j] + qset[k]+ qset[l] + qset[m]) then
+            begin
+              result:= False;
+              break
+            end
+            else
+              sums.Add(qset[i] + qset[j] + qset[k] + qset[l] + qset[m]);
+          end;
+          if not result then
+            break;
+        end;
+        if not result then
+          break;
+      end;
+      if not result then
+        break;
+    end;
+    if not result then
+      break;
+  end;
+  sums.Destroy;
+end;
+
+function check6on6(qset: TList<int64>): boolean;
+var i, j, k, l, m, n: int64;
+    sums: TList<int64>;
+begin
+  sums:= TList<int64>.Create;
+  sums.Clear;
+  for i:= 0 to qset.Count - 6 do
+  begin
+    for j:= i + 1 to qset.Count - 5 do
+    begin
+      for k:= j + 1 to qset.Count - 4 do
+      begin
+        for l:= k + 1 to qset.Count - 3 do
+        begin
+          for m:= l + 1 to qset.Count - 2 do
+          begin
+            for n:= m + 1 to qset.Count - 1 do
+            begin
+              if sums.Contains(qset[i] + qset[j] + qset[k]+ qset[l] + qset[m] + qset[n]) then
+              begin
+                result:= False;
+                break
+              end
+              else
+                sums.Add(qset[i] + qset[j] + qset[k] + qset[l] + qset[m] + qset[n]);
+            end;
+            if not result then
+              break;
+          end;
+          if not result then
+            break;
+        end;
+        if not result then
+          break;
+      end;
+      if not result then
+        break;
+    end;
+    if not result then
+      break;
+  end;
+  sums.Destroy;
+end;
+
+function nextpermutation(a: string): string;
+var i, j, k: integer;
+begin
+  for i:= length(a) downto 2 do
+    if a[i] > a[i - 1] then break;
+  if i = 1
+  then
+    result:= ''
+  else
+  begin
+    for j:= length(a) downto i do
+      if a[j] > a[i - 1]
+      then
+        break;
+      result:= '';
+      for k := 1 to i - 2 do
+        result:= result + a[k];
+      result:= result + a[j];
+      for k:= length(a) downto i do
+        if k = j
+        then
+          result:= result + a[i - 1]
+        else
+          result:= result + a[k];
+  end;
 end;
 
 end.

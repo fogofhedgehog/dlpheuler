@@ -126,6 +126,8 @@ function twotofourtilecvrg(leng: int64): int64;
 function twothreefourtilecvrg(leng: int64): int64;
 function primesetscount: int64;
 function digitssum(number: int64): int64;
+function remaindersum(base: int64): int64;
+function prizefund(turns: int64): int64;
 
 implementation
 
@@ -4606,7 +4608,7 @@ begin
 end;
 
 function twotofourtilecvrg(leng: int64): int64;         // Task 116 - 20492570929
-var i, j, r, bars, blnks: int64;
+var i, j, r, blnks: int64;
 begin
   result:= 0;
   for i := 1 to leng div 2 do                   // 2-tiled bars
@@ -4748,7 +4750,7 @@ begin
 end;
 
 function digitssum(number: int64): int64;      // Task 119 - 248155780267521
-var i, i1, j, ds, cnt: int64;
+var i, i1, j, ds: int64;
     numbers: TList<int64>;
 begin
   numbers:= TList<int64>.Create;
@@ -4772,6 +4774,52 @@ begin
   end;
   numbers.Sort;
   result:= numbers[number - 1];
+end;
+
+function remaindersum(base: int64): int64;           // Task 120 - 333082500
+var i: int64;
+begin
+  result:= 0;
+  for i := 3 to base do
+  begin
+    if i mod 2 = 1
+    then
+      result:= result + i * (i - 1)
+    else
+      result:= result + i * (i - 2)
+  end
+end;
+
+function prizefund(turns: int64): int64;
+var i, j, win, blue: int64;
+    chwin, chance: extended;
+    s: string;
+begin
+  win:= turns div 2 + 1;
+  s:= '0';
+  chwin:= 0;
+  while length(s) <= turns do
+  begin
+    if length(s) < turns then
+      for i:= 1 to  turns - length(s) do
+        s:= '0' + s;
+    blue:= 0;
+    chance:= 1;
+    for i:= 1 to turns do
+    begin
+      if s[i] = '0' then
+        chance:= chance * i / (i + 1)
+      else
+      begin
+        blue:= blue + 1;
+        chance:= chance / (i + 1)
+      end
+    end;
+    if blue >= win then
+      chwin:= chwin + chance;
+    s:= addbin(s, '1')
+  end;
+  result:= trunc(1 / chwin)
 end;
 
 end.
