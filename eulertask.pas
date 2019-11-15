@@ -128,6 +128,7 @@ function primesetscount: int64;
 function digitssum(number: int64): int64;
 function remaindersum(base: int64): int64;
 function prizefund(turns: int64): int64;
+function pwrsund200: int64;
 
 implementation
 
@@ -4790,7 +4791,7 @@ begin
   end
 end;
 
-function prizefund(turns: int64): int64;
+function prizefund(turns: int64): int64;              // Task 121 - 2269
 var i, j, win, blue: int64;
     chwin, chance: extended;
     s: string;
@@ -4820,6 +4821,77 @@ begin
     s:= addbin(s, '1')
   end;
   result:= trunc(1 / chwin)
+end;
+                                                         // Task 122 - 1582
+function pwrsund200: int64;
+var numbs: array[1 .. 200] of integer;
+    variants, variantsnew: TList<TList<integer>>;
+    prevstep, curstep, workvariant, wv1: Tlist<integer>;
+    i, j, k, step, summ, summvar: integer;
+    st, wv, wv2: string;
+begin
+    for i:= 1 to 200 do
+      numbs[i]:= 2000000;
+    step:= 0;
+    numbs[1]:= 0;
+    variants:= TList<Tlist<integer>>.Create;
+    variantsnew:= TList<Tlist<integer>>.Create;
+    prevstep:= TList<integer>.Create;
+    curstep:= TList<integer>.Create;
+    workvariant:= TList<integer>.Create;
+    wv1:= TList<integer>.Create;
+    prevstep.Add(1);
+    variants.Add(prevstep);
+    while arrsum(numbs) > 2000000 do
+    begin
+      step:= step + 1;
+      for i:= 0 to variants.Count - 1 do
+      begin
+        workvariant.Clear;
+        for k:= 0 to variants[i].Count - 1 do
+           workvariant.Add(variants[i][k]);
+        summ:= workvariant.Last;
+        for j:= 0 to workvariant.Count - 1 do
+        begin
+          summvar:= summ + workvariant[j];
+          if (summvar <= 200) then
+          begin
+            if numbs[summvar] = 2000000 then
+            begin
+              numbs[summvar]:= step;
+              curstep.Add(summvar);
+            end;
+            if not prevstep.Contains(summvar) then
+            begin
+              wv1.Clear;
+              for k:= 0 to workvariant.Count - 1 do
+                wv1.Add(workvariant[k]);
+              if not curstep.Contains(summvar) then
+                curstep.Add(summvar);
+              wv1.Add(summvar);
+              variantsnew.Add(TList<integer>.Create);
+              for k:= 0 to wv1.Count - 1 do
+                variantsnew[variantsnew.Count - 1].Add(wv1[k])
+            end;
+          end;
+        end;
+      end;
+      prevstep.Clear;
+      for j:= 0 to curstep.Count - 1 do
+        prevstep.Add(curstep[j]);
+      curstep.Clear;
+      variants.Clear;
+      for j:= 0 to variantsnew.Count - 1 do
+        variants.Add(variantsnew[j]);
+      variantsnew.Clear;
+    end;
+    result:= arrsum(numbs);
+    variants.Destroy;
+    variantsnew.Destroy;
+    prevstep.Destroy;
+    curstep.Destroy;
+    workvariant.Destroy;
+    wv1.Destroy
 end;
 
 end.

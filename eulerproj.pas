@@ -344,6 +344,8 @@ begin
   resulting:= remaindersum(Param1);
   if TaskChoise = 121 then
   resulting:= prizefund(Param1);
+  if TaskChoise = 122 then
+  resulting:= pwrsund200;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

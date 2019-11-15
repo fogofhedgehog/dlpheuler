@@ -68,6 +68,8 @@ function check5on5(qset: TList<int64>): boolean;   // helper function for task 1
 function check6on6(qset: TList<int64>): boolean;   // helper function for task 105
 function nextpermutation(a: string): string;
 function addbin(a, b: string): string;
+function arrsum(a: array of integer): int64;
+function ispalindromic(number: int64): boolean;
 
 implementation
 
@@ -1898,6 +1900,25 @@ begin
       i:= i - 1
     end
   end
+end;
+
+function arrsum(a: array of integer): int64;
+var i: integer;
+begin
+  result:= 0;
+  for i:= 0 to length(a) - 1 do
+  begin
+    result:= result + a[i]
+  end
+end;
+
+function ispalindromic(number: int64): boolean;
+var str: string;
+begin
+  result:= false;
+  if reversenumber(number) = number
+  then
+    result:= true;
 end;
 
 end.

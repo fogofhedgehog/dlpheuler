@@ -129,6 +129,9 @@ function digitssum(number: int64): int64;
 function remaindersum(base: int64): int64;
 function prizefund(turns: int64): int64;
 function pwrsund200: int64;
+function primerem: int64;
+function radseq: int64;
+function palindconssquare: int64;
 
 implementation
 
@@ -4791,7 +4794,7 @@ begin
   end
 end;
 
-function prizefund(turns: int64): int64;
+function prizefund(turns: int64): int64;              // Task 121 - 2269
 var i, j, win, blue: int64;
     chwin, chance: extended;
     s: string;
@@ -4822,7 +4825,7 @@ begin
   end;
   result:= trunc(1 / chwin)
 end;
-
+                                                         // Task 122 - 1582
 function pwrsund200: int64;
 var numbs: array[1 .. 200] of integer;
     variants, variantsnew: TList<TList<integer>>;
@@ -4882,17 +4885,8 @@ begin
       curstep.Clear;
       variants.Clear;
       for j:= 0 to variantsnew.Count - 1 do
-      begin
         variants.Add(variantsnew[j]);
-        wv:= '';
-        for k:= 0 to variantsnew[j].Count - 1 do
-          wv:= wv + variantsnew[j][k].ToString + '';
-      end;
       variantsnew.Clear;
-      st:= '';
-      for k:= 0 to prevstep.Count - 1 do
-        st:= st + prevstep[k].ToString + ' ';
-      showmessage(st)
     end;
     result:= arrsum(numbs);
     variants.Destroy;
@@ -4901,6 +4895,94 @@ begin
     curstep.Destroy;
     workvariant.Destroy;
     wv1.Destroy
+end;
+
+function primerem: int64;                        // Task 123 - 21035
+var i, n, sum:  int64;
+begin
+  n:= 1;
+  i:= 2;
+  sum:= 0;
+  while sum < 10000000000 do
+  begin
+    n:= n + 2;
+    i:= nextprime(i);
+    sum:= 2 * n * i;
+    i:= nextprime(i)
+  end;
+  result:= n;
+end;
+
+function radseq: int64;                     // Task 124 - 21417
+var sequence, divisors: TList<int64>;
+    i, number, divisor, relation, product: int64;
+begin
+  sequence:= TList<int64>.Create;
+  divisors:= TList<int64>.Create;
+  sequence.Add(1000001);
+  sequence.Add(2000002);
+  sequence.Add(3000003);
+  for number:= 4 to 100000 do
+  begin
+    divisor:= 2;
+    divisors.Clear;
+    product:= number;
+    if isprime(product) then
+      sequence.Add(number * 1000000 + number)
+    else
+    begin
+      while not isprime(product) do
+      begin
+        if product mod divisor = 0 then
+        begin
+          if not divisors.Contains(divisor) then
+            divisors.Add(divisor);
+          product:= product div divisor
+        end
+        else
+          divisor:= nextprime(divisor);
+      end;
+      if not divisors.Contains(product) then
+        divisors.Add(product);
+      product:= 1;
+      for i:= 0 to divisors.Count - 1 do
+        product:= product * divisors[i];
+      sequence.Add(product * 1000000 + number)
+    end;
+  end;
+  sequence.Sort;
+  showmessage(sequence.Count.ToString);
+  result:= sequence[9999] mod 1000000;
+  sequence.Destroy;
+  divisors.Destroy
+end;
+
+function palindconssquare: int64;
+var i, number, worknumber, sum: int64;
+    allsums:TList<int64>;
+begin
+  allsums:= TList<int64>.Create;
+  number:= 1;
+  result:= 0;
+  while number * number < 1000 do
+  begin
+    worknumber:= number;
+    sum:= worknumber * worknumber;
+    while sum <= 1000 do
+    begin
+      inc(worknumber);
+      sum := sum + worknumber * worknumber;
+      if ispalindromic(sum) and not allsums.Contains(sum)
+      then
+      begin
+        result:= result + sum;
+        allsums.Add(sum);
+        showmessage(sum.ToString + ' ' + number.ToString + ' ' + worknumber.ToString)
+      end;
+    end;
+    inc(number)
+  end;
+  allsums.Destroy
 end;
 
 end.
