@@ -346,12 +346,6 @@ begin
   resulting:= prizefund(Param1);
   if TaskChoise = 122 then
   resulting:= pwrsund200;
-  if TaskChoise = 123 then
-  resulting:= primerem;
-  if TaskChoise = 124 then
-  resulting:= radseq;
-  if TaskChoise = 125 then
-  resulting:= palindconssquare;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

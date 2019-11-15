@@ -129,6 +129,9 @@ function digitssum(number: int64): int64;
 function remaindersum(base: int64): int64;
 function prizefund(turns: int64): int64;
 function pwrsund200: int64;
+function primerem: int64;
+function radseq: int64;
+function palindconssquare: int64;
 
 implementation
 
@@ -4892,6 +4895,93 @@ begin
     curstep.Destroy;
     workvariant.Destroy;
     wv1.Destroy
+end;
+
+function primerem: int64;                        // Task 123 - 21035
+var i, n, sum:  int64;
+begin
+  n:= 1;
+  i:= 2;
+  sum:= 0;
+  while sum < 10000000000 do
+  begin
+    n:= n + 2;
+    i:= nextprime(i);
+    sum:= 2 * n * i;
+    i:= nextprime(i)
+  end;
+  result:= n;
+end;
+
+function radseq: int64;                     // Task 124 - 21417
+var sequence, divisors: TList<int64>;
+    i, number, divisor, relation, product: int64;
+begin
+  sequence:= TList<int64>.Create;
+  divisors:= TList<int64>.Create;
+  sequence.Add(1000001);
+  sequence.Add(2000002);
+  sequence.Add(3000003);
+  for number:= 4 to 100000 do
+  begin
+    divisor:= 2;
+    divisors.Clear;
+    product:= number;
+    if isprime(product) then
+      sequence.Add(number * 1000000 + number)
+    else
+    begin
+      while not isprime(product) do
+      begin
+        if product mod divisor = 0 then
+        begin
+          if not divisors.Contains(divisor) then
+            divisors.Add(divisor);
+          product:= product div divisor
+        end
+        else
+          divisor:= nextprime(divisor);
+      end;
+      if not divisors.Contains(product) then
+        divisors.Add(product);
+      product:= 1;
+      for i:= 0 to divisors.Count - 1 do
+        product:= product * divisors[i];
+      sequence.Add(product * 1000000 + number)
+    end;
+  end;
+  sequence.Sort;
+  showmessage(sequence.Count.ToString);
+  result:= sequence[9999] mod 1000000;
+  sequence.Destroy;
+  divisors.Destroy
+end;
+
+function palindconssquare: int64;             // Task 125 - 2906969179
+var i, number, worknumber, sum: int64;
+    allsums:TList<int64>;
+begin
+  allsums:= TList<int64>.Create;
+  number:= 1;
+  result:= 0;
+  while number * number < 100000000 do
+  begin
+    worknumber:= number;
+    sum:= worknumber * worknumber;
+    while sum <= 100000000 do
+    begin
+      inc(worknumber);
+      sum := sum + worknumber * worknumber;
+      if (ispalindromic(sum)) and (not allsums.Contains(sum)) and (sum <= 100000000)
+      then
+      begin
+        result:= result + sum;
+        allsums.Add(sum)
+      end;
+    end;
+    inc(number)
+  end;
+  allsums.Destroy
 end;
 
 end.
