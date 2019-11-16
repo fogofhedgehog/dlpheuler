@@ -352,6 +352,8 @@ begin
   resulting:= radseq;
   if TaskChoise = 125 then
   resulting:= palindconssquare;
+  if TaskChoise = 126 then
+  resulting:= cuboidscount;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

@@ -132,6 +132,8 @@ function pwrsund200: int64;
 function primerem: int64;
 function radseq: int64;
 function palindconssquare: int64;
+function cuboidscount: int64;
+
 
 implementation
 
@@ -4795,7 +4797,7 @@ begin
 end;
 
 function prizefund(turns: int64): int64;              // Task 121 - 2269
-var i, j, win, blue: int64;
+var i, win, blue: int64;
     chwin, chance: extended;
     s: string;
 begin
@@ -4958,7 +4960,7 @@ begin
 end;
 
 function palindconssquare: int64;             // Task 125 - 2906969179
-var i, number, worknumber, sum: int64;
+var number, worknumber, sum: int64;
     allsums:TList<int64>;
 begin
   allsums:= TList<int64>.Create;
@@ -4982,6 +4984,41 @@ begin
     inc(number)
   end;
   allsums.Destroy
+end;
+
+function cuboidscount: int64;
+var i, layer, addition, a, b, c: integer;
+    counts: array[1 .. 20000] of smallint;
+begin
+  for i:= 1 to 20000 do
+    counts[i]:= 0;
+  for a := 1 to 10000 do
+  begin
+    for b:= 1 to a do
+      begin
+        if a * 2 + b * 2 + 2 > 20000 then break;
+        for c:= 1 to b do
+        begin
+          layer:= 2 * a * b + 2 * a * c + 2 * b * c;
+          if layer > 20000 then break;
+          addition:= a * 4 + b * 4 + c * 4;
+          counts[layer]:= counts[layer] + 1;
+          while layer <= 20000 do
+          begin
+            layer:= layer + addition;
+            addition:= addition + 8;
+            if layer <= 20000 then
+            counts[layer]:= counts[layer] + 1
+          end;
+        end;
+      end;
+  end;
+  for i:= 1 to 20000 do
+    if counts[i] = 1000 then
+    begin
+      result:= i;
+      break
+    end;
 end;
 
 end.
