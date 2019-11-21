@@ -70,6 +70,9 @@ function nextpermutation(a: string): string;
 function addbin(a, b: string): string;
 function arrsum(a: array of integer): int64;
 function ispalindromic(number: int64): boolean;
+function greatcomdiv(first, second: int64): int64;
+function radical(number: int64): int64;
+function fractionperiod(number: int64): int64;
 
 implementation
 
@@ -435,12 +438,16 @@ end;
 
 function nextprime (number: int64): int64;   // returns the next prime value
 begin
-  if number= 2 then result:= 3
+  if number = 2
+  then
+    result:= 3
   else
-  begin
-    result:= number + 2;
-    while not IsPrime(result) do result:= result + 2
-  end;
+    if number mod 2 = 0
+    then
+      result:= number + 1
+    else
+      result:= number + 2;
+  while not IsPrime(result) do result:= result + 2
 end;
 
 function exactfourprimedivs (number: int64): boolean;       //helper function for task 47
@@ -1919,6 +1926,86 @@ begin
   if reversenumber(number) = number
   then
     result:= true;
+end;
+
+function greatcomdiv(first, second: int64): int64;
+var reminder, fir, sec: int64;
+begin
+  if second > first then
+  begin
+    fir:= second;
+    sec:= fir
+  end
+  else
+  begin
+    fir:= first;
+    sec:= second
+  end;
+  reminder:= 1;
+  while reminder > 0 do
+  begin
+    reminder:= fir mod sec;
+    fir:= sec;
+    sec:= reminder
+  end;
+    result:= fir;
+end;
+
+function radical(number: int64): int64;
+var curr, divis, prevdivis: int64;
+begin
+  curr:= number;
+  divis:= 2;
+  prevdivis:= 1;
+  if isprime(curr) then
+    result:= curr
+  else
+  begin
+    result:= 1;
+    while curr > 1 do
+    if curr mod divis = 0 then
+    begin
+      curr:= curr div divis;
+      if divis <> prevdivis then
+      begin
+        result:= result * divis;
+        prevdivis:= divis
+      end;
+    end
+    else
+      if divis = 2
+      then
+        divis:= 3
+      else
+        divis:= divis + 2
+  end;
+end;
+
+function fractionperiod(number: int64): int64;
+var reminder: int64;
+    found: boolean;
+begin
+  while number mod 2 = 0 do
+    number:= number div 2;
+  result:= 1;
+  reminder:= 1;
+  found:= false;
+  while not found do
+  begin
+    reminder:= reminder * 10;
+    if reminder mod number <> 1 then
+    begin
+      result:= result + 1;
+      reminder:= reminder mod number
+    end
+    else
+      found:= true;
+    if reminder = 0 then
+    begin
+      found:= true;
+      result:= 0
+    end;
+  end;
 end;
 
 end.

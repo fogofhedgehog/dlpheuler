@@ -354,6 +354,14 @@ begin
   resulting:= palindconssquare;
   if TaskChoise = 126 then
   resulting:= cuboidscount;
+  if TaskChoise = 127 then
+  resulting:= triplethits(Param1);
+  if TaskChoise = 128 then
+  resulting:= hexaneib(Param1);
+  if TaskChoise = 129 then
+  resulting:= megarepunit;
+  if TaskChoise = 130 then
+  resulting:= repunitwthcomposite(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

@@ -126,6 +126,15 @@ function twotofourtilecvrg(leng: int64): int64;
 function twothreefourtilecvrg(leng: int64): int64;
 function primesetscount: int64;
 function digitssum(number: int64): int64;
+function remaindersum(base: int64): int64;
+function prizefund(turns: int64): int64;
+function pwrsund200: int64;
+function primerem: int64;
+function radseq: int64;
+function palindconssquare: int64;
+function cuboidscount: int64;
+function triplethits(largest: integer): int64;
+
 
 implementation
 
@@ -4606,7 +4615,7 @@ begin
 end;
 
 function twotofourtilecvrg(leng: int64): int64;         // Task 116 - 20492570929
-var i, j, r, bars, blnks: int64;
+var i, j, r, blnks: int64;
 begin
   result:= 0;
   for i := 1 to leng div 2 do                   // 2-tiled bars
@@ -4747,16 +4756,16 @@ begin
   end;
 end;
 
-function digitssum(number: int64): int64;
-var i, i1, j, ds, cnt: int64;
+function digitssum(number: int64): int64;      // Task 119 - 248155780267521
+var i, i1, j, ds: int64;
     numbers: TList<int64>;
 begin
   numbers:= TList<int64>.Create;
   numbers.Clear;
-  for i:= 2 to 153 do
+  for i:= 2 to 144 do
   begin
     j:= 2;
-    while powerint64(i, j) < 100000000000000000 do
+    while powerint64(i, j) < 10000000000000000 do
     begin
       i1:= powerint64(i, j);
       ds:= 0;
@@ -4772,6 +4781,515 @@ begin
   end;
   numbers.Sort;
   result:= numbers[number - 1];
+end;
+
+function remaindersum(base: int64): int64;           // Task 120 - 333082500
+var i: int64;
+begin
+  result:= 0;
+  for i := 3 to base do
+  begin
+    if i mod 2 = 1
+    then
+      result:= result + i * (i - 1)
+    else
+      result:= result + i * (i - 2)
+  end
+end;
+
+function prizefund(turns: int64): int64;              // Task 121 - 2269
+var i, win, blue: int64;
+    chwin, chance: extended;
+    s: string;
+begin
+  win:= turns div 2 + 1;
+  s:= '0';
+  chwin:= 0;
+  while length(s) <= turns do
+  begin
+    if length(s) < turns then
+      for i:= 1 to  turns - length(s) do
+        s:= '0' + s;
+    blue:= 0;
+    chance:= 1;
+    for i:= 1 to turns do
+    begin
+      if s[i] = '0' then
+        chance:= chance * i / (i + 1)
+      else
+      begin
+        blue:= blue + 1;
+        chance:= chance / (i + 1)
+      end
+    end;
+    if blue >= win then
+      chwin:= chwin + chance;
+    s:= addbin(s, '1')
+  end;
+  result:= trunc(1 / chwin)
+end;
+                                                         // Task 122 - 1582
+function pwrsund200: int64;
+var numbs: array[1 .. 200] of integer;
+    variants, variantsnew: TList<TList<integer>>;
+    prevstep, curstep, workvariant, wv1: Tlist<integer>;
+    i, j, k, step, summ, summvar: integer;
+    st, wv, wv2: string;
+begin
+    for i:= 1 to 200 do
+      numbs[i]:= 2000000;
+    step:= 0;
+    numbs[1]:= 0;
+    variants:= TList<Tlist<integer>>.Create;
+    variantsnew:= TList<Tlist<integer>>.Create;
+    prevstep:= TList<integer>.Create;
+    curstep:= TList<integer>.Create;
+    workvariant:= TList<integer>.Create;
+    wv1:= TList<integer>.Create;
+    prevstep.Add(1);
+    variants.Add(prevstep);
+    while arrsum(numbs) > 2000000 do
+    begin
+      step:= step + 1;
+      for i:= 0 to variants.Count - 1 do
+      begin
+        workvariant.Clear;
+        for k:= 0 to variants[i].Count - 1 do
+           workvariant.Add(variants[i][k]);
+        summ:= workvariant.Last;
+        for j:= 0 to workvariant.Count - 1 do
+        begin
+          summvar:= summ + workvariant[j];
+          if (summvar <= 200) then
+          begin
+            if numbs[summvar] = 2000000 then
+            begin
+              numbs[summvar]:= step;
+              curstep.Add(summvar);
+            end;
+            if not prevstep.Contains(summvar) then
+            begin
+              wv1.Clear;
+              for k:= 0 to workvariant.Count - 1 do
+                wv1.Add(workvariant[k]);
+              if not curstep.Contains(summvar) then
+                curstep.Add(summvar);
+              wv1.Add(summvar);
+              variantsnew.Add(TList<integer>.Create);
+              for k:= 0 to wv1.Count - 1 do
+                variantsnew[variantsnew.Count - 1].Add(wv1[k])
+            end;
+          end;
+        end;
+      end;
+      prevstep.Clear;
+      for j:= 0 to curstep.Count - 1 do
+        prevstep.Add(curstep[j]);
+      curstep.Clear;
+      variants.Clear;
+      for j:= 0 to variantsnew.Count - 1 do
+        variants.Add(variantsnew[j]);
+      variantsnew.Clear;
+    end;
+    result:= arrsum(numbs);
+    variants.Destroy;
+    variantsnew.Destroy;
+    prevstep.Destroy;
+    curstep.Destroy;
+    workvariant.Destroy;
+    wv1.Destroy
+end;
+
+function primerem: int64;                        // Task 123 - 21035
+var i, n, sum:  int64;
+begin
+  n:= 1;
+  i:= 2;
+  sum:= 0;
+  while sum < 10000000000 do
+  begin
+    n:= n + 2;
+    i:= nextprime(i);
+    sum:= 2 * n * i;
+    i:= nextprime(i)
+  end;
+  result:= n;
+end;
+
+function radseq: int64;                     // Task 124 - 21417
+var sequence, divisors: TList<int64>;
+    i, number, divisor, relation, product: int64;
+begin
+  sequence:= TList<int64>.Create;
+  divisors:= TList<int64>.Create;
+  sequence.Add(1000001);
+  sequence.Add(2000002);
+  sequence.Add(3000003);
+  for number:= 4 to 100000 do
+  begin
+    divisor:= 2;
+    divisors.Clear;
+    product:= number;
+    if isprime(product) then
+      sequence.Add(number * 1000000 + number)
+    else
+    begin
+      while not isprime(product) do
+      begin
+        if product mod divisor = 0 then
+        begin
+          if not divisors.Contains(divisor) then
+            divisors.Add(divisor);
+          product:= product div divisor
+        end
+        else
+          divisor:= nextprime(divisor);
+      end;
+      if not divisors.Contains(product) then
+        divisors.Add(product);
+      product:= 1;
+      for i:= 0 to divisors.Count - 1 do
+        product:= product * divisors[i];
+      sequence.Add(product * 1000000 + number)
+    end;
+  end;
+  sequence.Sort;
+  showmessage(sequence.Count.ToString);
+  result:= sequence[9999] mod 1000000;
+  sequence.Destroy;
+  divisors.Destroy
+end;
+
+function palindconssquare: int64;             // Task 125 - 2906969179
+var number, worknumber, sum: int64;
+    allsums:TList<int64>;
+begin
+  allsums:= TList<int64>.Create;
+  number:= 1;
+  result:= 0;
+  while number * number < 100000000 do
+  begin
+    worknumber:= number;
+    sum:= worknumber * worknumber;
+    while sum <= 100000000 do
+    begin
+      inc(worknumber);
+      sum := sum + worknumber * worknumber;
+      if (ispalindromic(sum)) and (not allsums.Contains(sum)) and (sum <= 100000000)
+      then
+      begin
+        result:= result + sum;
+        allsums.Add(sum)
+      end;
+    end;
+    inc(number)
+  end;
+  allsums.Destroy
+end;
+
+function cuboidscount: int64;
+var i, layer, addition, a, b, c: integer;
+    counts: array[1 .. 20000] of smallint;
+begin
+  for i:= 1 to 20000 do
+    counts[i]:= 0;
+  for a := 1 to 10000 do
+  begin
+    for b:= 1 to a do
+      begin
+        if a * 2 + b * 2 + 2 > 20000 then break;
+        for c:= 1 to b do
+        begin
+          layer:= 2 * a * b + 2 * a * c + 2 * b * c;
+          if layer > 20000 then break;
+          addition:= a * 4 + b * 4 + c * 4;
+          counts[layer]:= counts[layer] + 1;
+          while layer <= 20000 do
+          begin
+            layer:= layer + addition;
+            addition:= addition + 8;
+            if layer <= 20000 then
+            counts[layer]:= counts[layer] + 1
+          end;
+        end;
+      end;
+  end;
+  for i:= 1 to 20000 do
+    if counts[i] = 1000 then
+    begin
+      result:= i;
+      break
+    end;
+end;
+
+function triplethits(largest: integer): int64;
+var i, j, sm, md, k, m, small, middle, large: int64;
+    considered, consideredm: Tlist<int64>;
+    shm, shs: string;
+begin
+  considered:= TList<Int64>.Create;
+  consideredm:= TList<Int64>.Create;
+  result:= 0;
+  considered.Clear;
+  sm:= 1;
+  small:= sm;
+  considered.Add(sm);
+  while small <= largest div 2 do
+  begin
+    small:= 1;
+    for j:= 0 to considered.Count - 1 do
+      small:= small * considered[j];
+    middle:= 2;
+    consideredm.Clear;
+    md:= 2;
+    while considered.Contains(md) do
+      md:= nextprime(md);
+    consideredm.Add(md);
+    middle:= 1;
+    for i:= 0 to consideredm.Count - 1 do
+      middle:= middle * consideredm[i];
+    while small + middle < largest do
+    begin
+      shs:= '';
+      shm:= '';
+      for k:= 0 to considered.Count - 1 do
+        shs:= shs + considered[k].ToString + ' ';
+      for m:= 0 to consideredm.Count - 1 do
+        shm:= shm + consideredm[m].ToString + ' ';
+      while middle <= small do
+      begin
+        consideredm.Add(md);
+        middle:= 1;
+        for i:= 0 to consideredm.Count - 1 do
+          middle:= middle * consideredm[i];
+      end;
+      large:= small + middle;
+      if large < largest then
+        if radical(large) * radical(middle) * radical(small) < large then
+          begin
+            result:= result + large;
+//            showmessage(large.ToString + ' ' + middle.ToString + ' ' + small.ToString)
+          end;
+      consideredm.Add(md);
+      middle:= middle * md;
+      while small + middle >= largest do
+      begin
+        consideredm.Delete(consideredm.Count - 1);
+        if consideredm.Count <> 0 then
+        begin
+          md:= nextprime(consideredm[consideredm.Count - 1]);
+          while considered.Contains(md) do
+            md:= nextprime(md);
+          consideredm.Delete(consideredm.Count - 1);
+          consideredm.Add(md)
+        end
+        else
+          break;
+        middle:= 1;
+        for i:= 0 to consideredm.Count - 1 do
+          middle:= middle * consideredm[i]
+      end;
+    end;
+    if small = 1 then
+    begin;
+      small:= 2;
+      considered.Clear;
+      sm:= 2;
+      considered.Add(sm)
+    end
+    else
+    begin
+      considered.Add(sm);
+      small:= small * sm;
+      while small >= largest div 2 do
+      begin
+        considered.Delete(considered.Count - 1);
+        if considered.Count <> 0 then
+        begin
+          sm:= nextprime(considered[considered.Count - 1]);
+          considered.Delete(considered.Count - 1);
+          considered.Add(sm)
+        end
+        else
+          break;
+        small:= 1;
+        for j:= 0 to considered.Count - 1 do
+          small:= small * considered[j]
+      end
+    end;
+  end;
+//
+//            small:= k;
+//            considered.Add(k);
+//            while k < large div 2 do
+//            begin
+//              middle:= large - small;
+//              if middle > small then
+//                if (greatcomdiv(large, small) = 1) and (greatcomdiv(middle, small) = 1) then
+//                  if (radical(large * middle * small) < large) then
+//                    result:= result + large;
+//              considered.Add(k);
+//              small:= 1;
+//              for m:= 0 to considered.Count - 1 do
+//                small:= small * considered[m];
+//              while small >= large div 2 do
+//              begin
+//                if considered.Count = 0 then
+//                  break;
+//                considered.Delete(considered.Count - 1);
+//                if k >= large div 2 then
+//                  break;
+//                k:= nextprime(considered[considered.Count - 1]);
+//                if (k = i) or (k= j) then k:= nextprime(k);
+//                if (k = i) or (k= j) then k:= nextprime(k);
+//                if considered.Count = 0 then
+//                  break;
+//                considered.Delete(considered.Count - 1);
+//                considered.Add(k);
+//                small:= 1;
+//                for m:= 0 to considered.Count - 1 do
+//                  small:= small * considered[m];
+//              end;
+//
+//  result:= 0;
+//  large:= 4;
+//  i:= 1;
+//  j:= 2;
+//  pwr1:= 1;
+//  pwr2:= 1;
+//  large:= powerint64(i, pwr1) * powerint64(j, pwr2);
+//  while large <= largest do
+//  begin
+//    while large <= largest do
+//    begin
+//      while large <= largest do
+//      begin
+//        while large <= largest do
+//        begin
+//          if not (radical(large) = large) then
+//          begin
+//            if radical(large) * radical(large - 1) < large then
+//              result:= result + large;
+//            considered.Clear;
+//            if large mod 2 <> 0 then k:= 2 else k:= 3;
+//            small:= k;
+//            considered.Add(k);
+//            while k < large div 2 do
+//            begin
+//              middle:= large - small;
+//              if middle > small then
+//                if (greatcomdiv(large, small) = 1) and (greatcomdiv(middle, small) = 1) then
+//                  if (radical(large * middle * small) < large) then
+//                    result:= result + large;
+//              considered.Add(k);
+//              small:= 1;
+//              for m:= 0 to considered.Count - 1 do
+//                small:= small * considered[m];
+//              while small >= large div 2 do
+//              begin
+//                if considered.Count = 0 then
+//                  break;
+//                considered.Delete(considered.Count - 1);
+//                if k >= large div 2 then
+//                  break;
+//                k:= nextprime(considered[considered.Count - 1]);
+//                if (k = i) or (k= j) then k:= nextprime(k);
+//                if (k = i) or (k= j) then k:= nextprime(k);
+//                if considered.Count = 0 then
+//                  break;
+//                considered.Delete(considered.Count - 1);
+//                considered.Add(k);
+//                small:= 1;
+//                for m:= 0 to considered.Count - 1 do
+//                  small:= small * considered[m];
+//              end;
+//            end;
+
+//            for middle:= large - 1 downto large div 2 + 1 do
+//            begin
+//              if greatcomdiv(large, middle) = 1 then
+//              begin
+//                small:= large - middle;
+//                if (greatcomdiv(large, small) = 1) and (greatcomdiv(middle, small) = 1) then
+//                  if (radical(large * middle * small) < large) then
+//                  begin
+//                    result:= result + large;
+////                    showmessage(large.ToString + ' ' + middle.ToString + ' ' + small.ToString)
+//                  end;
+//
+//              end;
+//            end;
+//          end;
+//          inc(pwr2);
+//          large:= powerint64(i, pwr1) * powerint64(j, pwr2)
+//        end;
+//        j:= nextprime(j);
+//        pwr2:= 1;
+//        large:= powerint64(i, pwr1) * powerint64(j, pwr2)
+//      end;
+//      if i = 1 then
+//      begin
+//        i:= 2;
+//        pwr1:= 1;
+//        j:= 5;
+//        pwr2:= 1
+//      end
+//      else
+//      begin
+//        inc(pwr1);
+//        if i = 2 then
+//          j:= 5
+//        else
+//          j:= nextprime(i);
+//        pwr2:= 1
+//      end;
+//      large:= powerint64(i, pwr1) * powerint64(j, pwr2);
+////      showmessage(i.ToString + ' ' + pwr1.ToString)
+//    end;
+//    i:= nextprime(i);
+//    pwr1:= 1;
+//    j:= nextprime(i);
+//    pwr2:= 1;
+////    showmessage(i.ToString + ' ' + pwr1.ToString);
+//    large:= powerint64(i, pwr1) * powerint64(j, pwr2)
+//  end;
+//  considered.Sort;
+//  for i:= 0 to considered.Count - 1 do
+//  begin
+//    consideredl.Add(considered[i]);
+//    if considered[i] >= considered.Last div 2 then
+//      break
+//  end;
+//  consideredl.Add(1);
+//  i:= 2;
+//  while i < largest do
+//  begin
+//    if not consideredl.Contains(i) then
+//      consideredl.Add(i);
+//    i:= nextprime(i)
+//  end;
+//  consideredl.Sort;
+//  for i:= 1 to considered.Count - 1 do
+//  begin
+//    large:= considered[i];
+//    for j:= 0 to consideredl.count - 1 do
+//    begin
+//      small:= consideredl[j];
+//      if small >= large div 2
+//      then
+//        break;
+//      if greatcomdiv(large, small) = 1 then
+//      begin
+//        middle:= large - small;
+//        if (greatcomdiv(large, middle) = 1) and (greatcomdiv(middle, small) = 1)
+//        then
+//          if (radical(large * middle * small) < large) then
+//          begin
+//            result:= result + large;
+//          end;
+//      end;
+//    end;
+//  end;
 end;
 
 end.

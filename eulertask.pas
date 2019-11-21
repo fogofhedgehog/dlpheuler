@@ -133,7 +133,10 @@ function primerem: int64;
 function radseq: int64;
 function palindconssquare: int64;
 function cuboidscount: int64;
-
+function triplethits(largest: integer): int64;
+function hexaneib(number: int64): int64;
+function megarepunit: int64;
+function repunitwthcomposite(amount: int64): int64;
 
 implementation
 
@@ -5019,6 +5022,230 @@ begin
       result:= i;
       break
     end;
+end;
+
+function triplethits(largest: integer): int64;          // Task 127 - 18407904
+type rad = array [1 .. 2] of integer;
+var i, j, sm, md, k, m, small, middle, large: int64;
+    considered, consideredm: Tlist<int64>;
+    radicals: array of TList<int64>;
+    shm, shs: string;
+    radic: rad;
+begin
+    SetLength(radicals, largest + 1);
+    for i:= 1 to largest do
+      radicals[i]:= TList<int64>.Create;
+    for i:= 1 to largest do
+      radicals[radical(i)].Add(i);
+    result:= 0;
+    for i:= 1 to largest do
+    begin
+      if radicals[i].Count <> 0 then
+      begin
+        for j:= 0 to radicals[i].Count - 1 do
+        begin
+          large:= radicals[i][j];
+          if (large > 8) or (radical(large) < large div 2) then
+          begin
+            for k:= 1 to largest div 2 do
+            begin
+              if k * 2 > large then break;
+              if radicals[k].Count <> 0 then
+              begin
+                for m:= 0 to radicals[k].Count - 1 do
+                begin
+                  small:= radicals[k][m];
+                  middle:= large - small;
+                  if greatcomdiv(middle, small) = 1 then
+                    if radical(middle) * i * k < large then
+                      result:= result + large
+                end;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+
+
+//  considered:= TList<Int64>.Create;
+//  consideredm:= TList<Int64>.Create;
+//  result:= 0;
+//  considered.Clear;
+//  sm:= 1;
+//  small:= sm;
+//  considered.Add(sm);
+//  while small <= largest div 2 do
+//  begin
+//    small:= 1;
+//    for j:= 0 to considered.Count - 1 do
+//      small:= small * considered[j];
+//    middle:= 2;
+//    consideredm.Clear;
+//    md:= 2;
+//    while considered.Contains(md) do
+//      md:= nextprime(md);
+//    consideredm.Add(md);
+//    middle:= 1;
+//    for i:= 0 to consideredm.Count - 1 do
+//      middle:= middle * consideredm[i];
+//    while small + middle < largest do
+//    begin
+//      shs:= '';
+//      shm:= '';
+//      for k:= 0 to considered.Count - 1 do
+//        shs:= shs + considered[k].ToString + ' ';
+//      for m:= 0 to consideredm.Count - 1 do
+//        shm:= shm + consideredm[m].ToString + ' ';
+//      while middle <= small do
+//      begin
+//        consideredm.Add(md);
+//        middle:= 1;
+//        for i:= 0 to consideredm.Count - 1 do
+//          middle:= middle * consideredm[i];
+//      end; //      large:= small + middle;
+//      if large < largest then
+//        if radical(large * middle* small) < large then
+//          begin
+//            result:= result + large;
+////            showmessage(large.ToString + ' ' + middle.ToString + ' ' + small.ToString)
+//          end;
+//      consideredm.Add(md);
+//      middle:= middle * md;
+//      while small + middle >= largest do
+//      begin
+//        consideredm.Delete(consideredm.Count - 1);
+//        if consideredm.Count <> 0 then
+//        begin
+//          md:= nextprime(consideredm[consideredm.Count - 1]);
+//          while considered.Contains(md) do
+//            md:= nextprime(md);
+//          consideredm.Delete(consideredm.Count - 1);
+//          consideredm.Add(md)
+//        end
+//        else
+//          break;
+//        middle:= 1;
+//        for i:= 0 to consideredm.Count - 1 do
+//          middle:= middle * consideredm[i]
+//      end;
+//    end;
+//    if small = 1 then
+//    begin;
+//      small:= 2;
+//      considered.Clear;
+//      sm:= 2;
+//      considered.Add(sm)
+//    end
+//    else
+//    begin
+//      considered.Add(sm);
+//      small:= small * sm;
+//      while small >= largest div 2 do
+//      begin
+//        considered.Delete(considered.Count - 1);
+//        if considered.Count <> 0 then
+//        begin
+//          sm:= nextprime(considered[considered.Count - 1]);
+//          considered.Delete(considered.Count - 1);
+//          considered.Add(sm)
+//        end
+//        else
+//          break;
+//        small:= 1;
+//        for j:= 0 to considered.Count - 1 do
+//          small:= small * considered[j]
+//      end
+//    end;
+//  end;
+end;
+
+function hexaneib(number: int64): int64;               // Task 128 - 14516824220
+var tour, counter: int64;
+begin
+  if (number = 1) or (number = 2) then
+    result:= number
+  else
+  begin
+    tour:= 2;
+    counter:= 2;
+    result:= 8;
+    while counter < number do
+    begin
+      if isprime(6 * tour + 1) and isprime(6 * tour - 1) and isprime(12 * tour + 5) then
+        counter:= counter + 1;
+      if counter = number then break;
+      result:= result + 6 * tour - 1;
+      if isprime(6 * tour - 1) and isprime(12 * tour - 7) and isprime(6 * tour + 5) then
+        counter:= counter + 1;
+      if counter = number then
+        break;
+      result:= result + 1;
+      tour:= tour + 1;
+    end;
+  end;
+end;
+
+function megarepunit: int64;
+var counter, number, great, reminder: int64;
+    firstdivs: TList<int64>;
+begin
+  firstdivs:= TList<int64>.Create;
+  great:= 1111111;
+  number:= 1000001;
+  reminder:= great mod number;
+  counter:= 0;
+  while counter <= 1000000 do
+  begin
+    firstdivs.Clear;
+    counter:= 0;
+    while not firstdivs.Contains(reminder) do
+    begin
+      if firstdivs.Count < 20 then
+        firstdivs.Add(reminder);
+      great:= reminder * 10 + 1;
+      reminder:= great mod number;
+      counter:= counter + 1
+    end;
+    if counter <= 1000000 then
+    begin
+      great:= 1111111;
+      number:= number + 2;
+      if great < number then
+        great:= great * 10 + 1;
+      reminder:= great mod number
+    end;
+  end;
+  result:= number;
+  firstdivs.Destroy
+end;
+
+function repunitwthcomposite(amount: int64): int64;
+var number, number1, period, matchcounter: int64;
+begin
+  result:= 0;
+  number:= 87;
+  matchcounter:= 0;
+  while matchcounter < amount do
+  begin
+    if (not isprime(number)) and (number mod 5 <> 0) then
+    begin
+      period:= fractionperiod(number);
+      number1:= number;
+      while number1 mod 3 = 0 do
+      begin
+        period:= period * 3;
+        number1:= number1 div 3
+      end;
+      if (number - 1) mod period = 0 then
+      begin
+        matchcounter:= matchcounter + 1;
+        result:= result + number
+      end;
+    end;
+    number:= number + 2
+  end;
+
 end;
 
 end.
