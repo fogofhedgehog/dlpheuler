@@ -137,6 +137,7 @@ function triplethits(largest: integer): int64;
 function hexaneib(number: int64): int64;
 function megarepunit: int64;
 function repunitwthcomposite(amount: int64): int64;
+function primencubes: int64;
 
 implementation
 
@@ -5246,6 +5247,26 @@ begin
     number:= number + 2
   end;
 
+end;
+
+function primencubes: int64;
+var i, j, k, prime: Int64;
+    pr, part1, part2: BigInteger;
+begin
+  i:= 1;
+  result:= 0;
+  prime:= 0;
+  while  prime < 1000000 do
+  begin
+     part1:= i * i * i;
+     part2:= i * i * (i + 1);
+     pr:= (part2 * part2 * part2 - part1 * part1 * part1) div (part1 * part1);
+     prime:= pr.ToString.ToInt64;
+     if prime >= 1000000 then break;
+     if isprime(prime) then
+       result:= result + 1;
+     i:= i + 1
+  end;
 end;
 
 end.

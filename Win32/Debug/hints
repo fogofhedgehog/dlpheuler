@@ -127,5 +127,4 @@ No parameter.
 Any natural number, but default takes about 10 hours.
 Any natural number below ~ 1000000. 100000 takes about 3.5 min. Default in "no time".
 No parameter.
-No hints for a while.
 Any natural number below ~ 3000. 100 takes about 14 sec.
