@@ -364,6 +364,10 @@ begin
   resulting:= repunitwthcomposite(Param1);
   if TaskChoise = 131 then
   resulting:= primencubes;
+  if TaskChoise = 132 then
+  resulting:= gigarepunit;
+  if TaskChoise = 133 then
+  resulting:= tenpowerrepunit;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

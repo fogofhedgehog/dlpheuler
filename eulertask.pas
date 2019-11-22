@@ -138,6 +138,8 @@ function hexaneib(number: int64): int64;
 function megarepunit: int64;
 function repunitwthcomposite(amount: int64): int64;
 function primencubes: int64;
+function gigarepunit: int64;
+function tenpowerrepunit: int64;
 
 implementation
 
@@ -5267,6 +5269,37 @@ begin
        result:= result + 1;
      i:= i + 1
   end;
+end;
+
+function gigarepunit: int64;
+var counter, divisor: int64;
+begin
+  result:= 0;
+  counter:= 0;
+  divisor:= 7;
+  while counter < 40 do
+  begin
+    if 1000000000 mod fractionperiod(divisor) = 0 then
+    begin
+      counter:= counter + 1;
+      result:= result + divisor
+    end;
+    divisor:= nextprime(divisor)
+  end;
+end;
+
+function tenpowerrepunit: int64;
+var divisor, i: int64;
+begin
+  divisor:= 7;
+  result:= 10;
+  while divisor < 100000 do
+  begin
+    if 10 mod radical(fractionperiod(divisor)) <> 0 then
+      result:= result + divisor;
+    divisor:= nextprime(divisor);
+  end;
+
 end;
 
 end.
