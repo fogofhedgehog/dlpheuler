@@ -6,6 +6,23 @@ uses
   System.SysUtils, Classes, math, FMX.Dialogs, Generics.Collections, eulclass,
   velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals;
 
+type primenumber = record
+       number, value: integer
+end;
+
+type Primes = class
+     public
+     valuesA: array of integer;
+     valuesL: TList<integer>;
+     procedure GetPrimesArrayByValue(largest: integer);
+     procedure GetPrimesListByValue(largest: integer);
+//     function GetPrimesListByIndex(largest: integer): TList<integer>;
+//     function GetPrimesListByIndexWithInd(largest: integer): array of integer;
+//     const prfilename = 'primes.val';
+     constructor Create; overload;
+end;
+  
+
 function CheckPalindrNum (number:int64): boolean;   //  check if the number is palindrome
 function CheckPalindrStr (txt: string): boolean;
 function IsPrime (number:int64): boolean;
@@ -73,10 +90,81 @@ function ispalindromic(number: int64): boolean;
 function greatcomdiv(first, second: int64): int64;
 function radical(number: int64): int64;
 function fractionperiod(number: int64): int64;
+function digitsn(number: int64): integer;
 
 implementation
 
 uses eulertask;
+
+constructor Primes.Create;
+begin
+  inherited;
+  setlength(self.valuesA, 1);
+  self.valuesA[0]:= 2;
+end;
+
+procedure Primes.GetPrimesArrayByValue(largest: integer);
+var f: file of primenumber;
+    prm: primenumber;
+    i, j: integer;
+begin
+  if j > 2002000 then
+  begin
+    largest:= 2002000;
+    showmessage('Parameter exceed maximum value: max prime in list is less than 2002000, returning whole existing list')
+  end;
+  assign(f,'primes.val');
+  reset(f);
+  i:= 0;
+  j:= 0;
+  while j < largest do
+  begin
+    read(f, prm);
+    i:= i + 1;
+    j:= prm.value
+  end;
+  Close(f);
+  setlength(Self.valuesA, i - 1);
+  Reset(f);
+  for i:= 0 to length(Self.valuesA) - 1 do
+  begin
+    Read(f, prm);
+    self.valuesA[i]:= prm.value;
+  end;
+  Close(f)
+end;
+
+procedure Primes.GetPrimesListByValue(largest: integer);
+var f: file of primenumber;
+    prm: primenumber;
+    i, j: integer;
+begin
+  if j > 2002000 then
+  begin
+    largest:= 2002000;
+    showmessage('Parameter exceed maximum value: max prime in list is less than 2002000, returning whole existing list')
+  end;
+  assign(f,'primes.val');
+  reset(f);
+  i:= 0;
+  j:= 0;
+  while j < largest do
+  begin
+    read(f, prm);
+    i:= i + 1;
+    j:= prm.value
+  end;
+  Close(f);
+  self.valuesL:= TList<integer>.Create;
+  Reset(f);
+  for i:= 1 to i do
+  begin
+    Read(f, prm);
+    self.valuesL.Add(prm.value);
+  end;
+  Close(f)
+end;
+
 
 function CheckPalindrNum (number:int64):boolean;    //  check if the number is palindrome
 var straight, reverse:string;
@@ -102,16 +190,20 @@ end;
 
 function IsPrime (number:int64): boolean;      // check if the number is prime
 var i:int64;
-    helper:extended;
 begin
-result:=true;
-helper:=number;
-  for i := 2 to trunc(sqrt(helper))+1 do
+  result:=true;
+  if number mod 2 = 0 then result:= false
+  else
   begin
-    if number mod i = 0 then
+    i:= 3;
+    while i < trunc(sqrt(number)) + 1 do
     begin
-      result:=false;
-      break
+      if number mod i = 0 then
+      begin
+        result:=false;
+        break
+      end;
+      i:= i + 2
     end;
   end;
 if (number = 2) or (number = 3) then result:=True;
@@ -2006,6 +2098,11 @@ begin
       result:= 0
     end;
   end;
+end;
+
+function digitsn(number: int64): integer;
+begin
+  result:= length(number.ToString);
 end;
 
 end.

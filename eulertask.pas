@@ -5,8 +5,8 @@ interface
 uses math, fogmath, System.SysUtils, FMX.Dialogs, Generics.Collections, Classes,
      eulclass, velthuis.bigintegers, velthuis.bigdecimals;
 
-function parnam (Task: integer): string;
-function setdefault (Task: integer): string;
+function parnam (Task, amount, number: integer): string;
+function setdefault (Task, amount, number: integer): string;
 function sethint (Task: integer): string;
 function sum3n5multiples (highboard: int64): int64;
 function sumevenfibonacci (highboard: int64): int64;
@@ -140,29 +140,88 @@ function repunitwthcomposite(amount: int64): int64;
 function primencubes: int64;
 function gigarepunit: int64;
 function tenpowerrepunit: int64;
+function consecprimes(first: int64): int64;
+function difsquaresall(number, amount: int64): int64;
+function goldennugget(number: int64): int64;
 
 implementation
 
-function parnam (Task:integer):string;    //name of parameter to input
+function parnam (Task, amount, number: integer):string;    //name of parameter to input
 var f: text;
-    i: integer;
+    i, j: integer;
+    hlpr: string;
 begin
   AssignFile(f,'parnam');
   Reset(f);
   for i := 1 to Task do
     Readln (f, result);
   Close (f);
+  if amount = 2 then
+    begin
+      i:= 0;
+      hlpr:= '';
+      if number = 1 then
+      begin
+        for j:= 1 to length(result) do
+        begin
+          if result[j] = '"' then
+            i:= i + 1
+          else
+            hlpr:= hlpr + result[j];
+          if i = 2 then
+            break
+        end;
+      end
+      else
+      begin
+        for j:= 1 to length(result) do
+        begin
+          if result[j] = '"' then
+            i:= i + 1
+          else
+            if i = 3 then
+              hlpr:= hlpr + result[j];
+            if i = 4 then
+              break
+        end;
+      end;
+      result:= hlpr
+    end;
 end;
 
-function setdefault (Task:integer):string;        //propose default value (demanded by project) to input field
+function setdefault (Task, amount, number: integer):string;        //propose default value (demanded by project) to input field
 var f: text;
-    i: integer;
+    i, j: integer;
+    hlpr: string;
 begin
   AssignFile(f,'defaults');
   Reset(f);
   for i := 1 to Task do
     Readln (f, result);
   Close (f);
+  if amount = 2 then
+  begin
+    hlpr:='';
+    if number = 1 then
+    begin
+      for i:= 1 to length(result) do
+        if result[i] <> ' ' then
+          hlpr:= hlpr + result[i]
+        else
+          break;
+    end
+    else
+    begin
+      j:= 0;
+      for i:= 1 to length(result) do
+        if result[i] = ' ' then
+          j:= j + 1
+        else
+          if j = 1 then
+            hlpr:= hlpr + result[i];
+    end;
+    result:= hlpr
+  end;
 end;
 
 function sethint (Task: integer): string;     //hints about the choise of parameters value
@@ -5298,6 +5357,70 @@ begin
     if 10 mod radical(fractionperiod(divisor)) <> 0 then
       result:= result + divisor;
     divisor:= nextprime(divisor);
+  end;
+end;
+
+function consecprimes(first: int64): int64;
+var i, prime1, prime2, division: int64;
+    pr: Primes;
+begin
+  pr:= Primes.Create;
+  prime1:= 5;
+  prime2:= 7;
+  result:= 0;
+  i:= 3;
+  pr.GetPrimesListByValue(first + 20000);
+  while prime1 < first do
+  begin
+    division:= prime1;
+    while division mod prime2 <> 0 do
+      division:= division + trunc(intpower(10, digitsn(prime1)));
+    result:= result + division;
+    prime1:= prime2;
+    i:= i + 1;
+    prime2:= pr.valuesA[i]
+  end;
+end;
+
+function difsquaresall(number, amount: int64): int64;
+var addition, middle, coeff, toadd: Int64;
+    allresults: array of integer;
+begin
+  setlength(allresults, number);
+  for middle:= 0 to number - 1 do
+    allresults[middle]:= 0;
+  for middle:= 2 to number - 1 do
+  begin
+    addition:= 4 - middle mod 4;
+    coeff:= 0;
+    while coeff < (3 * middle - addition) div 4 do
+    begin
+      toadd:= middle * (4 * coeff + addition);
+      if toadd < number then
+        allresults[toadd - 1]:= allresults[toadd - 1] + 1
+      else
+        break;
+      coeff:= coeff + 1;
+    end;
+  end;
+  result:= 0;
+  for middle:= 0 to number - 1 do
+    if allresults[middle] = amount then
+      result:= result + 1;
+end;
+
+function goldennugget(number: int64): int64;
+var i, d1, f1, f2: int64;
+begin
+  d1:= 1;
+  f1:= 1;
+  f2:= 1;
+  for i:= 1 to number do
+  begin
+    f2:= d1 + f2;
+    f1:= d1;
+    result:= f1 * f2;
+    d1:= f1 + f2;
   end;
 
 end;

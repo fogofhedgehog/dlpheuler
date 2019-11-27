@@ -131,3 +131,7 @@ Any natural number below ~ 3000. 100 takes about 14 sec.
 No parameter.
 No parameter.
 No parameter.
+Any natural number, but default takes over 1.5 hour.
+Difference is any natural between 4 and ~360000000. Amount is any positive integer.
+Difference is any natural between 4 and ~360000000. Amount is any positive integer.
+Any natural from 1 to 23.
