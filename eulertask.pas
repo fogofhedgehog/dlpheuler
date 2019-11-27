@@ -143,6 +143,7 @@ function tenpowerrepunit: int64;
 function consecprimes(first: int64): int64;
 function difsquaresall(number, amount: int64): int64;
 function goldennugget(number: int64): int64;
+function isoscelestrngl(amount: int64): int64;
 
 implementation
 
@@ -5422,7 +5423,40 @@ begin
     result:= f1 * f2;
     d1:= f1 + f2;
   end;
+end;
 
+function isoscelestrngl(amount: int64): int64;
+var m, n, d1, d2, counter: int64;
+    alltrngls:Tlist<string>;
+begin
+  alltrngls:= Tlist<string>.Create;
+  counter:= 0;
+  result:= 0;
+  for m:= 1 to 1000000000 do
+  begin
+    d1:= 16 * m * m + 4 * (m * m - 1);
+    d2:= 16 * m * m + 4 * (m * m + 1);
+    if issquare(d1) then
+    begin
+      n:= (trunc(sqrt(d1)) div 2) - 2 * m;
+      if n > 0 then
+      begin
+        result:= result + m * m + n * n;
+        counter:= counter + 1
+      end;
+    end;
+    if issquare(d2) then
+    begin
+      n:= (trunc(sqrt(d2)) div 2) - 2 * m;
+      if n > 0 then
+      begin
+        result:= result + m * m + n * n;
+        counter:= counter + 1
+      end;
+    end;
+    if counter = amount then
+      break
+  end;
 end;
 
 end.

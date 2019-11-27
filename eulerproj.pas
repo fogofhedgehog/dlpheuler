@@ -379,6 +379,8 @@ begin
   resulting:= difsquaresall(Param1, Param2);
   if TaskChoise = 137 then
   resulting:= goldennugget(Param1);
+  if TaskChoise = 138 then
+  resulting:= isoscelestrngl(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
