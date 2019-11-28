@@ -1,0 +1,25 @@
+inherited Form1_Windows: TForm1_Windows
+  DesignerMasterStyle = 0
+  inherited ScaledLayout1: TScaledLayout
+    inherited Card1Img: TImage
+      MultiResBitmap.Height = 354
+      MultiResBitmap.Width = 202
+    end
+    inherited Card2Img: TImage
+      MultiResBitmap.Height = 354
+      MultiResBitmap.Width = 202
+    end
+    inherited Card3Img: TImage
+      MultiResBitmap.Height = 354
+      MultiResBitmap.Width = 202
+    end
+    inherited Card4Img: TImage
+      MultiResBitmap.Height = 354
+      MultiResBitmap.Width = 202
+    end
+    inherited Card5Img: TImage
+      MultiResBitmap.Height = 354
+      MultiResBitmap.Width = 202
+    end
+  end
+end

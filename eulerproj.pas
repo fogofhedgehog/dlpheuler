@@ -381,6 +381,8 @@ begin
   resulting:= goldennugget(Param1);
   if TaskChoise = 138 then
   resulting:= isoscelestrngl(Param1);
+  if TaskChoise = 139 then
+  resulting:= holeincenter(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

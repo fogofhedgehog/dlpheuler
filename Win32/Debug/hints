@@ -136,3 +136,4 @@ Difference is any natural between 4 and ~360000000. Amount is any positive integ
 Difference is any natural between 4 and ~360000000. Amount is any positive integer.
 Any natural number from 1 to 14.
 Any natural number from 1 to 14.
+Any natural number below ~2100000000. 2000000000 demands about 2.5 mins.

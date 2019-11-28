@@ -144,6 +144,7 @@ function consecprimes(first: int64): int64;
 function difsquaresall(number, amount: int64): int64;
 function goldennugget(number: int64): int64;
 function isoscelestrngl(amount: int64): int64;
+function holeincenter(largest: int64): int64;
 
 implementation
 
@@ -5456,6 +5457,41 @@ begin
     end;
     if counter = amount then
       break
+  end;
+end;
+
+function holeincenter(largest: int64): int64;
+var m, n, k, a, b, c, perimeter, square: int64;
+    satisfy: boolean;
+begin
+  result:= 0;
+  for m:= 2 to largest do
+  begin
+    for n:= 1 to m - 1 do
+    begin
+      a:= m * m - n * n;
+      b:= 2 * m * n;
+      c:= m * m + n * n;
+      perimeter:= a + b + c;
+      if perimeter > largest then
+        break;
+      square:= trunc(a * b / 2);
+      satisfy:= false;
+      square:= c * c - 4 * square;
+      if IsSquare(square) then
+        if c mod trunc(sqrt(square)) = 0 then
+          satisfy:= true;
+      if (greatcomdiv(m, n) = 1) and (Abs(m - n) mod 2 = 1) and satisfy then
+      begin
+        k:= 1;
+        while perimeter < largest do
+        begin
+          result:= result + 1;
+          k:= k + 1;
+          perimeter:= k * (a + b + c)
+        end;
+      end;
+    end;
   end;
 end;
 

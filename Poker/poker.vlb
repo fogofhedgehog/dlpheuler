@@ -20,10 +20,25 @@ Coordinates=222,10,109,58
 Coordinates=10,10,93,58
 
 []
-Coordinates=292,133,91,36
+Coordinates=512,1,91,36
 Visible=True
 
 [Card1Img]
 Coordinates=122,1,71,58
 Visible=True
+
+[Card2Img]
+Coordinates=292,133,71,58
+
+[Card4Img]
+Coordinates=215,174,71,58
+
+[Card5Img]
+Coordinates=136,174,71,58
+
+[NextDealButton]
+Coordinates=369,1,105,58
+
+[Card3Img]
+Coordinates=0,0,71,58
 
