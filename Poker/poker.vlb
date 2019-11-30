@@ -17,14 +17,14 @@ Coordinates=145,78,109,36
 Coordinates=222,10,109,58
 
 [BetwordLabel]
-Coordinates=10,10,93,58
+Coordinates=80,10,93,58
 
 []
-Coordinates=512,1,91,36
+Coordinates=399,174,91,36
 Visible=True
 
 [Card1Img]
-Coordinates=122,1,71,58
+Coordinates=500,120,71,58
 Visible=True
 
 [Card2Img]
@@ -37,8 +37,19 @@ Coordinates=215,174,71,58
 Coordinates=136,174,71,58
 
 [NextDealButton]
-Coordinates=369,1,105,58
+Coordinates=460,0,105,58
 
 [Card3Img]
 Coordinates=0,0,71,58
+
+[BitmapAnimation2]
+Coordinates=369,133,119,36
+
+[BitmapAnimation1]
+Coordinates=526,1,119,36
+
+[Back1FloatAnimation]
+Coordinates=710,100,136,58
+Visible=True
+ExplicitSubNodes=Owner.Name
 

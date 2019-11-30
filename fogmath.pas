@@ -2026,7 +2026,7 @@ begin
   if second > first then
   begin
     fir:= second;
-    sec:= fir
+    sec:= first
   end
   else
   begin

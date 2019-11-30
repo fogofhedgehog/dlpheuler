@@ -3,7 +3,7 @@ unit eulertask;
 interface
 
 uses math, fogmath, System.SysUtils, FMX.Dialogs, Generics.Collections, Classes,
-     eulclass, velthuis.bigintegers, velthuis.bigdecimals;
+     eulclass, velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals;
 
 function parnam (Task, amount, number: integer): string;
 function setdefault (Task, amount, number: integer): string;
@@ -145,6 +145,7 @@ function difsquaresall(number, amount: int64): int64;
 function goldennugget(number: int64): int64;
 function isoscelestrngl(amount: int64): int64;
 function holeincenter(largest: int64): int64;
+function modgoldennugget: int64;
 
 implementation
 
@@ -5493,6 +5494,43 @@ begin
       end;
     end;
   end;
+end;
+
+function modgoldennugget: int64;
+var i, counter, x1, x2, d: int64;
+    numbers: array[0 .. 31, 1 .. 4] of int64;
+begin
+  numbers[0, 2]:= 0;
+  numbers[1, 1]:= 1;
+  numbers[2, 1]:= 4;
+  for i:= 3 to 31 do
+    numbers[i, 1]:= numbers[i - 1, 1] + numbers[i - 2, 1];
+  numbers[1, 2]:= 1;
+  numbers[1, 3]:= 2;
+  numbers[2, 2]:= 1;
+  numbers[2, 3]:= 5;
+  numbers[3, 2]:= 3;
+  numbers[3, 3]:= 7;
+  numbers[4, 2]:= 3;
+  numbers[4, 3]:= 14;
+  numbers[5, 2]:= 8;
+  numbers[5, 3]:= 19;
+  numbers[6, 2]:= 8;
+  numbers[6, 3]:= 37;
+  for i:= 1 to 6 do
+    numbers[i, 4]:= numbers[i, 2] * numbers[i, 3];
+  for i:= 4 to 15 do
+  begin
+    numbers[i * 2, 3]:= numbers[i * 2 + 1, 1];
+    numbers[i * 2 - 1, 3]:= (numbers[i * 2, 3] + numbers[i * 2 - 4, 2]) div 2;
+    numbers[i * 2, 2]:= numbers[i * 2 - 4, 3] + numbers[i * 2 - 5, 3] - numbers[i * 2 - 8, 2];
+    numbers[i * 2 - 1, 2]:= numbers[i * 2, 2];
+    numbers[i * 2 - 1, 4]:= numbers[i * 2 - 1, 2] * numbers[i * 2 - 1, 3];
+    numbers[i * 2, 4]:= numbers[i * 2, 2] * numbers[i * 2, 3];
+  end;
+  result:= 0;
+  for i:= 1 to 30 do
+    result:= result + numbers[i, 2] * numbers[i, 3];
 end;
 
 end.

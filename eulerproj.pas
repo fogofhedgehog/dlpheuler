@@ -383,6 +383,8 @@ begin
   resulting:= isoscelestrngl(Param1);
   if TaskChoise = 139 then
   resulting:= holeincenter(Param1);
+  if TaskChoise = 140 then
+  resulting:= modgoldennugget;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

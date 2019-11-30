@@ -23,6 +23,11 @@ type
     Card5Img: TImage;
     NextDealButton: TButton;
     BitmapAnimation2: TBitmapAnimation;
+    Back1FloatAnimation: TFloatAnimation;
+    Card1FloatAnimation: TFloatAnimation;
+    RectAnimation1: TRectAnimation;
+    ImageControl1: TImageControl;
+    procedure Card1ImgClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,5 +42,10 @@ implementation
 {$R *.fmx}
 {$R *.Windows.fmx MSWINDOWS}
 
+
+procedure TForm1.Card1ImgClick(Sender: TObject);
+begin
+Card1FloatAnimation.Start;
+end;
 
 end.
