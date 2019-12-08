@@ -385,6 +385,10 @@ begin
   resulting:= holeincenter(Param1);
   if TaskChoise = 140 then
   resulting:= modgoldennugget;
+  if TaskChoise = 141 then
+  resulting:= progressivepsq(Param1);
+  if TaskChoise = 142 then
+  resulting:= sumdifsquares;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

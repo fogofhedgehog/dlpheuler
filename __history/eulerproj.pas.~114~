@@ -26,6 +26,8 @@ type
     TimeLabel: TLabel;
     TimeMainLabel: TLabel;
     HintLabel: TLabel;
+    Param2Edit: TEdit;
+    Param2Label: TLabel;
     procedure TaskNumberComboBoxChange(Sender: TObject);
     procedure AddTaskButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -95,13 +97,14 @@ begin
 end;
 
 procedure TForm1.CalculateButtonClick(Sender: TObject);
-var TaskChoise, Param1, resulting :int64;
+var TaskChoise, Param1, Param2, resulting :int64;
     Clpbrd: IFMXExtendedClipboardService;
     Value: Tvalue;
 begin
   TimeStart:=DateTimeToTimeStamp(Time);
   TaskChoise:=TaskNumberComboBox.Items[TaskNumberComboBox.ItemIndex].ToInteger;
   if Param1Edit.Visible then Param1:=Param1Edit.Text.ToInt64;
+  if Param2Edit.Visible then Param2:=Param2Edit.Text.ToInt64;
   if TaskChoise = 1 then
   resulting:= sum3n5multiples(Param1-1);
   if TaskChoise = 2 then
@@ -354,6 +357,34 @@ begin
   resulting:= palindconssquare;
   if TaskChoise = 126 then
   resulting:= cuboidscount;
+  if TaskChoise = 127 then
+  resulting:= triplethits(Param1);
+  if TaskChoise = 128 then
+  resulting:= hexaneib(Param1);
+  if TaskChoise = 129 then
+  resulting:= megarepunit;
+  if TaskChoise = 130 then
+  resulting:= repunitwthcomposite(Param1);
+  if TaskChoise = 131 then
+  resulting:= primencubes;
+  if TaskChoise = 132 then
+  resulting:= gigarepunit;
+  if TaskChoise = 133 then
+  resulting:= tenpowerrepunit;
+  if TaskChoise = 134 then
+  resulting:= consecprimes(Param1);
+  if TaskChoise = 135 then
+  resulting:= difsquaresall(Param1, Param2);
+  if TaskChoise = 136 then
+  resulting:= difsquaresall(Param1, Param2);
+  if TaskChoise = 137 then
+  resulting:= goldennugget(Param1);
+  if TaskChoise = 138 then
+  resulting:= isoscelestrngl(Param1);
+  if TaskChoise = 139 then
+  resulting:= holeincenter(Param1);
+  if TaskChoise = 140 then
+  resulting:= modgoldennugget;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
@@ -395,7 +426,11 @@ var TaskChoise, i:integer;
 begin
   Param1Edit.Visible:=False;
   Param1Edit.Text:='';
+  Param2Edit.Visible:=False;
+  Param2Edit.Text:='';
   Param1Label.Visible:=False;
+  ResultLabel.Visible:=False;
+  Param2Label.Visible:=False;
   ResultLabel.Visible:=False;
   HintLabel.Visible:=False;
   TimeLabel.Visible:=False;
@@ -418,15 +453,24 @@ begin
     TaskHlpr:=Tasks[i];
     if TaskHlpr.TaskNum=TaskChoise then break
   end;
-  if TaskHlpr.ParamAmount = 2 then TaskHlpr.ParamAmount:= 0;
-  if TaskHlpr.ParamAmount = 1 then
+  if TaskHlpr.ParamAmount > 0 then
   begin
     Param1Edit.Visible:=True;
     Param1Label.Visible:=True;
   end;
-  Param1Label.Text:= parnam(TaskChoise);  //available name of possible parameter
-  Param1Edit.Text:= setdefault(TaskChoise);  //assign default parameter
+  if TaskHlpr.ParamAmount > 1 then
+  begin
+    Param2Edit.Visible:=True;
+    Param2Label.Visible:=True;
+  end;
+  Param1Label.Text:= parnam(TaskChoise, TaskHlpr.ParamAmount, 1);  //available name of possible parameter
+  Param1Edit.Text:= setdefault(TaskChoise, TaskHlpr.ParamAmount, 1);  //assign default parameter
   HintLabel.Text:= sethint(TaskChoise);   //assign hint to show
+  if TaskHlpr.ParamAmount > 1 then
+  begin
+    Param2Label.Text:= parnam(TaskChoise, TaskHlpr.ParamAmount, 2);  //available name of possible parameter
+    Param2Edit.Text:= setdefault(TaskChoise, TaskHlpr.ParamAmount, 2);  //assign default parameter
+  end;
   If HintLabel.Text<>'No parameter.' then HintLabel.Visible:=True;
   TaskDescriptionMainLabel.Text:=TaskHlpr.TaskText;
   Tasks.Destroy;

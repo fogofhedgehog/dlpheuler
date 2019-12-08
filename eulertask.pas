@@ -146,6 +146,8 @@ function goldennugget(number: int64): int64;
 function isoscelestrngl(amount: int64): int64;
 function holeincenter(largest: int64): int64;
 function modgoldennugget: int64;
+function progressivepsq(number: int64): int64;
+function sumdifsquares: int64;
 
 implementation
 
@@ -5531,6 +5533,78 @@ begin
   result:= 0;
   for i:= 1 to 30 do
     result:= result + numbers[i, 2] * numbers[i, 3];
+end;
+
+function progressivepsq(number: int64): int64;
+var i, j, k, test: Int64;
+    variants: Tlist<int64>;
+begin
+  variants:= TList<int64>.Create;
+  result:= 0;
+  for i:= 1 to trunc(power(number, 1 / 3)) do
+  begin
+    j:= 1;
+    while (i * i * i * j + j * j < number) and (j < i) do
+    begin
+      k:= 1;
+      test:= i * i * i * j * k * k + j * j * k;
+      while test <= number do
+      begin
+        if IsSquare(test) then
+          if not variants.Contains(test) then
+          begin
+            variants.Add(test);
+            result:= result + test
+          end;
+        k:= k + 1;
+        test:= i * i * i * j * k * k + j * j * k
+      end;
+      j:= j + 1
+    end;
+  end;
+end;
+
+function sumdifsquares: int64;
+var a, b, c, d, e, f, i, j, k, x, y, z: int64;
+    found: boolean;
+begin
+  found:= false;
+  i:= 4;
+  while not found do
+  begin
+    a:= i * i;
+    j:= 3;
+    while not found and (j < i) do
+    begin
+      c:= j * j;
+      f:= a - c;
+      if issquare(f) then
+      begin
+        k:= j mod 2;
+        while (not found) and (k < j) do
+        begin
+          d:= k * k;
+          e:= a - d;
+          b:= c - e;
+          if IsSquare(e) and IsSquare(b) and ((a + b) mod 2 = 0)
+          and ((c + d) mod 2 = 0) and ((e + f) mod 2 = 0) then
+          begin
+            x:= (a + b) div 2;
+            y:= (e + f) div 2;
+            z:= (c - d) div 2;
+            if (x > y) and (y > z) then
+            begin
+              result:= x + y + z;
+              found:= true
+            end;
+          end;
+          k:= k + 2
+        end;
+      end;
+      j:= j + 1
+    end;
+    i:= i + 1;
+  end;
 end;
 
 end.
