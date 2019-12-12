@@ -3,7 +3,7 @@ unit eulertask;
 interface
 
 uses math, fogmath, System.SysUtils, FMX.Dialogs, Generics.Collections, Classes,
-     eulclass, velthuis.bigintegers, velthuis.bigdecimals;
+     eulclass, velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals;
 
 function parnam (Task, amount, number: integer): string;
 function setdefault (Task, amount, number: integer): string;
@@ -143,6 +143,12 @@ function tenpowerrepunit: int64;
 function consecprimes(first: int64): int64;
 function difsquaresall(number, amount: int64): int64;
 function goldennugget(number: int64): int64;
+function isoscelestrngl(amount: int64): int64;
+function holeincenter(largest: int64): int64;
+function modgoldennugget: int64;
+function progressivepsq(number: int64): int64;
+function sumdifsquares: int64;
+function torritriangle(number: int64): int64;
 
 implementation
 
@@ -5410,21 +5416,255 @@ begin
 end;
 
 function goldennugget(number: int64): int64;
-var i, j, k, d1, d2, d3: int64;
-    e, p: extended;
+var i, d1, f1, f2: int64;
 begin
-      d1:= 1;
-      d2:= 1;
-      for i := 3 to 90 do
+  d1:= 1;
+  f1:= 1;
+  f2:= 1;
+  for i:= 1 to number do
+  begin
+    f2:= d1 + f2;
+    f1:= d1;
+    result:= f1 * f2;
+    d1:= f1 + f2;
+  end;
+end;
+
+function isoscelestrngl(amount: int64): int64;
+var m, n, d1, d2, counter: int64;
+    alltrngls:Tlist<string>;
+begin
+  alltrngls:= Tlist<string>.Create;
+  counter:= 0;
+  result:= 0;
+  for m:= 1 to 1000000000 do
+  begin
+    d1:= 16 * m * m + 4 * (m * m - 1);
+    d2:= 16 * m * m + 4 * (m * m + 1);
+    if issquare(d1) then
+    begin
+      n:= (trunc(sqrt(d1)) div 2) - 2 * m;
+      if n > 0 then
       begin
-        d3:= d2 + d1;
-        d1:= d2;
-        d2:= d3;
-        if isprime(d3) then
-        showmessage(d3.ToString)
-
+        result:= result + m * m + n * n;
+        counter:= counter + 1
       end;
-
     end;
+    if issquare(d2) then
+    begin
+      n:= (trunc(sqrt(d2)) div 2) - 2 * m;
+      if n > 0 then
+      begin
+        result:= result + m * m + n * n;
+        counter:= counter + 1
+      end;
+    end;
+    if counter = amount then
+      break
+  end;
+end;
+
+function holeincenter(largest: int64): int64;
+var m, n, k, a, b, c, perimeter, square: int64;
+    satisfy: boolean;
+begin
+  result:= 0;
+  for m:= 2 to largest do
+  begin
+    for n:= 1 to m - 1 do
+    begin
+      a:= m * m - n * n;
+      b:= 2 * m * n;
+      c:= m * m + n * n;
+      perimeter:= a + b + c;
+      if perimeter > largest then
+        break;
+      square:= trunc(a * b / 2);
+      satisfy:= false;
+      square:= c * c - 4 * square;
+      if IsSquare(square) then
+        if c mod trunc(sqrt(square)) = 0 then
+          satisfy:= true;
+      if (greatcomdiv(m, n) = 1) and (Abs(m - n) mod 2 = 1) and satisfy then
+      begin
+        k:= 1;
+        while perimeter < largest do
+        begin
+          result:= result + 1;
+          k:= k + 1;
+          perimeter:= k * (a + b + c)
+        end;
+      end;
+    end;
+  end;
+end;
+
+function modgoldennugget: int64;
+var i, counter, x1, x2, d: int64;
+    numbers: array[0 .. 31, 1 .. 4] of int64;
+begin
+  numbers[0, 2]:= 0;
+  numbers[1, 1]:= 1;
+  numbers[2, 1]:= 4;
+  for i:= 3 to 31 do
+    numbers[i, 1]:= numbers[i - 1, 1] + numbers[i - 2, 1];
+  numbers[1, 2]:= 1;
+  numbers[1, 3]:= 2;
+  numbers[2, 2]:= 1;
+  numbers[2, 3]:= 5;
+  numbers[3, 2]:= 3;
+  numbers[3, 3]:= 7;
+  numbers[4, 2]:= 3;
+  numbers[4, 3]:= 14;
+  numbers[5, 2]:= 8;
+  numbers[5, 3]:= 19;
+  numbers[6, 2]:= 8;
+  numbers[6, 3]:= 37;
+  for i:= 1 to 6 do
+    numbers[i, 4]:= numbers[i, 2] * numbers[i, 3];
+  for i:= 4 to 15 do
+  begin
+    numbers[i * 2, 3]:= numbers[i * 2 + 1, 1];
+    numbers[i * 2 - 1, 3]:= (numbers[i * 2, 3] + numbers[i * 2 - 4, 2]) div 2;
+    numbers[i * 2, 2]:= numbers[i * 2 - 4, 3] + numbers[i * 2 - 5, 3] - numbers[i * 2 - 8, 2];
+    numbers[i * 2 - 1, 2]:= numbers[i * 2, 2];
+    numbers[i * 2 - 1, 4]:= numbers[i * 2 - 1, 2] * numbers[i * 2 - 1, 3];
+    numbers[i * 2, 4]:= numbers[i * 2, 2] * numbers[i * 2, 3];
+  end;
+  result:= 0;
+  for i:= 1 to 30 do
+    result:= result + numbers[i, 2] * numbers[i, 3];
+end;
+
+function progressivepsq(number: int64): int64;
+var i, j, k, test: Int64;
+    variants: Tlist<int64>;
+begin
+  variants:= TList<int64>.Create;
+  result:= 0;
+  for i:= 1 to trunc(power(number, 1 / 3)) do
+  begin
+    j:= 1;
+    while (i * i * i * j + j * j < number) and (j < i) do
+    begin
+      k:= 1;
+      test:= i * i * i * j * k * k + j * j * k;
+      while test <= number do
+      begin
+        if IsSquare(test) then
+          if not variants.Contains(test) then
+          begin
+            variants.Add(test);
+            result:= result + test
+          end;
+        k:= k + 1;
+        test:= i * i * i * j * k * k + j * j * k
+      end;
+      j:= j + 1
+    end;
+  end;
+end;
+
+function sumdifsquares: int64;
+var a, b, c, d, e, f, i, j, k, x, y, z: int64;
+    found: boolean;
+begin
+  found:= false;
+  i:= 4;
+  while not found do
+  begin
+    a:= i * i;
+    j:= 3;
+    while not found and (j < i) do
+    begin
+      c:= j * j;
+      f:= a - c;
+      if issquare(f) then
+      begin
+        k:= j mod 2;
+        while (not found) and (k < j) do
+        begin
+          d:= k * k;
+          e:= a - d;
+          b:= c - e;
+          if IsSquare(e) and IsSquare(b) and ((a + b) mod 2 = 0)
+          and ((c + d) mod 2 = 0) and ((e + f) mod 2 = 0) then
+          begin
+            x:= (a + b) div 2;
+            y:= (e + f) div 2;
+            z:= (c - d) div 2;
+            if (x > y) and (y > z) then
+            begin
+              result:= x + y + z;
+              found:= true
+            end;
+          end;
+          k:= k + 2
+        end;
+      end;
+      j:= j + 1
+    end;
+    i:= i + 1;
+  end;
+end;
+
+function torritriangle(number: int64): int64;
+var p, q, r, current: int64;
+    i, j, k: integer;
+    flag1: boolean;
+    first, second, sums: Tlist<int64>;
+begin
+  first:= TList<int64>.Create;
+  second:= TList<int64>.Create;
+  for p:= 2 to number do
+    for q := 1 to p do
+    begin
+      if trunc(sqrt(p * p + q * q + p * q)) = sqrt(p * p + q * q + p * q) then
+      begin
+        if p + q > sqrt(p * p + q * q + p * q) then
+        begin
+          second.Add(p);
+          first.Add(q)
+        end;
+      end;
+      if p + q > number then
+        break;
+    end;
+    result:= 0;
+    sums:= TList<int64>.Create;
+    for i:= 0 to first.Count - 1 do
+    begin
+      p:= first[i];
+      q:= second[i];
+      if q > number / 2 then break;
+      j:= i + 1;
+      flag1:= false;
+      current:= 0;
+      while (j < first.Count - 1) and (second[j] + p + q < number) do
+      begin
+        if not first.Contains(q) then break;
+        if first[j] = p then
+        begin
+          flag1:= true;
+          current:= second[j]
+        end;
+        if first[j] = q then
+        begin
+          if flag1 and (current = second[j]) then
+          begin
+            result:= result + p + q + current;
+//            showmessage(p.ToString + ' ' + q.ToString + ' ' + current.ToString + ' ' +
+//            (p + q + current).ToString);
+            sums.Add(p + q + current);
+            break
+          end;
+        end;
+        j:= j + 1
+      end;
+    end;
+    sums.Sort;
+    for i:= 0 to sums.Count - 1 do
+      showmessage(sums[i].ToString);
+end;
 
 end.

@@ -8,12 +8,6 @@ uses
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani;
 
 type
-  TDeal = class
-    cards: array[1 .. 11] of integer;
-    bet: integer;
-    constructor Create;
-  end;
-
   TForm1 = class(TForm)
     CreditwordLabel: TLabel;
     LLCornerLayout: TLayout;
@@ -32,8 +26,8 @@ type
     Back1FloatAnimation: TFloatAnimation;
     Card1FloatAnimation: TFloatAnimation;
     RectAnimation1: TRectAnimation;
+    ImageControl1: TImageControl;
     procedure Card1ImgClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,11 +46,6 @@ implementation
 procedure TForm1.Card1ImgClick(Sender: TObject);
 begin
 Card1FloatAnimation.Start;
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  randomize;
 end;
 
 end.

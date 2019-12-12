@@ -138,4 +138,6 @@ Any natural number from 1 to 14.
 Any natural number from 1 to 14.
 Any natural number below ~2100000000. 2000000000 demands about 2.5 mins.
 No parameter.
-Any natural number delow ~ 10e18. 10e14 demands about 10 sec.
+Any natural number below ~ 10e18. 10e14 demands about 10 sec.
+No parameter.
+Any natural number below 999999999. Default demands about 80 sec.

@@ -389,6 +389,8 @@ begin
   resulting:= progressivepsq(Param1);
   if TaskChoise = 142 then
   resulting:= sumdifsquares;
+  if TaskChoise = 143 then
+  resulting:= torritriangle(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

@@ -148,6 +148,7 @@ function holeincenter(largest: int64): int64;
 function modgoldennugget: int64;
 function progressivepsq(number: int64): int64;
 function sumdifsquares: int64;
+function torritriangle(number: int64): int64;
 
 implementation
 
@@ -5605,6 +5606,105 @@ begin
     end;
     i:= i + 1;
   end;
+end;
+
+function torritriangle(number: int64): int64;
+var p, q, r1, r2: int64;
+    m, n, i, n1: integer;
+    flag1: boolean;
+    first, first2, firstsecond, second, secondfirst, second2, res: Tlist<int64>;
+begin
+  first:= TList<int64>.Create;
+  firstsecond:= TList<int64>.Create;
+  second:= TList<int64>.Create;
+  secondfirst:= TList<int64>.Create;
+  second2:= TList<int64>.Create;
+  first2:= TList<int64>.Create;
+  for m:= 2 to trunc(sqrt(number)) do
+    for n:= 1 to m - 1 do
+    begin
+      if (greatcomdiv(m, n) = 1) and ((m - n) mod 3 <> 0) then
+      begin
+        p:= 2 * m * n + n * n;
+        q:= m * m - n * n;
+        if p + q > number then
+          break;
+        if p < q then
+        begin
+          q:= q - p;
+          p:= q + p;
+          q:= p - q
+        end;
+        first.Add(p);
+        firstsecond.Add(p * 1000000000 + q);
+        secondfirst.Add(q * 1000000000 + p);
+        i:= 2;
+        while i * (p + q) < number do
+        begin
+          first.Add(i * p);
+          firstsecond.Add(i * p * 1000000000 + i * q);
+          secondfirst.Add(i * q * 1000000000 + i * p);
+          i:= i + 1
+        end;
+      end;
+    end;
+  first.Sort;
+  firstsecond.Sort;
+  for i:= 0 to firstsecond.Count - 1 do
+    second.Add(firstsecond[i] mod 1000000000);
+  secondfirst.Sort;
+  for i:= 0 to secondfirst.Count - 1 do
+  begin
+    second2.Add(secondfirst[i] div 1000000000);
+    first2.Add(secondfirst[i] mod 1000000000)
+  end;
+  res:= TList<int64>.Create;
+  for i:= 0 to first.Count - 1 do
+  begin
+    p:= first[i];
+    q:= second[i];
+    m:= 0;
+    while second2[m] <> p do
+    begin
+      m:= m + 1;
+      if m = second2.Count then
+        break
+    end;
+    n:= 0;
+    while second2[n] <> q do
+    begin
+      n:= n + 1;
+      if n = second2.Count then
+        break
+    end;
+    if (m <> second2.Count) and (n <> second2.Count) then
+      while second2[m] = p do
+      begin
+        r1:= first2[m];
+        n1:= n;
+        while second2[n1] = q do
+        begin
+          r2:= first2[n1];
+          if r1 = r2 then
+            if not res.Contains(p + q + r1) then
+            begin
+              if p + q + r1 <= number then
+                res.Add(p + q + r1);
+              break
+//              showmessage(p.ToString + ' ' + q.ToString + ' ' + r1.ToString)
+            end;
+          n1:= n1 + 1;
+          if n1 = first2.Count then
+            break
+        end;
+        m:= m + 1;
+        if m = first2.Count then
+          break
+      end;
+  end;
+  result:= 0;
+  for i:= 0 to res.Count - 1 do
+    result:= result + res[i]
 end;
 
 end.
