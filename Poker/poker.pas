@@ -9,10 +9,9 @@ uses
 
 type
 
-  TDeal = class
+  TDeal = record
     cards: array[1 .. 11] of integer;
     bt: integer;
-    Constructor Create;
   end;
 
   TForm1 = class(TForm)
@@ -44,39 +43,45 @@ type
     { Public declarations }
   end;
 
+procedure nextdeal(var deal: TDeal);
+
 var
   Form1: TForm1;
   bet, credit: integer;
   deal: TDeal;
+  finished: boolean;
 
 implementation
 
 {$R *.fmx}
 {$R *.Windows.fmx MSWINDOWS}
 
-Constructor TDeal.Create;
+procedure nextdeal(var deal: TDeal);
 var i, j, new: integer;
     duplicate: boolean;
 begin
-  cards[1]:= random(52);
-  for i:= 2 to 11 do
+  deal.cards[1]:= random(52);
+  i:= 2;
+  while i <= 11 do
   begin
+    duplicate:= false;
     new:= random(52);
     j:= 1;
     while j < i do
     begin
-      if new = cards[j] then
+      if new = deal.cards[j] then
       begin
         duplicate:= true;
-        new:= random(52);
-        j:= 1;
         break
       end;
-      if not duplicate then
-        j:= j + 1;
+      j:= j + 1;
     end;
-    cards[i]:= new;
-  end;
+    if not duplicate then
+    begin
+      deal.cards[i]:= new;
+      i:= i + 1
+    end
+  end
 end;
 
 procedure TForm1.Card1ImgClick(Sender: TObject);
@@ -89,7 +94,9 @@ begin
   randomize;
   credit:= 100;
   CreditAmountLabel.Text:= credit.ToString;
-  bet:= 0
+  bet:= 0;
+  finished:= true;
+  nextdeal(deal)
 end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -97,6 +104,11 @@ procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
 begin
   if keychar = 'b' then
   begin
+    if finished then
+    begin
+      nextdeal(deal);
+      finished:= false
+    end;
     if bet < 5 then
     begin
       bet:= bet + 1;
@@ -116,7 +128,7 @@ end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
 begin
-    deal:= TDeal.Create;
+  nextdeal(deal);
 end;
 
 end.
