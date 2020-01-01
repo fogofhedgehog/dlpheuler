@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls;
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani;
 
 type
 
@@ -28,14 +28,15 @@ type
     Card4Img: TImage;
     Card5Img: TImage;
     NextDealButton: TButton;
-    Card1RevFloatAnimation: TFloatAnimation;
-    Card1FwdFloatAnimation: TFloatAnimation;
+    BitmapAnimation2: TBitmapAnimation;
+    Back1FloatAnimation: TFloatAnimation;
+    Card1FloatAnimation: TFloatAnimation;
+    RectAnimation1: TRectAnimation;
     procedure Card1ImgClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure NextDealButtonClick(Sender: TObject);
-    procedure Card1RevFloatAnimationFinish(Sender: TObject);
   private
     { Private declarations }
   public
@@ -85,13 +86,7 @@ end;
 
 procedure TForm1.Card1ImgClick(Sender: TObject);
 begin
-  Card1RevFloatAnimation.Start;
-end;
-
-procedure TForm1.Card1RevFloatAnimationFinish(Sender: TObject);
-begin
-  Card1Img.Bitmap.CreateFromFile('img\4c.gif');
-  Card1FwdFloatAnimation.Start;
+Card1FloatAnimation.Start;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -129,19 +124,11 @@ begin
     CreditAmountLabel.Text:= credit.ToString;
     showmessage(deal.cards[1].ToString + ' ' + deal.cards[2].ToString)
   end;
-  if keychar = 'n' then
-  begin
-    nextdeal(deal);
-    deal.bt:= bet
-  end;
-
 end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
 begin
   nextdeal(deal);
-  Card1Img.Visible:= False;
-  Card1Img.Bitmap.CreateFromFile('img\4c.gif');
 end;
 
 end.

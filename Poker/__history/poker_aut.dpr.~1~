@@ -1,7 +1,5 @@
 program poker_aut;
 
-{$R *.dres}
-
 uses
   System.StartUpCopy,
   FMX.Forms,

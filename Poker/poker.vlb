@@ -20,8 +20,9 @@ Coordinates=222,10,109,58
 Coordinates=80,10,93,58
 
 []
-Coordinates=399,174,91,36
+Coordinates=710,100,136,58
 Visible=True
+ExplicitSubNodes=Owner.Name
 
 [Card1Img]
 Coordinates=500,120,71,58
@@ -42,14 +43,10 @@ Coordinates=460,0,105,58
 [Card3Img]
 Coordinates=0,0,71,58
 
-[BitmapAnimation2]
-Coordinates=369,133,119,36
+[Card1RevFloatAnimation]
+Coordinates=487,77,158,36
 
-[BitmapAnimation1]
-Coordinates=526,1,119,36
-
-[Back1FloatAnimation]
-Coordinates=710,100,136,58
+[Card1FwdFloatAnimation]
+Coordinates=389,174,108,36
 Visible=True
-ExplicitSubNodes=Owner.Name
 
