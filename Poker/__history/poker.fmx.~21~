@@ -7,6 +7,8 @@ object Form1: TForm1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   DesignerMasterStyle = 0
   object LLCornerLayout: TLayout
     Anchors = []
@@ -165,20 +167,22 @@ object Form1: TForm1
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
       WrapMode = Original
-      OnClick = Card1ImgClick
-      object Card1FloatAnimation: TFloatAnimation
+      object Card1RevFloatAnimation: TFloatAnimation
         AnimationType = Out
-        Duration = 0.400000005960464500
+        Duration = 0.500000000000000000
+        Interpolation = Exponential
+        OnFinish = Card1RevFloatAnimationFinish
+        PropertyName = 'Scale.X'
+        StartValue = 1.000000000000000000
+        StopValue = 0.000000000000000000
+      end
+      object Card1FwdFloatAnimation: TFloatAnimation
+        AnimationType = Out
+        Duration = 0.500000000000000000
+        Interpolation = Exponential
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
-      end
-      object RectAnimation1: TRectAnimation
-        Enabled = True
-        Duration = 0.200000002980232200
-        PropertyName = 'BitmapMargins'
-        StopValue.Left = 90.000000000000000000
-        StopValue.Right = 90.000000000000000000
       end
     end
     object Card2Img: TImage
@@ -279,6 +283,19 @@ object Form1: TForm1
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
+      object Card2FwdFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        PropertyName = 'Scale.X'
+        StartValue = 0.000000000000000000
+        StopValue = 1.000000000000000000
+      end
+      object Card2RevFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        OnFinish = Card2RevFloatAnimationFinish
+        PropertyName = 'Scale.X'
+        StartValue = 1.000000000000000000
+        StopValue = 0.000000000000000000
+      end
     end
     object Card3Img: TImage
       MultiResBitmap.Height = 354
@@ -378,6 +395,19 @@ object Form1: TForm1
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
+      object Card3FwdFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        PropertyName = 'Scale.X'
+        StartValue = 0.000000000000000000
+        StopValue = 1.000000000000000000
+      end
+      object Card3RevFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        OnFinish = Card3RevFloatAnimationFinish
+        PropertyName = 'Scale.X'
+        StartValue = 1.000000000000000000
+        StopValue = 0.000000000000000000
+      end
     end
     object Card4Img: TImage
       MultiResBitmap.Height = 354
@@ -477,6 +507,19 @@ object Form1: TForm1
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
+      object Card4FwdFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        PropertyName = 'Scale.X'
+        StartValue = 0.000000000000000000
+        StopValue = 1.000000000000000000
+      end
+      object Card4RevFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        OnFinish = Card4RevFloatAnimationFinish
+        PropertyName = 'Scale.X'
+        StartValue = 1.000000000000000000
+        StopValue = 0.000000000000000000
+      end
     end
     object Card5Img: TImage
       MultiResBitmap.Height = 354
@@ -576,6 +619,19 @@ object Form1: TForm1
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
+      object Card5FwdFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        PropertyName = 'Scale.X'
+        StartValue = 0.000000000000000000
+        StopValue = 1.000000000000000000
+      end
+      object Card5RevFloatAnimation: TFloatAnimation
+        Duration = 0.200000002980232200
+        OnFinish = Card5RevFloatAnimationFinish
+        PropertyName = 'Scale.X'
+        StartValue = 1.000000000000000000
+        StopValue = 0.000000000000000000
+      end
     end
     object NextDealButton: TButton
       Position.X = 440.000000000000000000
@@ -585,23 +641,7 @@ object Form1: TForm1
       Size.PlatformDefault = False
       TabOrder = 0
       Text = 'Next Deal'
-    end
-    object BitmapAnimation1: TBitmapAnimation
-      Duration = 0.200000002980232200
-    end
-    object BitmapAnimation2: TBitmapAnimation
-      Duration = 0.200000002980232200
-    end
-    object Back1FloatAnimation: TFloatAnimation
-      Duration = 0.200000002980232200
-      PropertyName = 'Scale.X'
-      StartValue = 1.000000000000000000
-      StopValue = 0.000000000000000000
-    end
-    object ImageControl1: TImageControl
-      Position.X = 160.000000000000000000
-      Position.Y = 8.000000000000000000
-      TabOrder = 1
+      OnClick = NextDealButtonClick
     end
   end
   object RLCornerLayout: TLayout

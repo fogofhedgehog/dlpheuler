@@ -169,7 +169,7 @@ object Form1: TForm1
       WrapMode = Original
       object Card1RevFloatAnimation: TFloatAnimation
         AnimationType = Out
-        Duration = 0.500000000000000000
+        Duration = 0.170000001788139300
         Interpolation = Exponential
         OnFinish = Card1RevFloatAnimationFinish
         PropertyName = 'Scale.X'
@@ -178,7 +178,7 @@ object Form1: TForm1
       end
       object Card1FwdFloatAnimation: TFloatAnimation
         AnimationType = Out
-        Duration = 0.500000000000000000
+        Duration = 0.170000001788139300
         Interpolation = Exponential
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
@@ -284,14 +284,13 @@ object Form1: TForm1
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
       object Card2FwdFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card2RevFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
-        OnFinish = Card2RevFloatAnimationFinish
+        Duration = 0.175999999046325700
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
@@ -396,14 +395,13 @@ object Form1: TForm1
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
       object Card3FwdFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card3RevFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
-        OnFinish = Card3RevFloatAnimationFinish
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
@@ -508,14 +506,13 @@ object Form1: TForm1
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
       object Card4FwdFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card4RevFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
-        OnFinish = Card4RevFloatAnimationFinish
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
@@ -620,14 +617,13 @@ object Form1: TForm1
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
       object Card5FwdFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card5RevFloatAnimation: TFloatAnimation
-        Duration = 0.200000002980232200
-        OnFinish = Card5RevFloatAnimationFinish
+        Duration = 0.170000001788139300
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000

@@ -5,8 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls,
-  System.DateUtils;
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls;
 
 type
 
@@ -43,11 +42,11 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure NextDealButtonClick(Sender: TObject);
+    procedure Card1RevFloatAnimationFinish(Sender: TObject);
     procedure Card2RevFloatAnimationFinish(Sender: TObject);
     procedure Card3RevFloatAnimationFinish(Sender: TObject);
     procedure Card4RevFloatAnimationFinish(Sender: TObject);
     procedure Card5RevFloatAnimationFinish(Sender: TObject);
-    procedure Card1RevFloatAnimationFinish(Sender: TObject);
   private
     { Private declarations }
   public
@@ -129,41 +128,41 @@ begin
   end
 end;
 
-//procedure PlayAni(anim1, anim2: TFloatAnimation; img: TImage; number: integer; nam: string);
-//begin
-//  anim1.Start;
-//  img.Bitmap.LoadFromFile(nam);
-//  anim2.Start
-//end;
+procedure PlayAni(anim1, anim2: TFloatAnimation; img: TImage; number: integer; nam: string);
+begin
+  anim1.Start;
+  img.Bitmap.LoadFromFile(nam);
+  anim2.Start
+end;
 
 procedure TForm1.Card1RevFloatAnimationFinish(Sender: TObject);
 begin
-//  Card1Img.Bitmap.CreateFromFile(nm);
-//  Card1FwdFloatAnimation.Start;
+  Card1Img.Bitmap.CreateFromFile(nm);
+  Card1FwdFloatAnimation.Start;
 end;
 
 procedure TForm1.Card2RevFloatAnimationFinish(Sender: TObject);
 begin
-//  Card2Img.Bitmap.CreateFromFile(nm);
-//  Card2FwdFloatAnimation.Start;
+  Card2Img.Bitmap.CreateFromFile(nm);
+  Card2FwdFloatAnimation.Start;
 end;
 
 procedure TForm1.Card3RevFloatAnimationFinish(Sender: TObject);
 begin
-//  Card3Img.Bitmap.CreateFromFile(nm);
-//  Card3FwdFloatAnimation.Start;
+  Card3Img.Bitmap.CreateFromFile(nm);
+  Card3FwdFloatAnimation.Start;
 end;
 
 procedure TForm1.Card4RevFloatAnimationFinish(Sender: TObject);
 begin
-//  Card4Img.Bitmap.CreateFromFile(nm);
-//  Card4FwdFloatAnimation.Start;
+  Card4Img.Bitmap.CreateFromFile(nm);
+  Card4FwdFloatAnimation.Start;
 end;
 
 procedure TForm1.Card5RevFloatAnimationFinish(Sender: TObject);
 begin
-//  Card5Img.Bitmap.CreateFromFile(nm);
-//  Card5FwdFloatAnimation.Start;
+  Card5Img.Bitmap.CreateFromFile(nm);
+  Card5FwdFloatAnimation.Start;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -176,16 +175,10 @@ begin
   nextdeal(deal)
 end;
 
-procedure Delay(iMilliseconds : Integer);
-begin
-iMilliseconds := MilliSecondOfTheDay(Time) + iMilliseconds;
-while iMilliseconds > MilliSecondOfTheDay(Time) do
-Application.ProcessMessages;
-end;
-
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
   var i: integer;
+      nm: string;
 begin
   if keychar = 'b' then
   begin
@@ -233,13 +226,11 @@ begin
       for i:= 1 to 5 do
       begin
         nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
-        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-//          (FindComponent('Card' + i.ToString + 'Img') As TImage).AnimateFloat('Scale.X', 0);
-        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
-        (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-        (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-//          (FindComponent('Card' + i.ToString + 'Img') As TImage).AnimateFloat('Scale.X', 1);
-        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
+        PlayAni(FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation,
+        FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation,
+        FindComponent('Card' + i.ToString + 'Img') As Timage,
+        i, nm);
+//        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start
       end;
 
     end
