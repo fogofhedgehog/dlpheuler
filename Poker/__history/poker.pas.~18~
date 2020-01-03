@@ -30,23 +30,12 @@ type
     NextDealButton: TButton;
     Card1RevFloatAnimation: TFloatAnimation;
     Card1FwdFloatAnimation: TFloatAnimation;
-    Card2FwdFloatAnimation: TFloatAnimation;
-    Card2RevFloatAnimation: TFloatAnimation;
-    Card3FwdFloatAnimation: TFloatAnimation;
-    Card3RevFloatAnimation: TFloatAnimation;
-    Card4FwdFloatAnimation: TFloatAnimation;
-    Card4RevFloatAnimation: TFloatAnimation;
-    Card5FwdFloatAnimation: TFloatAnimation;
-    Card5RevFloatAnimation: TFloatAnimation;
+    procedure Card1ImgClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure NextDealButtonClick(Sender: TObject);
     procedure Card1RevFloatAnimationFinish(Sender: TObject);
-    procedure Card2RevFloatAnimationFinish(Sender: TObject);
-    procedure Card3RevFloatAnimationFinish(Sender: TObject);
-    procedure Card4RevFloatAnimationFinish(Sender: TObject);
-    procedure Card5RevFloatAnimationFinish(Sender: TObject);
   private
     { Private declarations }
   public
@@ -60,45 +49,11 @@ var
   bet, credit: integer;
   deal: TDeal;
   finished: boolean;
-  nm: string;
 
 implementation
 
 {$R *.fmx}
 {$R *.Windows.fmx MSWINDOWS}
-
-function definevalue(card: integer): string;
-var i: integer;
-begin
-  i:= card mod 13;
-  case i of
-    0: result:= 'a';
-    1: result:= '2';
-    2: result:= '3';
-    3: result:= '4';
-    4: result:= '5';
-    5: result:= '6';
-    6: result:= '7';
-    7: result:= '8';
-    8: result:= '9';
-    9: result:= '1';
-    10: result:= 'j';
-    11: result:= 'q';
-    12: result:= 'k'
-  end;
-end;
-
-function definecolor(card: integer): string;
-var i: integer;
-begin
-  i:= card div 13;
-  case i of
-    0: result:='c';
-    1: result:='s';
-    2: result:='d';
-    3: result:='h';
-  end;
-end;
 
 procedure nextdeal(var deal: TDeal);
 var i, j, new: integer;
@@ -128,41 +83,15 @@ begin
   end
 end;
 
-procedure PlayAni(anim1, anim2: TFloatAnimation; img: TImage; number: integer; nam: string);
+procedure TForm1.Card1ImgClick(Sender: TObject);
 begin
-  anim1.Start;
-  img.Bitmap.LoadFromFile(nam);
-  anim2.Start
+  Card1RevFloatAnimation.Start;
 end;
 
 procedure TForm1.Card1RevFloatAnimationFinish(Sender: TObject);
 begin
-  Card1Img.Bitmap.CreateFromFile(nm);
+  Card1Img.Bitmap.CreateFromFile('img\4c.gif');
   Card1FwdFloatAnimation.Start;
-end;
-
-procedure TForm1.Card2RevFloatAnimationFinish(Sender: TObject);
-begin
-  Card2Img.Bitmap.CreateFromFile(nm);
-  Card2FwdFloatAnimation.Start;
-end;
-
-procedure TForm1.Card3RevFloatAnimationFinish(Sender: TObject);
-begin
-  Card3Img.Bitmap.CreateFromFile(nm);
-  Card3FwdFloatAnimation.Start;
-end;
-
-procedure TForm1.Card4RevFloatAnimationFinish(Sender: TObject);
-begin
-  Card4Img.Bitmap.CreateFromFile(nm);
-  Card4FwdFloatAnimation.Start;
-end;
-
-procedure TForm1.Card5RevFloatAnimationFinish(Sender: TObject);
-begin
-  Card5Img.Bitmap.CreateFromFile(nm);
-  Card5FwdFloatAnimation.Start;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -177,8 +106,6 @@ end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
-  var i: integer;
-      nm: string;
 begin
   if keychar = 'b' then
   begin
@@ -207,34 +134,7 @@ begin
     nextdeal(deal);
     deal.bt:= bet
   end;
-  if keychar = ' ' then
-    if finished then
-    begin
-      if bet = 0 then
-        if credit>= 5 then
-        begin
-          bet:= 5;
-          credit:= credit - 5
-        end
-        else
-        if credit> 0 then
-        begin
-          bet:= credit;
-          credit:= 0
-        end
-        else;
-      for i:= 1 to 5 do
-      begin
-        nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
-        PlayAni(FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation,
-        FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation,
-        FindComponent('Card' + i.ToString + 'Img') As Timage,
-        i, nm);
-//        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start
-      end;
 
-    end
-    else;
 end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
