@@ -48,7 +48,6 @@ type
     procedure Card4RevFloatAnimationFinish(Sender: TObject);
     procedure Card5RevFloatAnimationFinish(Sender: TObject);
     procedure Card1RevFloatAnimationFinish(Sender: TObject);
-    procedure shownew;
   private
     { Private declarations }
   public
@@ -61,7 +60,7 @@ var
   Form1: TForm1;
   bet, credit: integer;
   deal: TDeal;
-  finished, first, hold1, hold2, hold3, hold4, hold5: boolean;
+  finished: boolean;
   nm: string;
 
 implementation
@@ -174,13 +173,7 @@ begin
   CreditAmountLabel.Text:= credit.ToString;
   bet:= 0;
   finished:= true;
-  nextdeal(deal);
-  hold1:= false;
-  hold2:= false;
-  hold3:= false;
-  hold4:= false;
-  hold5:= false;
-  first:= true;
+  nextdeal(deal)
 end;
 
 procedure Delay(iMilliseconds : Integer);
@@ -188,30 +181,6 @@ begin
 iMilliseconds := MilliSecondOfTheDay(Time) + iMilliseconds;
 while iMilliseconds > MilliSecondOfTheDay(Time) do
 Application.ProcessMessages;
-end;
-
-procedure TForm1.shownew;
-var i: integer;
-begin
-  for i:= 1 to 5 do
-  begin
-    nm:= 'img\back.gif';
-    (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-    Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
-    (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-    (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-    Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
-  end;
-  for i:= 1 to 5 do
-  begin
-    nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
-    (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-    Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
-    (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-    (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-    Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
-  end;
-
 end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -265,9 +234,11 @@ begin
       begin
         nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
         (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
+//          (FindComponent('Card' + i.ToString + 'Img') As TImage).AnimateFloat('Scale.X', 0);
         Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
         (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
         (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
+//          (FindComponent('Card' + i.ToString + 'Img') As TImage).AnimateFloat('Scale.X', 1);
         Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
       end;
 
@@ -276,40 +247,10 @@ begin
 end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
-var i: integer;
 begin
   nextdeal(deal);
-  if credit > 5 then
-    deal.bt:= bet
-  else
-    if credit > 0 then
-    begin
-      deal.bt:= credit;
-      credit:= 0
-    end
-    else;
-    shownew;
-//  for i:= 1 to 5 do
-//  begin
-//    nm:= 'img\back.gif';
-//    (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-//    Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
-//    (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-//    (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-//    Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
-//  end;
-//  for i:= 1 to 5 do
-//  begin
-//    nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
-//    (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-//    Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
-//    (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-//    (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-//    Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
-//  end;
-  finished:= false;
-
-
+  Card1Img.Visible:= False;
+  Card1Img.Bitmap.CreateFromFile('img\4c.gif');
 end;
 
 end.
