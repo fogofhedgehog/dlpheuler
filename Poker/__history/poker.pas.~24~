@@ -44,7 +44,6 @@ type
     Hold3Image: TImage;
     Hold4Image: TImage;
     Hold5Image: TImage;
-    GameLabel: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -62,7 +61,6 @@ type
     procedure Card3ImgClick(Sender: TObject);
     procedure Card4ImgClick(Sender: TObject);
     procedure Card5ImgClick(Sender: TObject);
-    function checkgame(deal: TDeal): integer;
   private
     { Private declarations }
   public
@@ -388,9 +386,8 @@ begin
 end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
-var i, game: integer;
+var i: integer;
 begin
-  GameLabel.Visible:= false;
   if finished then
   begin
     nextdeal(deal);
@@ -404,21 +401,6 @@ begin
       end
       else;
       shownew;
-    game:= checkgame(deal);
-    case game of
-      0: GameLabel.Text:= 'Nothing';
-      1: GameLabel.Text:= 'One pair';
-      2: GameLabel.Text:= 'One pair';
-      3: GameLabel.Text:= 'Two pairs';
-      4: GameLabel.Text:= 'Three of a kind';
-      5: GameLabel.Text:= 'Straight';
-      6: GameLabel.Text:= 'Flush';
-      7: GameLabel.Text:= 'Full house';
-      8: GameLabel.Text:= 'Four of a kind';
-      9: GameLabel.Text:= 'Straight flush';
-      10: GameLabel.Text:= 'Royal flush';
-    end;
-    GameLabel.Visible:= true;
     finished:= false;
   end
   else
@@ -480,21 +462,6 @@ begin
     begin
       showone(5)
     end;
-    game:= checkgame(deal);
-    case game of
-      0: GameLabel.Text:= 'Nothing';
-      1: GameLabel.Text:= 'One pair';
-      2: GameLabel.Text:= 'One pair';
-      3: GameLabel.Text:= 'Two pairs';
-      4: GameLabel.Text:= 'Three of a kind';
-      5: GameLabel.Text:= 'Straight';
-      6: GameLabel.Text:= 'Flush';
-      7: GameLabel.Text:= 'Full house';
-      8: GameLabel.Text:= 'Four of a kind';
-      9: GameLabel.Text:= 'Straight flush';
-      10: GameLabel.Text:= 'Royal flush';
-    end;
-    GameLabel.Visible:= true;
     hold1:= false;
     hold2:= false;
     hold3:= false;
@@ -504,12 +471,11 @@ begin
   end;
 end;
 
-function TForm1.checkgame(deal: TDeal): integer;
+function checkgame(deal: TDeal): integer;
 var value, color, valhlp: array [1 .. 5] of integer;
     i, j, k, n: integer;
     flush, straight: boolean;
 begin
-  result:= 0;
   straight:= false;
   flush:= false;
   for i:= 1 to 5 do
@@ -525,7 +491,7 @@ begin
       if k > valhlp[j] then
       begin
         k:= valhlp[j];
-        n:= j
+        n:= i
       end;
     value[i]:= k;
     valhlp[n]:= 14
@@ -546,43 +512,7 @@ begin
       result:= 9;
   if (not straight) and (not flush) then
   begin
-    if (value[1] = value[2]) and (value[2] = value[3]) and (value[3] = value[4]) or
-    ((value[2] = value[3]) and (value[3] = value[4]) and (value[4] = value[5])) then
-      result:= 8
-      else
-       if ((value[1] = value[2]) and (value[2] <> value[3]) and (value[3] = value[4]) and (value[4] = value[5])) or
-       ((value[1] = value[2]) and (value[2] = value[3]) and (value[3] <> value[4]) and (value[4] = value[5])) then
-         result:= 7
-       else
-         if ((value[1] = value[2]) and (value[2] = value[3]) and (value[3] <> value[4]) and (value[4] <> value[5])) or
-         ((value[1] <> value[2]) and (value[2] = value[3]) and (value[3] = value[4]) and (value[4] <> value[5])) or
-         ((value[1] <> value[2]) and (value[2] <> value[3]) and (value[3] = value[4]) and (value[4] = value[5]))
-         then
-           result:= 4
-         else
-           if ((value[1] = value[2]) and (value[2] <> value[3]) and (value[3] = value[4]) and (value[4] <> value[5])) or
-           ((value[1] = value[2]) and (value[2] <> value[3]) and (value[3] <> value[4]) and (value[4] = value[5])) or
-           ((value[1] <> value[2]) and (value[2] = value[3]) and (value[3] <> value[4]) and (value[4] = value[5]))
-           then
-             result:= 3;
-     if ((value[1] = value[2]) and (value[2] <> value[3]) and (value[3] <> value[4]) and (value[4] <> value[5])) then
-       if (value[1] = 0) or (value[1] > 9)
-         then result:= 2
-         else result:= 1;
-     if ((value[1] <> value[2]) and (value[2] = value[3]) and (value[3] <> value[4]) and (value[4] <> value[5])) then
-       if (value[2] = 0) or (value[2] > 9)
-         then result:= 2
-         else result:= 1;
-     if ((value[1] <> value[2]) and (value[2] <> value[3]) and (value[3] = value[4]) and (value[4] <> value[5])) then
-       if (value[3] = 0) or (value[3] > 9)
-         then result:= 2
-         else result:= 1;
-     if ((value[1] <> value[2]) and (value[2] <> value[3]) and (value[3] <> value[4]) and (value[4] = value[5])) then
-       if (value[1] = 0) or (value[1] > 9)
-         then result:= 2
-         else result:= 1;
-     if ((value[1] <> value[2]) and (value[2] <> value[3]) and (value[3] <> value[4]) and (value[4] <> value[5]))
-       then result:= 0;
+
   end;
 end;
 

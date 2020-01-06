@@ -959,6 +959,23 @@ object Form1: TForm1
       Size.PlatformDefault = False
       Visible = False
     end
+    object GameLabel: TLabel
+      StyledSettings = []
+      Position.X = 384.000000000000000000
+      Position.Y = 7.000000000000000000
+      Size.Width = 312.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Palatino Linotype'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claCrimson
+      TextSettings.HorzAlign = Center
+      TextSettings.VertAlign = Leading
+      Text = 'GameLabel'
+      Visible = False
+      TabOrder = 1
+    end
   end
   object RLCornerLayout: TLayout
     Anchors = []

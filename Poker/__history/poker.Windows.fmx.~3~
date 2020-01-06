@@ -306,8 +306,5 @@ inherited Form1_Windows: TForm1_Windows
             'r\Win64\Debug\img\arrow.gif'
         end>
     end
-    inherited GameLabel: TLabel
-      TextSettings.Font.StyleExt = {00070000000000000004000000}
-    end
   end
 end
