@@ -8,6 +8,7 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
+  OnClose = FormClose
   OnKeyDown = FormKeyDown
   DesignerMasterStyle = 0
   object LLCornerLayout: TLayout
@@ -975,6 +976,20 @@ object Form1: TForm1
       Text = 'GameLabel'
       Visible = False
       TabOrder = 1
+    end
+    object ShowStatButton: TButton
+      StyledSettings = [Family, Size, Style]
+      Position.X = 1008.000000000000000000
+      Position.Y = 440.000000000000000000
+      Size.Width = 65.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Show Statistics'
+      TextSettings.FontColor = claBlue
+      TextSettings.WordWrap = True
+      TextSettings.Trimming = None
+      OnClick = ShowStatButtonClick
     end
   end
   object RLCornerLayout: TLayout

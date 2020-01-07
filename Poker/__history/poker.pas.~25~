@@ -6,19 +6,13 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls,
-  System.DateUtils, stat;
+  System.DateUtils;
 
 type
 
   TDeal = record
     cards: array[1 .. 11] of integer;
     bt: integer;
-  end;
-
-  stata = record
-    game: int64;
-    last: int64;
-    total: int64;
   end;
 
   TForm1 = class(TForm)
@@ -51,7 +45,6 @@ type
     Hold4Image: TImage;
     Hold5Image: TImage;
     GameLabel: TLabel;
-    ShowStatButton: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -70,8 +63,6 @@ type
     procedure Card4ImgClick(Sender: TObject);
     procedure Card5ImgClick(Sender: TObject);
     function checkgame(deal: TDeal): integer;
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure ShowStatButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -86,7 +77,6 @@ var
   deal: TDeal;
   finished, first, hold1, hold2, hold3, hold4, hold5: boolean;
   nm: string;
-  stat: array [0 .. 10] of int64;
 
 implementation
 
@@ -236,55 +226,7 @@ begin
 //  Card5FwdFloatAnimation.Start;
 end;
 
-procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
-const fname = 'stt.wrd';
-var f, f1: file of stata;
-    rec: stata;
-    tmpstat: array[0 .. 10, 1 .. 2] of int64;
-  i: Integer;
-begin
-  AssignFile(f1, 'stt.wrb');
-  if FileExists('stt.wrb') then
-    if not FileExists(fname) then
-      RenameFile('stt.wrb', fname)
-    else
-      if (FileAge('stt.wrb') < FileAge(fname)) and (FileSize(f1) <> 0) then
-      begin
-        DeleteFile(fname);
-        RenameFile('stt.wrb', fname);
-        DeleteFile('stt.wrb')
-      end;
-  AssignFile(f, fname);
-  if FileExists(fname) then
-  begin
-    Reset(f);
-    for i:= 0 to 10 do
-    begin
-      read(f, rec);
-      tmpstat[i, 2]:= rec.total + stat[i];
-      tmpstat[i, 1]:= stat[i];
-    end;
-  CloseFile(f)
-  end
-  else
-    for i:= 0 to 10 do
-    begin
-      tmpstat[i, 2]:= stat[i];
-      tmpstat[i, 1]:= stat[i];
-    end;
-  Rewrite(f);
-  for i:= 0 to 10 do
-  begin
-    rec.game:= i;
-    rec.last:= tmpstat[i, 1];
-    rec.total:= tmpstat[i, 2];
-    Write(f, rec)
-  end;
-  CloseFile(f)
-end;
-
 procedure TForm1.FormCreate(Sender: TObject);
-var i: integer;
 begin
   randomize;
   credit:= 100;
@@ -298,8 +240,6 @@ begin
   hold4:= false;
   hold5:= false;
   first:= true;
-  for i:= 0 to 10 do
-    stat[i]:= 0;
 end;
 
 procedure Delay(iMilliseconds : Integer);
@@ -327,19 +267,6 @@ begin
   (FindComponent('Card' + number.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
   (FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
   Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
-end;
-
-procedure TForm1.ShowStatButtonClick(Sender: TObject);
-var f: text;
-    i: integer;
-begin
-  AssignFile(f, '1');
-  Rewrite(f);
-  for i:= 0 to 10 do
-    Writeln(f, stat[i].ToString);
-  CloseFile(f);
-  Form2:= TForm2.Create(Form1);
-  Form2.Show;
 end;
 
 procedure TForm1.shownew;
@@ -568,7 +495,6 @@ begin
       10: GameLabel.Text:= 'Royal flush';
     end;
     GameLabel.Visible:= true;
-    stat[game]:= stat[game] + 1;
     hold1:= false;
     hold2:= false;
     hold3:= false;
@@ -576,11 +502,6 @@ begin
     hold5:= false;
     finished:= true
   end;
-end;
-
-procedure writestat;
-begin
-
 end;
 
 function TForm1.checkgame(deal: TDeal): integer;

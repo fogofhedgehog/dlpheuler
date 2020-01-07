@@ -1,0 +1,562 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 496
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object CloseButton: TButton
+    Position.X = 280.000000000000000000
+    Position.Y = 456.000000000000000000
+    TabOrder = 0
+    Text = 'Close'
+    OnClick = CloseButtonClick
+  end
+  object NothingLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 80.000000000000000000
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Nothing'
+    TabOrder = 2
+  end
+  object TwoPairsLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 115.000000000000000000
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Two Pairs'
+    TabOrder = 3
+  end
+  object ThreeLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 150.000000000000000000
+    Size.Width = 169.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Three of a kind'
+    TabOrder = 4
+  end
+  object StraightLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 185.000000000000000000
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Straight'
+    TabOrder = 5
+  end
+  object FlushLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 220.000000000000000000
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Flush'
+    TabOrder = 6
+  end
+  object FullHouseLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 255.000000000000000000
+    Size.Width = 120.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Full house'
+    TabOrder = 7
+  end
+  object FourLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 290.000000000000000000
+    Size.Width = 161.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Four of a kind'
+    TabOrder = 8
+  end
+  object StraightFlushLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 325.000000000000000000
+    Size.Width = 161.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Straight flush'
+    TabOrder = 9
+  end
+  object RoyalFlushLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 360.000000000000000000
+    Size.Width = 153.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    Text = 'Royal flush'
+    TabOrder = 10
+  end
+  object TotalLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 32.000000000000000000
+    Position.Y = 400.000000000000000000
+    Size.Width = 136.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Bright'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00060000000000000004000000}
+    Text = 'Total'
+    TabOrder = 11
+  end
+  object NothingPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 80.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 12
+  end
+  object ThreePrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 150.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 13
+  end
+  object TwoPairsPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 115.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 14
+  end
+  object FlushPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 284.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 15
+  end
+  object StraightPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 185.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 16
+  end
+  object FourPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 220.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 17
+  end
+  object FullHousePrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 255.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 18
+  end
+  object StraightFlushPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 325.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 19
+  end
+  object TotalPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 408.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 20
+  end
+  object RoyalFlushPrLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 260.000000000000000000
+    Position.Y = 360.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 22.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 21
+  end
+  object GameNameLabel: TLabel
+    Position.X = 48.000000000000000000
+    Position.Y = 48.000000000000000000
+    Text = 'Game'
+    TabOrder = 22
+  end
+  object PreviousLabel: TLabel
+    Position.X = 260.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.HorzAlign = Center
+    Text = 'Previous'
+    TabOrder = 23
+  end
+  object CurrentLabel: TLabel
+    Position.X = 380.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.HorzAlign = Center
+    Text = 'Current'
+    TabOrder = 24
+  end
+  object NothingCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 80.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 25
+  end
+  object TwoPairsCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 115.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 26
+  end
+  object ThreeCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 150.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 27
+  end
+  object StraightCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 185.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 28
+  end
+  object FlushCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 220.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 29
+  end
+  object FullHouseCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 255.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 30
+  end
+  object FourCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 290.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 31
+  end
+  object StraightFlushCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 325.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 32
+  end
+  object RoyalFlushCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 360.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 33
+  end
+  object TotalCuLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 380.000000000000000000
+    Position.Y = 408.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 24.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 34
+  end
+  object TotalToLabel: TLabel
+    Position.X = 520.000000000000000000
+    Position.Y = 48.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.HorzAlign = Center
+    Text = 'Total'
+    TabOrder = 35
+  end
+  object NothingToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 80.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 36
+  end
+  object TwoPairsToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 115.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 37
+  end
+  object ThreeToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 150.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 38
+  end
+  object StraightToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 185.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 39
+  end
+  object FlushToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 220.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 40
+  end
+  object FullHouseToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 255.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 41
+  end
+  object FourToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 290.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 42
+  end
+  object StraightFlushToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 325.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 43
+  end
+  object RoyalFlushToLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 360.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 44
+  end
+  object TotalGamesLabel: TLabel
+    StyledSettings = [FontColor]
+    Position.X = 520.000000000000000000
+    Position.Y = 408.000000000000000000
+    Size.Width = 70.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Lucida Console'
+    TextSettings.Font.Size = 26.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000003000000}
+    TextSettings.HorzAlign = Center
+    TabOrder = 45
+  end
+end
