@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 496
-  ClientWidth = 770
+  ClientWidth = 640
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -559,105 +559,5 @@ object Form2: TForm2
     TextSettings.Font.StyleExt = {00070000000000000003000000}
     TextSettings.HorzAlign = Center
     TabOrder = 44
-  end
-  object BalanceLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    Text = 'Balance'
-    TabOrder = 45
-  end
-  object NothingBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 80.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 46
-  end
-  object TwoPairsBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 115.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 47
-  end
-  object ThreeBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 150.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 48
-  end
-  object StraightBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 185.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 49
-  end
-  object FlushBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 220.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 50
-  end
-  object FullHouseBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 255.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 51
-  end
-  object FourBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 290.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 52
-  end
-  object StraightFlushBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 325.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 53
-  end
-  object RoyalFlushBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 360.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 54
-  end
-  object TotalBaLabel: TLabel
-    Position.X = 650.000000000000000000
-    Position.Y = 408.000000000000000000
-    Size.Width = 70.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.HorzAlign = Center
-    TabOrder = 55
   end
 end

@@ -52,8 +52,6 @@ type
     Hold5Image: TImage;
     GameLabel: TLabel;
     ShowStatButton: TButton;
-    GameStatusLabel: TLabel;
-    NextCardImage: TImage;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -403,34 +401,33 @@ begin
     deal.bt:= bet
   end;
   if keychar = ' ' then
-    NextDealButtonClick(self);
-//    if finished then
-//    begin
-//      if bet = 0 then
-//        if credit>= 5 then
-//        begin
-//          bet:= 5;
-//          credit:= credit - 5
-//        end
-//        else
-//        if credit> 0 then
-//        begin
-//          bet:= credit;
-//          credit:= 0
-//        end
-//        else;
-//      for i:= 1 to 5 do
-//      begin
-//        nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
-//        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-//        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
-//        (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-//        (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-//        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
-//      end;
-//      finished:= not finished
-//    end
-//    else;
+    if finished then
+    begin
+      if bet = 0 then
+        if credit>= 5 then
+        begin
+          bet:= 5;
+          credit:= credit - 5
+        end
+        else
+        if credit> 0 then
+        begin
+          bet:= credit;
+          credit:= 0
+        end
+        else;
+      for i:= 1 to 5 do
+      begin
+        nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
+        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
+        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
+        (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
+        (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
+        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
+      end;
+      finished:= not finished
+    end
+    else;
   if keychar = '1' then
     if not finished then
     begin
@@ -467,8 +464,6 @@ procedure TForm1.NextDealButtonClick(Sender: TObject);
 var i, game: integer;
 begin
   GameLabel.Visible:= false;
-  GameStatusLabel.Visible:= false;
-  NextCardImage.Visible:= false;
   if finished then
   begin
     nextdeal(deal);
@@ -497,9 +492,6 @@ begin
       10: GameLabel.Text:= 'Royal flush';
     end;
     GameLabel.Visible:= true;
-    NextDealButton.Text:= 'Change';
-    GameStatusLabel.Text:= 'Click card to hold/unhold and click "Change"';
-    GameStatusLabel.Visible:= true;
     finished:= false;
   end
   else
@@ -576,11 +568,6 @@ begin
       10: GameLabel.Text:= 'Royal flush';
     end;
     GameLabel.Visible:= true;
-    NextCardImage.Bitmap.LoadFromFile('img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif');
-    NextCardImage.Visible:= true;
-    GameStatusLabel.Text:= 'Game over. Cick "Next deal" to continue';
-    NextDealButton.Text:= 'Next deal';
-    GameStatusLabel.Visible:= true;
     stat[game]:= stat[game] + 1;
     hold1:= false;
     hold2:= false;

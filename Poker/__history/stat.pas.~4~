@@ -54,17 +54,6 @@ type
     StraightFlushToLabel: TLabel;
     RoyalFlushToLabel: TLabel;
     TotalGamesLabel: TLabel;
-    BalanceLabel: TLabel;
-    NothingBaLabel: TLabel;
-    TwoPairsBaLabel: TLabel;
-    ThreeBaLabel: TLabel;
-    StraightBaLabel: TLabel;
-    FlushBaLabel: TLabel;
-    FullHouseBaLabel: TLabel;
-    FourBaLabel: TLabel;
-    StraightFlushBaLabel: TLabel;
-    RoyalFlushBaLabel: TLabel;
-    TotalBaLabel: TLabel;
     procedure CloseButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -157,24 +146,12 @@ begin
   FourToLabel.Text:= stt[8, 3].ToString;
   StraightFlushToLabel.Text:= stt[9, 3].ToString;
   RoyalFlushToLabel.Text:= stt[10, 3].ToString;
-  NothingBaLabel.Text:= ((stt[0, 3] + stt[1, 3] + stt[2, 3]) * (-1)).ToString;
-  TwoPairsBaLabel.Text:= stt[3, 3].ToString;
-  ThreeBaLabel.Text:= (stt[4, 3] * 2).ToString;
-  StraightBaLabel.Text:= (stt[5, 3] * 4).ToString;
-  FlushBaLabel.Text:= (stt[6, 3] * 5).ToString;
-  FullHouseBaLabel.Text:= (stt[7, 3] * 8).ToString;
-  FourBaLabel.Text:= (stt[8, 3] * 24).ToString;
-  StraightFlushBaLabel.Text:= (stt[9, 3] * 99).ToString;
-  RoyalFlushBaLabel.Text:= (stt[10, 3] * 799).ToString;
   TotalPrLabel.Text:= (stt[0, 1] + stt[1, 1] + stt[2, 1] + stt[3, 1] + stt[4, 1] + stt[5, 1] +
   stt[6, 1] + stt[7, 1] + stt[8, 1] + stt[9, 1] + stt[10, 1]).ToString;
   TotalCuLabel.Text:= (stt[0, 2] + stt[1, 2] + stt[2, 2] + stt[3, 2] + stt[4, 2] + stt[5, 2] +
   stt[6, 2] + stt[7, 2] + stt[8, 2] + stt[9, 2] + stt[10, 2]).ToString;
   TotalGamesLabel.Text:= (stt[0, 3] + stt[1, 3] + stt[2, 3] + stt[3, 3] + stt[4, 3] + stt[5, 3] +
   stt[6, 3] + stt[7, 3] + stt[8, 3] + stt[9, 3] + stt[10, 3]).ToString;
-  TotalBaLabel.Text:= (stt[3, 3] + stt[4, 3] * 2 + stt[5, 3] * 4 + stt[6, 3] * 5 +
-  stt[7, 3] * 8 + stt[8, 3] * 24 + stt[9, 3] * 99 + stt[10, 3] * 799 -
-  stt[0, 3] - stt[1, 3] - stt[2, 3]).ToString
 end;
 
 end.

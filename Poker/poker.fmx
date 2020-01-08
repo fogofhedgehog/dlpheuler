@@ -58,6 +58,20 @@ object Form1: TForm1
       Text = '0'
       TabOrder = 1
     end
+    object GameStatusLabel: TLabel
+      StyledSettings = [Style]
+      Position.X = 376.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 160.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.FontColor = claDarkblue
+      TextSettings.VertAlign = Leading
+      Visible = False
+      TabOrder = 2
+    end
   end
   object ScaledLayout1: TScaledLayout
     Align = Client
@@ -990,6 +1004,17 @@ object Form1: TForm1
       TextSettings.WordWrap = True
       TextSettings.Trimming = None
       OnClick = ShowStatButtonClick
+    end
+    object NextCardImage: TImage
+      MultiResBitmap = <
+        item
+        end>
+      Position.X = 1024.000000000000000000
+      Position.Y = -96.000000000000000000
+      Size.Width = 50.000000000000000000
+      Size.Height = 86.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
     end
   end
   object RLCornerLayout: TLayout
