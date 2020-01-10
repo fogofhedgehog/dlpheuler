@@ -176,7 +176,7 @@ object Form2: TForm2
   object FlushPrLabel: TLabel
     StyledSettings = [FontColor]
     Position.X = 260.000000000000000000
-    Position.Y = 220.000000000000000000
+    Position.Y = 284.000000000000000000
     Size.Width = 70.000000000000000000
     Size.Height = 17.000000000000000000
     Size.PlatformDefault = False
@@ -202,7 +202,7 @@ object Form2: TForm2
   object FourPrLabel: TLabel
     StyledSettings = [FontColor]
     Position.X = 260.000000000000000000
-    Position.Y = 290.000000000000000000
+    Position.Y = 220.000000000000000000
     Size.Width = 70.000000000000000000
     Size.Height = 17.000000000000000000
     Size.PlatformDefault = False

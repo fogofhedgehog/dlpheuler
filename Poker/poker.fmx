@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Poker'
   ClientHeight = 688
   ClientWidth = 1096
   FormFactor.Width = 320
@@ -1065,5 +1065,20 @@ object Form1: TForm1
       Text = '0'
       TabOrder = 1
     end
+  end
+  object YouWonLabel: TLabel
+    StyledSettings = []
+    Position.X = 40.000000000000000000
+    Position.Y = 96.000000000000000000
+    Size.Width = 137.000000000000000000
+    Size.Height = 41.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Cooper'
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00090000000000000004000000}
+    TextSettings.FontColor = claForestgreen
+    Text = 'You won:'
+    Visible = False
+    TabOrder = 4
   end
 end

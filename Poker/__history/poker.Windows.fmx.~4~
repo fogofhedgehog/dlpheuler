@@ -310,7 +310,4 @@ inherited Form1_Windows: TForm1_Windows
       TextSettings.Font.StyleExt = {00070000000000000004000000}
     end
   end
-  inherited YouWonLabel: TLabel
-    TextSettings.Font.StyleExt = {00090000000000000004000000}
-  end
 end

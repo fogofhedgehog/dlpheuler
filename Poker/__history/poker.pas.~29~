@@ -54,7 +54,6 @@ type
     ShowStatButton: TButton;
     GameStatusLabel: TLabel;
     NextCardImage: TImage;
-    YouWonLabel: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -87,7 +86,7 @@ var
   Form1: TForm1;
   bet, credit: integer;
   deal: TDeal;
-  finished, first, onlyshow, nomore, hold1, hold2, hold3, hold4, hold5, bpressed: boolean;
+  finished, first, hold1, hold2, hold3, hold4, hold5: boolean;
   nm: string;
   stat: array [0 .. 10] of int64;
 
@@ -295,14 +294,12 @@ begin
   bet:= 0;
   finished:= true;
   nextdeal(deal);
-  bpressed:= false;
   hold1:= false;
   hold2:= false;
   hold3:= false;
   hold4:= false;
   hold5:= false;
   first:= true;
-  nomore:= true;
   for i:= 0 to 10 do
     stat[i]:= 0;
 end;
@@ -351,20 +348,17 @@ procedure TForm1.shownew;
 var i: integer;
 begin
   if not first then
-    if not onlyshow then
-      for i:= 1 to 5 do
-      begin
-        nm:= 'img\back.gif';
-        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
-        (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
-        (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
-      end
-    else
+    for i:= 1 to 5 do
+    begin
+      nm:= 'img\back.gif';
+      (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
+      Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+      (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
+      (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
+      Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+    end
   else
-    first:= false;
-  onlyshow:= false;
+  first:= false;
   for i:= 1 to 5 do
   begin
     nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
@@ -379,69 +373,29 @@ end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
-var i: integer;
+  var i: integer;
 begin
   if keychar = 'b' then
   begin
-    if first then
+    if finished then
     begin
-      bpressed:= true;
-      onlyshow:= true;
-      first:= false;
-      if bet < 5 then
-        if credit > 0 then
-        begin
-          bet:= bet + 1;
-          credit:= credit - 1;
-        end
-        else
-        begin
-          credit:= credit + bet - 1;
-          bet:= 1
-        end
-      else
-      begin
-        bet:= 1;
-        credit:= credit + 4
-      end;
+      nextdeal(deal);
+      finished:= false
+    end;
+    if bet < 5 then
+    begin
+      bet:= bet + 1;
+      credit:= credit - 1
     end
     else
-    if finished then
-      begin
-        if not nomore then
-        begin
-          onlyshow:= true;
-          nomore:= true;
-          for i:= 1 to 5 do
-            closeone(i)
-        end;
-        if not bpressed then
-        begin
-          bet:= 1;
-          credit:= credit - 1;
-        end
-        else
-        if bet < 5 then
-          if credit > 0 then
-          begin
-            bet:= bet + 1;
-            credit:= credit - 1;
-          end
-          else
-          begin
-            credit:= credit + bet - 1;
-            bet:= 1
-          end
-        else
-        begin
-          bet:= 1;
-          credit:= credit + 4
-        end;
-        bpressed:= true;
-      end;
+    begin
+      bet:= 1;
+      credit:= credit + 4
+    end;
     deal.bt:= bet;
     BetAmountLabel.Text:= bet.ToString;
     CreditAmountLabel.Text:= credit.ToString;
+    showmessage(deal.cards[1].ToString + ' ' + deal.cards[2].ToString)
   end;
   if keychar = 'n' then
   begin
@@ -450,6 +404,33 @@ begin
   end;
   if keychar = ' ' then
     NextDealButtonClick(self);
+//    if finished then
+//    begin
+//      if bet = 0 then
+//        if credit>= 5 then
+//        begin
+//          bet:= 5;
+//          credit:= credit - 5
+//        end
+//        else
+//        if credit> 0 then
+//        begin
+//          bet:= credit;
+//          credit:= 0
+//        end
+//        else;
+//      for i:= 1 to 5 do
+//      begin
+//        nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
+//        (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
+//        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
+//        (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
+//        (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
+//        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
+//      end;
+//      finished:= not finished
+//    end
+//    else;
   if keychar = '1' then
     if not finished then
     begin
@@ -483,34 +464,24 @@ begin
 end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
-var i, game, win: integer;
+var i, game: integer;
 begin
-  nomore:= false;
   GameLabel.Visible:= false;
   GameStatusLabel.Visible:= false;
   NextCardImage.Visible:= false;
-  YouWonLabel.Visible:= false;
   if finished then
   begin
     nextdeal(deal);
-    if not bpressed then
-    begin
-      if credit > deal.bt then
+    if credit > 5 then
+      deal.bt:= bet
+    else
+      if credit > 0 then
       begin
-        credit:= credit - deal.bt;
-        CreditAmountLabel.Text:= credit.ToString
+        deal.bt:= credit;
+        credit:= 0
       end
-      else
-        if credit > 0 then
-        begin
-          deal.bt:= credit;
-          credit:= 0;
-          CreditAmountLabel.Text:= credit.ToString
-        end
-        else;
-    end;
-    bpressed:= false;
-    shownew;
+      else;
+      shownew;
     game:= checkgame(deal);
     case game of
       0: GameLabel.Text:= 'Nothing';
@@ -616,26 +587,6 @@ begin
     hold3:= false;
     hold4:= false;
     hold5:= false;
-    case game of
-      0: win:= 0;
-      1: win:= 0;
-      2: win:= 0;
-      3: win:= 2;
-      4: win:= 3;
-      5: win:= 5;
-      6: win:= 6;
-      7: win:= 9;
-      8: win:= 25;
-      9: win:= 100;
-      10: win:= 800;
-    end;
-    credit:= credit + win * deal.bt;
-    if win > 0 then
-      YouWonLabel.Text:= 'You won:' + (win * deal.bt).ToString
-    else
-      YouWonLabel.Text:= 'You lost';
-    YouWonLabel.Visible:= True;
-    CreditAmountLabel.Text:= credit.ToString;
     finished:= true
   end;
 end;
