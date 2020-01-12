@@ -444,8 +444,6 @@ begin
       end;
     deal.bt:= bet;
     BetAmountLabel.Text:= bet.ToString;
-    if credit < 0 then
-      credit:= 0;
     CreditAmountLabel.Text:= credit.ToString;
   end;
   if keychar = 'n' then
@@ -497,8 +495,7 @@ begin
   YouWonLabel.Visible:= false;
   if finished then
   begin
-    if ((credit <= 0) and (not bpressed)) or ((credit <= 0) and bpressed and (bet = 0)) or
-    ((bet <= 0) and (credit <= 0)) then
+    if ((credit <= 0) and (not bpressed)) or ((credit <= 0) and bpressed and (bet = 0)) then
       ShowMessage('No more credits!')
     else
     begin
@@ -518,8 +515,6 @@ begin
         if credit > deal.bt then
         begin
           credit:= credit - deal.bt;
-          if credit < 0 then
-            credit:= 0;
           CreditAmountLabel.Text:= credit.ToString
         end
         else
@@ -658,8 +653,6 @@ begin
     else
       YouWonLabel.Text:= 'You lost';
     YouWonLabel.Visible:= True;
-    if credit < 0 then
-      credit:= 0;
     CreditAmountLabel.Text:= credit.ToString;
     bpressed:= false;
     finished:= true
