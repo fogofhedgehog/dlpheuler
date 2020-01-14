@@ -7,7 +7,7 @@ uses
   FMX.Forms,
   poker in 'poker.pas' {Form1},
   stat in 'stat.pas' {Form2},
-  credt in 'credt.pas' {Form3};
+  credit in 'credit.pas' {Form3};
 
 {$R *.res}
 

@@ -1081,4 +1081,10 @@ object Form1: TForm1
     Visible = False
     TabOrder = 4
   end
+  object TakeLabel: TLabel
+    Position.X = 8.000000000000000000
+    Position.Y = 8.000000000000000000
+    Visible = False
+    TabOrder = 5
+  end
 end

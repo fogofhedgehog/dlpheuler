@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls,
-  System.DateUtils, stat, credt;
+  System.DateUtils, stat;
 
 type
 
@@ -55,7 +55,6 @@ type
     GameStatusLabel: TLabel;
     NextCardImage: TImage;
     YouWonLabel: TLabel;
-    TakeLabel: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -88,7 +87,7 @@ var
   Form1: TForm1;
   bet, credit: integer;
   deal: TDeal;
-  finished, first, onlyshow, nomore, hold1, hold2, hold3, hold4, hold5, bpressed, endmoney: boolean;
+  finished, first, onlyshow, nomore, hold1, hold2, hold3, hold4, hold5, bpressed: boolean;
   nm: string;
   stat: array [0 .. 10] of int64;
 
@@ -291,6 +290,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 var i: integer;
 begin
   randomize;
+  credit:= 100;
   CreditAmountLabel.Text:= credit.ToString;
   bet:= 0;
   finished:= true;
@@ -303,8 +303,6 @@ begin
   hold5:= false;
   first:= true;
   nomore:= true;
-  Form3:= TForm3.Create(Form1);
-  Form3.ShowModal;
   for i:= 0 to 10 do
     stat[i]:= 0;
 end;
@@ -411,10 +409,7 @@ begin
     if finished then
       begin
         if credit = 0 then
-          begin
-            ShowMessage('No more credits!');
-            endmoney:= true
-          end
+         ShowMessage('No more credits!')
         else
           if not nomore then
           begin
@@ -506,67 +501,58 @@ begin
     ((bet <= 0) and (credit <= 0)) then
       ShowMessage('No more credits!')
     else
-    if endmoney then
-      ShowMessage('No more credits!')
-      else
+    begin
+      nextdeal(deal);
+      if credit < deal.bt then
+      begin
+        bet:= credit;
+        deal.bt:= bet;
+        BetAmountLabel.Text:= deal.bt.ToString;
+        credit:= 0;
+        CreditAmountLabel.Text:= credit.ToString
+      end;
+      if (deal.bt = 0) and (bet = 0) then
+        ShowMessage('Your bet is 0. No wins, no losses. Press "b" at the end of deal to bet for win');
+      if not bpressed then
+      begin
+        if credit > deal.bt then
         begin
-          nextdeal(deal);
-          if credit < deal.bt then
+          credit:= credit - deal.bt;
+          if credit < 0 then
+            credit:= 0;
+          CreditAmountLabel.Text:= credit.ToString
+        end
+        else
+          if credit > 0 then
           begin
-            bet:= credit;
-            deal.bt:= bet;
-            BetAmountLabel.Text:= deal.bt.ToString;
+            deal.bt:= credit;
             credit:= 0;
             CreditAmountLabel.Text:= credit.ToString
-          end;
-          if (deal.bt = 0) and (bet = 0) then
-            if credit <= 0 then
-            begin
-              ShowMessage('No more credits!');
-              endmoney:= true
-            end
-            else
-              ShowMessage('Your bet is 0. No wins, no losses. Press "b" at the end of deal to bet for win');
-          if not bpressed then
-          begin
-            if credit > deal.bt then
-            begin
-              credit:= credit - deal.bt;
-              if credit < 0 then
-                credit:= 0;
-              CreditAmountLabel.Text:= credit.ToString
-            end
-            else
-              if credit > 0 then
-              begin
-                deal.bt:= credit;
-                    credit:= 0;
-                CreditAmountLabel.Text:= credit.ToString
-              end
-              else;
-          end;
-          bpressed:= false;
-          shownew;
-          game:= checkgame(deal);
-          case game of
-            0: GameLabel.Text:= 'Nothing';
-            1: GameLabel.Text:= 'One pair';
-            2: GameLabel.Text:= 'One pair';
-            3: GameLabel.Text:= 'Two pairs';
-            4: GameLabel.Text:= 'Three of a kind';
-            5: GameLabel.Text:= 'Straight';
-            6: GameLabel.Text:= 'Flush';
-            7: GameLabel.Text:= 'Full house';
-            8: GameLabel.Text:= 'Four of a kind';
-            9: GameLabel.Text:= 'Straight flush';
-            10: GameLabel.Text:= 'Royal flush';
-          end;
-          GameLabel.Visible:= true;
-          NextDealButton.Text:= 'Change';
-          GameStatusLabel.Text:= 'Click card to hold/unhold and click "Change"';
-          GameStatusLabel.Visible:= true;
-          finished:= false;
-        end
+          end
+          else;
+      end;
+      bpressed:= false;
+      shownew;
+      game:= checkgame(deal);
+      case game of
+        0: GameLabel.Text:= 'Nothing';
+        1: GameLabel.Text:= 'One pair';
+        2: GameLabel.Text:= 'One pair';
+        3: GameLabel.Text:= 'Two pairs';
+        4: GameLabel.Text:= 'Three of a kind';
+        5: GameLabel.Text:= 'Straight';
+        6: GameLabel.Text:= 'Flush';
+        7: GameLabel.Text:= 'Full house';
+        8: GameLabel.Text:= 'Four of a kind';
+        9: GameLabel.Text:= 'Straight flush';
+        10: GameLabel.Text:= 'Royal flush';
+      end;
+      GameLabel.Visible:= true;
+      NextDealButton.Text:= 'Change';
+      GameStatusLabel.Text:= 'Click card to hold/unhold and click "Change"';
+      GameStatusLabel.Visible:= true;
+      finished:= false;
+    end
   end
   else
   begin

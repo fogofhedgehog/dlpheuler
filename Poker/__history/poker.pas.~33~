@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls,
-  System.DateUtils, stat, credt;
+  System.DateUtils, stat;
 
 type
 
@@ -55,7 +55,6 @@ type
     GameStatusLabel: TLabel;
     NextCardImage: TImage;
     YouWonLabel: TLabel;
-    TakeLabel: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -291,6 +290,7 @@ procedure TForm1.FormCreate(Sender: TObject);
 var i: integer;
 begin
   randomize;
+  credit:= 20;
   CreditAmountLabel.Text:= credit.ToString;
   bet:= 0;
   finished:= true;
@@ -303,8 +303,6 @@ begin
   hold5:= false;
   first:= true;
   nomore:= true;
-  Form3:= TForm3.Create(Form1);
-  Form3.ShowModal;
   for i:= 0 to 10 do
     stat[i]:= 0;
 end;

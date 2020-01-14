@@ -1,0 +1,51 @@
+object Form3: TForm3
+  Left = 0
+  Top = 0
+  Caption = 'Form3'
+  ClientHeight = 372
+  ClientWidth = 436
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object EnterCreditLabel: TLabel
+    StyledSettings = [Family, Style]
+    Position.X = 88.000000000000000000
+    Position.Y = 40.000000000000000000
+    Size.Width = 256.000000000000000000
+    Size.Height = 49.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 28.000000000000000000
+    TextSettings.FontColor = claOrangered
+    TextSettings.HorzAlign = Center
+    Text = 'Enter credit'
+    TabOrder = 0
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 1
+    KeyboardType = NumberPad
+    Position.X = 128.000000000000000000
+    Position.Y = 160.000000000000000000
+    Size.Width = 177.000000000000000000
+    Size.Height = 49.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Label1: TLabel
+    StyledSettings = [Family, Size, Style]
+    Position.X = 160.000000000000000000
+    Position.Y = 88.000000000000000000
+    TextSettings.FontColor = claChocolate
+    TextSettings.HorzAlign = Center
+    Text = '(500 maximum)'
+    TabOrder = 2
+  end
+  object EnterButton: TButton
+    Position.X = 176.000000000000000000
+    Position.Y = 256.000000000000000000
+    TabOrder = 3
+    Text = 'Ok'
+    OnClick = EnterButtonClick
+  end
+end
