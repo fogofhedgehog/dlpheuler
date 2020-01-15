@@ -527,6 +527,8 @@ begin
             end
             else
               ShowMessage('Your bet is 0. No wins, no losses. Press "b" at the end of deal to bet for win');
+          NextDealButton.Enabled:= false;
+          NextDealButton.Text:= 'Dealing...';
           if not bpressed then
           begin
             if credit > deal.bt then
@@ -548,6 +550,8 @@ begin
           bpressed:= false;
           shownew;
           game:= checkgame(deal);
+          GameLabel.TextSettings.FontColor:= TAlphaColorRec.Crimson;
+          GameLabel.TextSettings.Font.Size:= 20;
           case game of
             0: GameLabel.Text:= 'Nothing';
             1: GameLabel.Text:= 'One pair';
@@ -562,6 +566,7 @@ begin
             10: GameLabel.Text:= 'Royal flush';
           end;
           GameLabel.Visible:= true;
+          NextDealButton.Enabled:= true;
           NextDealButton.Text:= 'Change';
           GameStatusLabel.Text:= 'Click card to hold/unhold and click "Change"';
           GameStatusLabel.Visible:= true;
@@ -570,6 +575,8 @@ begin
   end
   else
   begin
+    NextDealButton.Enabled:= False;
+    NextDealButton.Text:= 'Changing...';
     Hold1Image.Visible:= false;
     Hold2Image.Visible:= false;
     Hold3Image.Visible:= false;
@@ -629,17 +636,69 @@ begin
     end;
     game:= checkgame(deal);
     case game of
-      0: GameLabel.Text:= 'Nothing';
-      1: GameLabel.Text:= 'One pair';
-      2: GameLabel.Text:= 'One pair';
-      3: GameLabel.Text:= 'Two pairs';
-      4: GameLabel.Text:= 'Three of a kind';
-      5: GameLabel.Text:= 'Straight';
-      6: GameLabel.Text:= 'Flush';
-      7: GameLabel.Text:= 'Full house';
-      8: GameLabel.Text:= 'Four of a kind';
-      9: GameLabel.Text:= 'Straight flush';
-      10: GameLabel.Text:= 'Royal flush';
+      0:
+      begin
+        GameLabel.Text:= 'Nothing';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Darkred
+      end;
+      1:
+      begin
+        GameLabel.Text:= 'Nothing';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Darkred
+      end;
+      2:
+      begin
+        GameLabel.Text:= 'Nothing';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Darkred
+      end;
+      3:
+      begin
+        GameLabel.Text:= 'Two pairs';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Mediumblue;
+        GameLabel.TextSettings.Font.Size:= 22
+      end;
+      4:
+      begin
+        GameLabel.Text:= 'Three of a kind';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Slateblue;
+        GameLabel.TextSettings.Font.Size:= 22
+      end;
+      5:
+      begin
+        GameLabel.Text:= 'Straight';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Seagreen;
+        GameLabel.TextSettings.Font.Size:= 24
+      end;
+      6:
+      begin
+        GameLabel.Text:= 'Flush';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Green;
+        GameLabel.TextSettings.Font.Size:= 24
+      end;
+      7:
+      begin
+        GameLabel.Text:= 'Full house';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Lightgreen;
+        GameLabel.TextSettings.Font.Size:= 26
+      end;
+      8:
+      begin
+        GameLabel.Text:= 'Four of a kind';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Salmon;
+        GameLabel.TextSettings.Font.Size:= 26
+      end;
+      9:
+      begin
+        GameLabel.Text:= 'Straight flush';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Orangered;
+        GameLabel.TextSettings.Font.Size:= 28
+      end;
+      10:
+      begin
+        GameLabel.Text:= 'Royal flush';
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Red;
+        GameLabel.TextSettings.Font.Size:= 30
+      end;
     end;
     GameLabel.Visible:= true;
     NextCardImage.Bitmap.LoadFromFile('img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif');
@@ -668,7 +727,7 @@ begin
     end;
     credit:= credit + win * deal.bt;
     if win > 0 then
-      YouWonLabel.Text:= 'You won:' + (win * deal.bt).ToString
+      YouWonLabel.Text:= 'You won:  ' + (win * deal.bt).ToString
     else
       YouWonLabel.Text:= 'You lost';
     YouWonLabel.Visible:= True;
@@ -676,7 +735,8 @@ begin
       credit:= 0;
     CreditAmountLabel.Text:= credit.ToString;
     bpressed:= false;
-    finished:= true
+    finished:= true;
+    NextDealButton.Enabled:= true
   end;
 end;
 
