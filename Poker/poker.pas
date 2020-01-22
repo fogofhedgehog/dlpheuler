@@ -56,6 +56,7 @@ type
     NextCardImage: TImage;
     YouWonLabel: TLabel;
     TakeLabel: TLabel;
+    BetButton: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -76,6 +77,7 @@ type
     function checkgame(deal: TDeal): integer;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ShowStatButtonClick(Sender: TObject);
+    procedure BetButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -96,6 +98,8 @@ implementation
 
 {$R *.fmx}
 {$R *.Windows.fmx MSWINDOWS}
+{$R *.NmXhdpiPh.fmx ANDROID}
+{$R *.LgXhdpiPh.fmx ANDROID}
 
 function definevalue(card: integer): string;
 var i: integer;
@@ -158,12 +162,77 @@ begin
   end
 end;
 
-//procedure PlayAni(anim1, anim2: TFloatAnimation; img: TImage; number: integer; nam: string);
-//begin
-//  anim1.Start;
-//  img.Bitmap.LoadFromFile(nam);
-//  anim2.Start
-//end;
+procedure TForm1.BetButtonClick(Sender: TObject);
+var i: integer;
+begin
+  if first then
+  begin
+    bpressed:= true;
+    onlyshow:= true;
+    first:= false;
+    if bet < 5 then
+      if credit > 0 then
+      begin
+        bet:= bet + 1;
+        credit:= credit - 1;
+      end
+      else
+      begin
+        credit:= credit + bet - 1;
+        bet:= 1
+      end
+      else
+      begin
+        bet:= 1;
+        credit:= credit + 4
+      end;
+    end
+    else
+    if finished then
+      begin
+        if credit = 0 then
+          begin
+            ShowMessage('No more credits!');
+            endmoney:= true
+          end
+      else
+        if not nomore then
+        begin
+          onlyshow:= true;
+          nomore:= true;
+          for i:= 1 to 5 do
+            closeone(i)
+        end;
+        if not bpressed then
+        begin
+          bet:= 1;
+          credit:= credit - 1;
+        end
+        else
+        if bet < 5 then
+          if credit > 0 then
+          begin
+            bet:= bet + 1;
+            credit:= credit - 1;
+          end
+          else
+          begin
+            credit:= credit + bet - 1;
+            bet:= 1
+          end
+        else
+        begin
+          bet:= 1;
+          credit:= credit + 4
+        end;
+        bpressed:= true;
+    end;
+  deal.bt:= bet;
+  BetAmountLabel.Text:= bet.ToString;
+  if credit < 0 then
+    credit:= 0;
+  CreditAmountLabel.Text:= credit.ToString;
+end;
 
 procedure TForm1.Card1ImgClick(Sender: TObject);
 begin
@@ -290,6 +359,7 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 var i: integer;
 begin
+  ScaledLayout1.SetFocus;
   randomize;
   CreditAmountLabel.Text:= credit.ToString;
   bet:= 0;
@@ -318,7 +388,9 @@ end;
 
 procedure TForm1.closeone(number: integer);
 begin
-  nm:= 'img\back.gif';
+  if TOSVersion.Name = 'Windows' then
+    nm:= 'img\back.gif'
+  else nm:= 'img/back.gif';
   (FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
   Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
   (FindComponent('Card' + number.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
@@ -384,75 +456,7 @@ procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
 var i: integer;
 begin
   if keychar = 'b' then
-  begin
-    if first then
-    begin
-      bpressed:= true;
-      onlyshow:= true;
-      first:= false;
-      if bet < 5 then
-        if credit > 0 then
-        begin
-          bet:= bet + 1;
-          credit:= credit - 1;
-        end
-        else
-        begin
-          credit:= credit + bet - 1;
-          bet:= 1
-        end
-      else
-      begin
-        bet:= 1;
-        credit:= credit + 4
-      end;
-    end
-    else
-    if finished then
-      begin
-        if credit = 0 then
-          begin
-            ShowMessage('No more credits!');
-            endmoney:= true
-          end
-        else
-          if not nomore then
-          begin
-            onlyshow:= true;
-            nomore:= true;
-            for i:= 1 to 5 do
-              closeone(i)
-          end;
-          if not bpressed then
-          begin
-            bet:= 1;
-            credit:= credit - 1;
-          end
-          else
-          if bet < 5 then
-            if credit > 0 then
-            begin
-              bet:= bet + 1;
-              credit:= credit - 1;
-            end
-            else
-            begin
-              credit:= credit + bet - 1;
-              bet:= 1
-            end
-          else
-          begin
-            bet:= 1;
-            credit:= credit + 4
-          end;
-          bpressed:= true;
-      end;
-    deal.bt:= bet;
-    BetAmountLabel.Text:= bet.ToString;
-    if credit < 0 then
-      credit:= 0;
-    CreditAmountLabel.Text:= credit.ToString;
-  end;
+    BetButtonClick(Self);
   if keychar = 'n' then
   begin
     nextdeal(deal);
@@ -510,6 +514,7 @@ begin
       ShowMessage('No more credits!')
       else
         begin
+          BetButton.Enabled:= False;
           nextdeal(deal);
           if credit < deal.bt then
           begin
@@ -678,7 +683,7 @@ begin
       7:
       begin
         GameLabel.Text:= 'Full house';
-        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Lightgreen;
+        GameLabel.TextSettings.FontColor:= TAlphaColorRec.Olivedrab;
         GameLabel.TextSettings.Font.Size:= 26
       end;
       8:
@@ -736,7 +741,8 @@ begin
     CreditAmountLabel.Text:= credit.ToString;
     bpressed:= false;
     finished:= true;
-    NextDealButton.Enabled:= true
+    NextDealButton.Enabled:= true;
+    BetButton.Enabled:= True
   end;
 end;
 

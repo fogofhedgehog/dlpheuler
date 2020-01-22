@@ -1,5 +1,31 @@
 inherited Form1_Windows: TForm1_Windows
+  ShowHint = False
   DesignerMasterStyle = 0
+  inherited LLCornerLayout: TLayout
+    Position.Y = 600.000000000000000000
+    Size.Height = 52.000000000000000000
+    inherited CreditwordLabel: TLabel
+      Position.Y = 9.000000000000000000
+      Size.Width = 64.440399169921880000
+      Size.Height = 32.000000000000000000
+    end
+    inherited CreditAmountLabel: TLabel
+      Position.X = 104.000000000000000000
+      Position.Y = 14.000000000000000000
+      Size.Height = 24.000000000000000000
+    end
+  end
+  inherited RLCornerLayout: TLayout
+    Position.Y = 600.000000000000000000
+    Size.Height = 92.000000000000000000
+    inherited BetwordLabel: TLabel
+      Position.Y = 10.000000000000000000
+      Size.Height = 31.000000000000000000
+    end
+    inherited BetAmountLabel: TLabel
+      Position.Y = 13.000000000000000000
+    end
+  end
   inherited ScaledLayout1: TScaledLayout
     inherited Card1Img: TImage
       MultiResBitmap.Height = 354
@@ -20,6 +46,9 @@ inherited Form1_Windows: TForm1_Windows
     inherited Card5Img: TImage
       MultiResBitmap.Height = 354
       MultiResBitmap.Width = 202
+    end
+    inherited NextDealButton: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
     end
     inherited Hold1Image: TImage
       MultiResBitmap = <
@@ -307,10 +336,15 @@ inherited Form1_Windows: TForm1_Windows
         end>
     end
     inherited GameLabel: TLabel
+      Position.Y = 56.000000000000000000
+      Size.Height = 44.000000000000000000
       TextSettings.Font.StyleExt = {00070000000000000004000000}
     end
-  end
-  inherited YouWonLabel: TLabel
-    TextSettings.Font.StyleExt = {00090000000000000004000000}
+    inherited BetButton: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited YouWonLabel: TLabel
+      TextSettings.Font.StyleExt = {00090000000000000004000000}
+    end
   end
 end

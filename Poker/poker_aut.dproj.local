@@ -2,17 +2,20 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2019/01/12 20:23:54.000.459,=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2019/01/12 20:24:38.000.314,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2019/01/12 20:24:38.000.314,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
-    <Transaction>2019/01/12 20:25:00.000.633,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker_aut.dproj=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2019/01/12 20:24:38.000.314,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker.fmx</Transaction>
+    <Transaction>2019/01/12 20:24:38.000.314,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker.pas</Transaction>
+    <Transaction>2019/01/12 20:25:00.000.633,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\poker_aut.dproj</Transaction>
     <Transaction>2019/12/29 04:56:27.000.350,=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\img\blackfive.gif</Transaction>
     <Transaction>2020/01/07 02:25:41.000.410,=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit2.pas</Transaction>
-    <Transaction>2020/01/07 02:26:12.000.770,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\stat.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit2.fmx</Transaction>
-    <Transaction>2020/01/07 02:26:12.000.770,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\stat.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit2.pas</Transaction>
+    <Transaction>2020/01/07 02:26:12.000.770,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit2.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\stat.fmx</Transaction>
+    <Transaction>2020/01/07 02:26:12.000.770,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit2.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\stat.pas</Transaction>
     <Transaction>2020/01/13 19:02:04.000.808,=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit3.pas</Transaction>
-    <Transaction>2020/01/13 19:25:05.000.371,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit3.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.fmx</Transaction>
-    <Transaction>2020/01/13 19:25:05.000.371,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit3.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.pas</Transaction>
-    <Transaction>2020/01/14 02:53:28.000.541,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credt.fmx</Transaction>
-    <Transaction>2020/01/14 02:53:28.000.541,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credt.pas</Transaction>
+    <Transaction>2020/01/13 19:25:05.000.371,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit3.fmx</Transaction>
+    <Transaction>2020/01/13 19:25:05.000.371,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\Unit3.pas</Transaction>
+    <Transaction>2020/01/14 02:53:28.000.541,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credt.fmx=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.fmx</Transaction>
+    <Transaction>2020/01/14 02:53:28.000.541,C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credt.pas=C:\Users\Cat Behemoth\Documents\Embarcadero\Studio\Projects\Poker\credit.pas</Transaction>
   </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile Android64="" Android=""/>
+	</ActiveMobileDevice>
 </BorlandProject>
