@@ -3,7 +3,25 @@ object Form1: TForm1
   Top = 0
   Caption = 'Poker'
   ClientHeight = 688
-  ClientWidth = 1096
+  ClientWidth = 1095
+  Fill.Kind = Gradient
+  Fill.Gradient.Points = <
+    item
+      Color = xFF229E09
+      Offset = 0.130434781312942500
+    end
+    item
+      Color = xFF2F7E35
+      Offset = 0.642857134342193600
+    end
+    item
+      Color = claWhite
+      Offset = 1.000000000000000000
+    end>
+  Fill.Gradient.StartPosition.X = 0.681985080242157000
+  Fill.Gradient.StartPosition.Y = 1.000000000000000000
+  Fill.Gradient.StopPosition.X = 0.318014889955520600
+  Fill.Gradient.StopPosition.Y = 0.000000012136453620
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -12,12 +30,12 @@ object Form1: TForm1
   OnKeyDown = FormKeyDown
   DesignerMasterStyle = 0
   object LLCornerLayout: TLayout
-    Anchors = []
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Margins.Left = 40.000000000000000000
     Margins.Bottom = 30.000000000000000000
-    Position.Y = 586.577819824218800000
-    Size.Width = 545.000000000000000000
-    Size.Height = 105.000000000000000000
+    Position.Y = 608.000000000000000000
+    Size.Width = 544.000000000000000000
+    Size.Height = 84.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object CreditwordLabel: TLabel
@@ -27,10 +45,10 @@ object Form1: TForm1
       Margins.Left = 40.000000000000000000
       Margins.Right = 200.000000000000000000
       Margins.Bottom = 40.000000000000000000
-      Position.X = 40.000000000000000000
-      Position.Y = 48.000000000000000000
-      Size.Width = 153.000000000000000000
-      Size.Height = 17.000000000000000000
+      Position.X = 24.029357910156250000
+      Position.Y = 17.000000000000000000
+      Size.Width = 152.278991699218800000
+      Size.Height = 24.000000000000000000
       Size.PlatformDefault = False
       TextSettings.Font.Family = 'Cambria'
       TextSettings.Font.Size = 20.000000000000000000
@@ -46,7 +64,7 @@ object Form1: TForm1
       StyledSettings = [Style]
       Margins.Bottom = 40.000000000000000000
       Position.X = 120.000000000000000000
-      Position.Y = 46.000000000000000000
+      Position.Y = 17.000000000000000000
       Size.Width = 41.000000000000000000
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
@@ -73,14 +91,62 @@ object Form1: TForm1
       TabOrder = 2
     end
   end
+  object RLCornerLayout: TLayout
+    Anchors = []
+    Position.X = 543.251342773437500000
+    Position.Y = 608.000000000000000000
+    Size.Width = 553.000000000000000000
+    Size.Height = 84.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object BetwordLabel: TLabel
+      Align = Scale
+      AutoTranslate = False
+      EnableDragHighlight = False
+      Enabled = False
+      StyledSettings = []
+      Margins.Left = 40.000000000000000000
+      Margins.Right = 200.000000000000000000
+      Margins.Bottom = 40.000000000000000000
+      Position.X = 383.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 105.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Cambria'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.FontColor = claBlue
+      TextSettings.WordWrap = False
+      TextSettings.Trimming = None
+      Text = 'Bet'
+      TabOrder = 0
+      TabStop = False
+    end
+    object BetAmountLabel: TLabel
+      Anchors = [akLeft, akBottom]
+      StyledSettings = [Style]
+      Margins.Bottom = 40.000000000000000000
+      Position.X = 439.000000000000000000
+      Position.Y = 16.000000000000000000
+      Size.Width = 41.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Myanmar Text'
+      TextSettings.Font.Size = 18.000000000000000000
+      TextSettings.FontColor = claBlue
+      TextSettings.VertAlign = Leading
+      TextSettings.Trimming = None
+      Text = '0'
+      TabOrder = 1
+    end
+  end
   object ScaledLayout1: TScaledLayout
-    Align = Client
-    OriginalWidth = 1096.000000000000000000
-    OriginalHeight = 488.000000000000000000
-    Margins.Top = 100.000000000000000000
-    Margins.Bottom = 100.000000000000000000
-    Size.Width = 1096.000000000000000000
-    Size.Height = 488.000000000000000000
+    Align = Contents
+    OriginalWidth = 1095.000000000000000000
+    OriginalHeight = 606.000000000000000000
+    Margins.Bottom = 82.000000000000000000
+    Size.Width = 1095.000000000000000000
+    Size.Height = 606.000000000000000000
     Size.PlatformDefault = False
     object Card1Img: TImage
       MultiResBitmap.Height = 354
@@ -177,7 +243,7 @@ object Form1: TForm1
         end>
       MarginWrapMode = Center
       Position.X = 39.000000000000000000
-      Position.Y = 53.000000000000000000
+      Position.Y = 125.000000000000000000
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
@@ -295,7 +361,7 @@ object Form1: TForm1
             'r\img\emptycard.gif'
         end>
       Position.X = 255.000000000000000000
-      Position.Y = 52.000000000000000000
+      Position.Y = 124.000000000000000000
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
@@ -407,7 +473,7 @@ object Form1: TForm1
             'r\img\emptycard.gif'
         end>
       Position.X = 458.000000000000000000
-      Position.Y = 52.000000000000000000
+      Position.Y = 124.000000000000000000
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
@@ -519,7 +585,7 @@ object Form1: TForm1
             'r\img\emptycard.gif'
         end>
       Position.X = 661.000000000000000000
-      Position.Y = 52.000000000000000000
+      Position.Y = 124.000000000000000000
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
@@ -631,7 +697,7 @@ object Form1: TForm1
             'r\img\emptycard.gif'
         end>
       Position.X = 864.000000000000000000
-      Position.Y = 52.000000000000000000
+      Position.Y = 124.000000000000000000
       Size.Width = 185.000000000000000000
       Size.Height = 321.000000000000000000
       Size.PlatformDefault = False
@@ -650,13 +716,16 @@ object Form1: TForm1
       end
     end
     object NextDealButton: TButton
-      Position.X = 440.000000000000000000
-      Position.Y = 448.000000000000000000
-      Size.Width = 217.000000000000000000
-      Size.Height = 22.000000000000000000
+      StyledSettings = [Family, FontColor]
+      Position.X = 424.000000000000000000
+      Position.Y = 534.000000000000000000
+      Size.Width = 225.000000000000000000
+      Size.Height = 51.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       Text = 'Next Deal'
+      TextSettings.Font.Size = 18.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
       OnClick = NextDealButtonClick
     end
     object Hold1Image: TImage
@@ -716,7 +785,7 @@ object Form1: TForm1
           Scale = 2.000000000000000000
         end>
       Position.X = 88.000000000000000000
-      Position.Y = 392.000000000000000000
+      Position.Y = 464.000000000000000000
       Size.Width = 80.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -779,7 +848,7 @@ object Form1: TForm1
           Scale = 2.000000000000000000
         end>
       Position.X = 312.000000000000000000
-      Position.Y = 392.000000000000000000
+      Position.Y = 464.000000000000000000
       Size.Width = 80.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -842,7 +911,7 @@ object Form1: TForm1
           Scale = 2.000000000000000000
         end>
       Position.X = 512.000000000000000000
-      Position.Y = 392.000000000000000000
+      Position.Y = 464.000000000000000000
       Size.Width = 80.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -905,7 +974,7 @@ object Form1: TForm1
           Scale = 2.000000000000000000
         end>
       Position.X = 718.000000000000000000
-      Position.Y = 392.000000000000000000
+      Position.Y = 464.000000000000000000
       Size.Width = 80.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -968,7 +1037,7 @@ object Form1: TForm1
           Scale = 2.000000000000000000
         end>
       Position.X = 918.000000000000000000
-      Position.Y = 392.000000000000000000
+      Position.Y = 464.000000000000000000
       Size.Width = 80.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -977,26 +1046,24 @@ object Form1: TForm1
     object GameLabel: TLabel
       StyledSettings = []
       Position.X = 384.000000000000000000
-      Position.Y = 7.000000000000000000
+      Position.Y = -8.000000000000000000
       Size.Width = 312.000000000000000000
-      Size.Height = 25.000000000000000000
+      Size.Height = 36.000000000000000000
       Size.PlatformDefault = False
       TextSettings.Font.Family = 'Palatino Linotype'
       TextSettings.Font.Size = 20.000000000000000000
       TextSettings.Font.StyleExt = {00070000000000000004000000}
       TextSettings.FontColor = claCrimson
       TextSettings.HorzAlign = Center
-      TextSettings.VertAlign = Leading
-      Text = 'GameLabel'
-      Visible = False
+      TextSettings.VertAlign = Trailing
       TabOrder = 1
     end
     object ShowStatButton: TButton
       StyledSettings = [Family, Size, Style]
-      Position.X = 1008.000000000000000000
-      Position.Y = 440.000000000000000000
+      Position.X = 1000.000000000000000000
+      Position.Y = 542.000000000000000000
       Size.Width = 65.000000000000000000
-      Size.Height = 41.000000000000000000
+      Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
       Text = 'Show Statistics'
@@ -1010,75 +1077,48 @@ object Form1: TForm1
         item
         end>
       Position.X = 1024.000000000000000000
-      Position.Y = -96.000000000000000000
+      Position.Y = 12.000000000000000000
       Size.Width = 50.000000000000000000
       Size.Height = 86.000000000000000000
       Size.PlatformDefault = False
       Visible = False
     end
-  end
-  object RLCornerLayout: TLayout
-    Anchors = []
-    Position.X = 544.000000000000000000
-    Position.Y = 587.000000000000000000
-    Size.Width = 553.000000000000000000
-    Size.Height = 105.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 2
-    object BetwordLabel: TLabel
-      Align = Scale
-      AutoTranslate = False
-      EnableDragHighlight = False
-      Enabled = False
-      StyledSettings = []
-      Margins.Left = 40.000000000000000000
-      Margins.Right = 200.000000000000000000
-      Margins.Bottom = 40.000000000000000000
-      Position.X = 391.000000000000000000
-      Position.Y = 43.000000000000000000
-      Size.Width = 105.000000000000000000
-      Size.Height = 25.000000000000000000
+    object BetButton: TButton
+      Anchors = [akLeft, akTop, akRight, akBottom]
+      StyledSettings = [Family, FontColor]
+      Position.X = 768.000000000000000000
+      Position.Y = 534.000000000000000000
+      Size.Width = 96.000000000000000000
+      Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
-      TextSettings.Font.Family = 'Cambria'
-      TextSettings.Font.Size = 20.000000000000000000
-      TextSettings.FontColor = claBlue
-      TextSettings.WordWrap = False
-      TextSettings.Trimming = None
+      TabOrder = 3
       Text = 'Bet'
-      TabOrder = 0
-      TabStop = False
+      TextSettings.Font.Size = 18.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      OnClick = BetButtonClick
     end
-    object BetAmountLabel: TLabel
-      Anchors = [akLeft, akBottom]
-      StyledSettings = [Style]
-      Margins.Bottom = 40.000000000000000000
-      Position.X = 439.000000000000000000
-      Position.Y = 45.000000000000000000
-      Size.Width = 41.000000000000000000
+    object TakeLabel: TLabel
+      Position.X = 48.000000000000000000
+      Position.Y = 24.000000000000000000
+      Size.Width = 120.000000000000000000
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
-      TextSettings.Font.Family = 'Myanmar Text'
-      TextSettings.Font.Size = 18.000000000000000000
-      TextSettings.FontColor = claBlue
-      TextSettings.VertAlign = Leading
-      TextSettings.Trimming = None
-      Text = '0'
-      TabOrder = 1
+      TabOrder = 4
     end
-  end
-  object YouWonLabel: TLabel
-    StyledSettings = []
-    Position.X = 40.000000000000000000
-    Position.Y = 96.000000000000000000
-    Size.Width = 137.000000000000000000
-    Size.Height = 41.000000000000000000
-    Size.PlatformDefault = False
-    TextSettings.Font.Family = 'Cooper'
-    TextSettings.Font.Size = 20.000000000000000000
-    TextSettings.Font.StyleExt = {00090000000000000004000000}
-    TextSettings.FontColor = claForestgreen
-    Text = 'You won:'
-    Visible = False
-    TabOrder = 4
+    object YouWonLabel: TLabel
+      StyledSettings = []
+      Position.X = 40.000000000000000000
+      Position.Y = 80.000000000000000000
+      Size.Width = 137.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Cooper'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00090000000000000004000000}
+      TextSettings.FontColor = claForestgreen
+      Text = 'You won:'
+      Visible = False
+      TabOrder = 5
+    end
   end
 end
