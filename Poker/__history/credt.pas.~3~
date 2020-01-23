@@ -15,8 +15,6 @@ type
     EnterButton: TButton;
     procedure FormCreate(Sender: TObject);
     procedure EnterButtonClick(Sender: TObject);
-    procedure Edit1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -33,14 +31,6 @@ implementation
 uses poker;
 
 var oldfield, newfield: string;
-
-procedure TForm3.Edit1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-  if Key = 13 then
-    EnterButtonClick(Self);
-
-end;
 
 procedure TForm3.EnterButtonClick(Sender: TObject);
 var flag: boolean;

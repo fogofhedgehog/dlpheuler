@@ -31,7 +31,6 @@ object Form3: TForm3
     Size.Width = 177.000000000000000000
     Size.Height = 49.000000000000000000
     Size.PlatformDefault = False
-    OnKeyDown = Edit1KeyDown
   end
   object Label1: TLabel
     StyledSettings = [Family, Size, Style]

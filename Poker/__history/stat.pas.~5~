@@ -85,7 +85,6 @@ uses poker;
 procedure TForm2.CloseButtonClick(Sender: TObject);
 begin
   Form1.Show;
-  Form1.NextDealButton.SetFocus;
   Form2.Close;
   Form2.Destroy
 end;
