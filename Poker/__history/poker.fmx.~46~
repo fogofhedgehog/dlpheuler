@@ -1066,8 +1066,4 @@ object Form1: TForm1
       TabOrder = 5
     end
   end
-  object Plyr: TMediaPlayer
-    Left = 536
-    Top = 328
-  end
 end

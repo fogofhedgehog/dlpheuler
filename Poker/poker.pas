@@ -6,9 +6,18 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Layouts,
   FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.Ani, FMX.ExtCtrls,
-  System.DateUtils, stat, credt;
+  System.DateUtils, stat, credt, FMX.Media;
 
 type
+
+  SndThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure SndDeal;
+    procedure Sndshuffle;
+    procedure SndBet;
+  end;
 
   TDeal = record
     cards: array[1 .. 11] of integer;
@@ -57,6 +66,7 @@ type
     YouWonLabel: TLabel;
     TakeLabel: TLabel;
     BetButton: TButton;
+    Plyr: TMediaPlayer;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
@@ -162,14 +172,36 @@ begin
   end
 end;
 
+procedure SndThread.SndDeal;
+begin
+  Form1.Plyr.FileName:= 'deal.wav';
+  Form1.Plyr.Play;
+end;
+
+procedure SndThread.Sndshuffle;
+begin
+  Form1.Plyr.FileName:= 'shuffle.wav';
+  Form1.Plyr.Play;
+end;
+
+procedure SndThread.SndBet;
+begin
+  Form1.Plyr.FileName:= 'bet.wav';
+  Form1.Plyr.Play;
+
+end;
+
 procedure TForm1.BetButtonClick(Sender: TObject);
 var i: integer;
+    PlaySnd: SndThread;
 begin
+  PlaySnd:= SndThread.Create;
   if first then
   begin
     bpressed:= true;
     onlyshow:= true;
     first:= false;
+    PlaySnd.SndBet;
     if bet < 5 then
       if credit > 0 then
       begin
@@ -212,16 +244,19 @@ begin
         if bet < 5 then
           if credit > 0 then
           begin
+            PlaySnd.SndBet;
             bet:= bet + 1;
-            credit:= credit - 1;
+            credit:= credit - 1
           end
           else
           begin
+            PlaySnd.SndBet;
             credit:= credit + bet - 1;
             bet:= 1
           end
         else
         begin
+          PlaySnd.SndBet;
           bet:= 1;
           credit:= credit + 4
         end;
@@ -232,6 +267,7 @@ begin
   if credit < 0 then
     credit:= 0;
   CreditAmountLabel.Text:= credit.ToString;
+  PlaySnd.Destroy;
 end;
 
 procedure TForm1.Card1ImgClick(Sender: TObject);
@@ -399,13 +435,18 @@ begin
 end;
 
 procedure TForm1.showone(number: integer);
+var PlaySnd: SndThread;
 begin
+  PlaySnd:= SndThread.Create;
+  PlaySnd.Priority:= tpLowest;
   nm:= 'img\' + definevalue(deal.cards[number]) + definecolor(deal.cards[number]) + '.gif';
+  PlaySnd.SndDeal;
   (FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 - 10));
   (FindComponent('Card' + number.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
   (FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 - 10));
+  PlaySnd.Destroy;
 end;
 
 procedure TForm1.ShowStatButtonClick(Sender: TObject);
@@ -423,17 +464,20 @@ end;
 
 procedure TForm1.shownew;
 var i: integer;
+    PlaySnd:SndThread;
 begin
+  PlaySnd:= SndThread.Create;
+  PlaySnd.Priority:= tpLower;
   if not first then
     if not onlyshow then
       for i:= 1 to 5 do
       begin
         nm:= 'img\back.gif';
         (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+        Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
         (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
         (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+        Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
       end
     else
   else
@@ -442,13 +486,14 @@ begin
   for i:= 1 to 5 do
   begin
     nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
+    PlaySnd.SndDeal;
     (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-    Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+    Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
     (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
     (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-    Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+    Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
   end;
-
+  PlaySnd.Destroy
 end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -498,6 +543,7 @@ end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
 var i, game, win: integer;
+    PlaySnd: SndThread;
 begin
   nomore:= false;
   GameLabel.Visible:= false;
@@ -534,6 +580,11 @@ begin
               ShowMessage('Your bet is 0. No wins, no losses. Press "b" at the end of deal to bet for win');
           NextDealButton.Enabled:= false;
           NextDealButton.Text:= 'Dealing...';
+          if not bpressed then
+          begin
+            PlaySnd:= SndThread.Create;
+            PlaySnd.Sndshuffle;
+          end;
           if not bpressed then
           begin
             if credit > deal.bt then
