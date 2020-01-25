@@ -267,8 +267,4 @@ inherited Form1_Windows: TForm1_Windows
       TextSettings.Font.StyleExt = {00090000000000000004000000}
     end
   end
-  inherited Plyr: TMediaPlayer
-    Left = 360
-    Top = 40
-  end
 end

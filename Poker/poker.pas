@@ -10,13 +10,25 @@ uses
 
 type
 
-  SndThread = class(TThread)
+  SndDealThread = class(TThread)
   private
     { Private declarations }
   protected
-    procedure SndDeal;
-    procedure Sndshuffle;
-    procedure SndBet;
+    procedure Execute; override;
+  end;
+
+  SndBetThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
+  end;
+
+  SndShuffleThread = class(TThread)
+  private
+    { Private declarations }
+  protected
+    procedure Execute; override;
   end;
 
   TDeal = record
@@ -172,36 +184,43 @@ begin
   end
 end;
 
-procedure SndThread.SndDeal;
+procedure SndDealThread.Execute;
+var plr: TMediaPlayer;
 begin
+  inherited;
   Form1.Plyr.FileName:= 'deal.wav';
   Form1.Plyr.Play;
 end;
 
-procedure SndThread.Sndshuffle;
+procedure SndShuffleThread.Execute;
+var plr: TMediaPlayer;
 begin
+  inherited;
   Form1.Plyr.FileName:= 'shuffle.wav';
   Form1.Plyr.Play;
 end;
 
-procedure SndThread.SndBet;
+procedure SndBetThread.Execute;
+var plr: TMediaPlayer;
 begin
-  Form1.Plyr.FileName:= 'bet.wav';
-  Form1.Plyr.Play;
-
+  inherited;
+  plr.FileName:= 'bet.wav';
+  plr.Play;
 end;
 
 procedure TForm1.BetButtonClick(Sender: TObject);
 var i: integer;
-    PlaySnd: SndThread;
+    PlaySnd: SndBetThread;
 begin
-  PlaySnd:= SndThread.Create;
   if first then
   begin
+    PlaySnd:= SndBetThread.Create(true);
+    PlaySnd.FreeOnTerminate:= true;
+    PlaySnd.Priority:= tpLower;
+    Playsnd.Execute;
     bpressed:= true;
     onlyshow:= true;
     first:= false;
-    PlaySnd.SndBet;
     if bet < 5 then
       if credit > 0 then
       begin
@@ -244,19 +263,28 @@ begin
         if bet < 5 then
           if credit > 0 then
           begin
-            PlaySnd.SndBet;
+            PlaySnd:= SndBetThread.Create(True);
+            PlaySnd.FreeOnTerminate:= true;
+            PlaySnd.Priority:= tpLower;
+            PlaySnd.Execute;
             bet:= bet + 1;
             credit:= credit - 1
           end
           else
           begin
-            PlaySnd.SndBet;
+            PlaySnd:= SndBetThread.Create(True);
+            PlaySnd.FreeOnTerminate:= true;
+            PlaySnd.Priority:= tpLower;
+            PlaySnd.Execute;
             credit:= credit + bet - 1;
             bet:= 1
           end
         else
         begin
-          PlaySnd.SndBet;
+          PlaySnd:= SndBetThread.Create(True);
+          PlaySnd.FreeOnTerminate:= true;
+          PlaySnd.Priority:= tpLower;
+          PlaySnd.Execute;
           bet:= 1;
           credit:= credit + 4
         end;
@@ -267,7 +295,6 @@ begin
   if credit < 0 then
     credit:= 0;
   CreditAmountLabel.Text:= credit.ToString;
-  PlaySnd.Destroy;
 end;
 
 procedure TForm1.Card1ImgClick(Sender: TObject);
@@ -423,6 +450,7 @@ Application.ProcessMessages;
 end;
 
 procedure TForm1.closeone(number: integer);
+
 begin
   if TOSVersion.Name = 'Windows' then
     nm:= 'img\back.gif'
@@ -435,18 +463,18 @@ begin
 end;
 
 procedure TForm1.showone(number: integer);
-var PlaySnd: SndThread;
+var PlaySnd: SndDealThread;
 begin
-  PlaySnd:= SndThread.Create;
-  PlaySnd.Priority:= tpLowest;
+  PlaySnd:= SndDealThread.Create(true);
+  PlaySnd.FreeOnTerminate:= true;
+  PlaySnd.Priority:= tpNormal;
+  PlaySnd.Execute;
   nm:= 'img\' + definevalue(deal.cards[number]) + definecolor(deal.cards[number]) + '.gif';
-  PlaySnd.SndDeal;
   (FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 - 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
   (FindComponent('Card' + number.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
   (FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 - 10));
-  PlaySnd.Destroy;
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
 end;
 
 procedure TForm1.ShowStatButtonClick(Sender: TObject);
@@ -464,10 +492,8 @@ end;
 
 procedure TForm1.shownew;
 var i: integer;
-    PlaySnd:SndThread;
+    PlaySnd: SndDealThread;
 begin
-  PlaySnd:= SndThread.Create;
-  PlaySnd.Priority:= tpLower;
   if not first then
     if not onlyshow then
       for i:= 1 to 5 do
@@ -486,14 +512,16 @@ begin
   for i:= 1 to 5 do
   begin
     nm:= 'img\' + definevalue(deal.cards[i]) + definecolor(deal.cards[i]) + '.gif';
-    PlaySnd.SndDeal;
+    PlaySnd:= SndDealThread.Create(True);
+    PlaySnd.FreeOnTerminate:= true;
+    PlaySnd.Priority:= tpLower;
+    PlaySnd.Execute;
     (FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
     Delay(Trunc((FindComponent('Card' + i.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000));
     (FindComponent('Card' + i.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
     (FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
     Delay(Trunc((FindComponent('Card' + i.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000));
   end;
-  PlaySnd.Destroy
 end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -543,7 +571,7 @@ end;
 
 procedure TForm1.NextDealButtonClick(Sender: TObject);
 var i, game, win: integer;
-    PlaySnd: SndThread;
+    PlaySnd: SndShuffleThread;
 begin
   nomore:= false;
   GameLabel.Visible:= false;
@@ -582,8 +610,10 @@ begin
           NextDealButton.Text:= 'Dealing...';
           if not bpressed then
           begin
-            PlaySnd:= SndThread.Create;
-            PlaySnd.Sndshuffle;
+            PlaySnd:= SndShuffleThread.Create(true);
+            PlaySnd.FreeOnTerminate:= true;
+            PlaySnd.Priority:= tpLower;
+            PlaySnd.Execute;
           end;
           if not bpressed then
           begin
@@ -729,7 +759,9 @@ begin
       begin
         GameLabel.Text:= 'Flush';
         GameLabel.TextSettings.FontColor:= TAlphaColorRec.Green;
-        GameLabel.TextSettings.Font.Size:= 24
+        GameLabel.TextSettings.Font.Size:= 24;
+        Plyr.FileName:='flush.wav';
+        Plyr.Play
       end;
       7:
       begin
