@@ -805,9 +805,7 @@ begin
       begin
         GameLabel.Text:= 'Straight';
         GameLabel.TextSettings.FontColor:= TAlphaColorRec.Seagreen;
-        GameLabel.TextSettings.Font.Size:= 24;
-        Plyr.FileName:='straight.wav';
-        Plyr.Play
+        GameLabel.TextSettings.Font.Size:= 24
       end;
       6:
       begin
@@ -829,25 +827,19 @@ begin
       begin
         GameLabel.Text:= 'Four of a kind';
         GameLabel.TextSettings.FontColor:= TAlphaColorRec.Salmon;
-        GameLabel.TextSettings.Font.Size:= 26;
-        Plyr.FileName:='four.wav';
-        Plyr.Play
+        GameLabel.TextSettings.Font.Size:= 26
       end;
       9:
       begin
         GameLabel.Text:= 'Straight flush';
         GameLabel.TextSettings.FontColor:= TAlphaColorRec.Orangered;
-        GameLabel.TextSettings.Font.Size:= 28;
-        Plyr.FileName:='straightflush.wav';
-        Plyr.Play
+        GameLabel.TextSettings.Font.Size:= 28
       end;
       10:
       begin
         GameLabel.Text:= 'Royal flush';
         GameLabel.TextSettings.FontColor:= TAlphaColorRec.Red;
-        GameLabel.TextSettings.Font.Size:= 30;
-        Plyr.FileName:='royalflush.wav';
-        Plyr.Play
+        GameLabel.TextSettings.Font.Size:= 30
       end;
     end;
     GameLabel.Visible:= true;
