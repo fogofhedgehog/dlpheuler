@@ -391,6 +391,8 @@ begin
   resulting:= sumdifsquares;
   if TaskChoise = 143 then
   resulting:= torritriangle(Param1);
+  if TaskChoise = 144 then
+  resulting:= beamreflect;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

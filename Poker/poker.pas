@@ -206,8 +206,8 @@ procedure SndBetThread.Execute;
 var plr: TMediaPlayer;
 begin
   inherited;
-  plr.FileName:= 'bet.wav';
-  plr.Play;
+  Form1.Plyr.FileName:= 'bet.wav';
+  Form1.Plyr.Play;
 end;
 
 procedure TForm1.Betting;
@@ -239,58 +239,58 @@ begin
         bet:= 1;
         credit:= credit + 4
       end;
-    end
-    else
-    if finished then
+  end
+  else
+  if finished then
+    begin
+      if credit = 0 then
       begin
-        if credit = 0 then
-          begin
-            ShowMessage('No more credits!');
-            endmoney:= true
-          end
+        ShowMessage('No more credits!');
+        endmoney:= true
+      end
+    else
+      if not nomore then
+      begin
+        onlyshow:= true;
+        nomore:= true;
+        for i:= 1 to 5 do
+          closeone(i)
+      end;
+      if not bpressed then
+      begin
+        bet:= 1;
+        credit:= credit - 1;
+      end
       else
-        if not nomore then
+      if bet < 5 then
+        if credit > 0 then
         begin
-          onlyshow:= true;
-          nomore:= true;
-          for i:= 1 to 5 do
-            closeone(i)
-        end;
-        if not bpressed then
-        begin
-          bet:= 1;
-          credit:= credit - 1;
+          PlaySnd:= SndBetThread.Create(True);
+          PlaySnd.FreeOnTerminate:= true;
+          PlaySnd.Priority:= tpLower;
+          PlaySnd.Execute;
+          bet:= bet + 1;
+          credit:= credit - 1
         end
-        else
-        if bet < 5 then
-          if credit > 0 then
-          begin
-            PlaySnd:= SndBetThread.Create(True);
-            PlaySnd.FreeOnTerminate:= true;
-            PlaySnd.Priority:= tpLower;
-            PlaySnd.Execute;
-            bet:= bet + 1;
-            credit:= credit - 1
-          end
-          else
-          begin
-            PlaySnd:= SndBetThread.Create(True);
-            PlaySnd.FreeOnTerminate:= true;
-            PlaySnd.Priority:= tpLower;
-            PlaySnd.Execute;
-            credit:= credit + bet - 1;
-            bet:= 1
-          end
         else
         begin
           PlaySnd:= SndBetThread.Create(True);
           PlaySnd.FreeOnTerminate:= true;
           PlaySnd.Priority:= tpLower;
           PlaySnd.Execute;
-          bet:= 1;
-          credit:= credit + 4
-        end;
-        bpressed:= true;
+          credit:= credit + bet - 1;
+          bet:= 1
+        end
+      else
+      begin
+        PlaySnd:= SndBetThread.Create(True);
+        PlaySnd.FreeOnTerminate:= true;
+        PlaySnd.Priority:= tpLower;
+        PlaySnd.Execute;
+        bet:= 1;
+        credit:= credit + 4
+      end;
+      bpressed:= true;
     end;
   deal.bt:= bet;
   BetAmountLabel.Text:= bet.ToString;
@@ -301,93 +301,8 @@ end;
 
 
 procedure TForm1.BetButtonClick(Sender: TObject);
-//var i: integer;
-//    PlaySnd: SndBetThread;
 begin
   Betting
-//  if first then
-//  begin
-//    PlaySnd:= SndBetThread.Create(true);
-//    PlaySnd.FreeOnTerminate:= true;
-//    PlaySnd.Priority:= tpLower;
-//    Playsnd.Execute;
-//    bpressed:= true;
-//    onlyshow:= true;
-//    first:= false;
-//    if bet < 5 then
-//      if credit > 0 then
-//      begin
-//        bet:= bet + 1;
-//        credit:= credit - 1;
-//      end
-//      else
-//      begin
-//        credit:= credit + bet - 1;
-//        bet:= 1
-//      end
-//      else
-//      begin
-//        bet:= 1;
-//        credit:= credit + 4
-//      end;
-//    end
-//    else
-//    if finished then
-//      begin
-//        if credit = 0 then
-//          begin
-//            ShowMessage('No more credits!');
-//            endmoney:= true
-//          end
-//      else
-//        if not nomore then
-//        begin
-//          onlyshow:= true;
-//          nomore:= true;
-//          for i:= 1 to 5 do
-//            closeone(i)
-//        end;
-//        if not bpressed then
-//        begin
-//          bet:= 1;
-//          credit:= credit - 1;
-//        end
-//        else
-//        if bet < 5 then
-//          if credit > 0 then
-//          begin
-//            PlaySnd:= SndBetThread.Create(True);
-//            PlaySnd.FreeOnTerminate:= true;
-//            PlaySnd.Priority:= tpLower;
-//            PlaySnd.Execute;
-//            bet:= bet + 1;
-//            credit:= credit - 1
-//          end
-//          else
-//          begin
-//            PlaySnd:= SndBetThread.Create(True);
-//            PlaySnd.FreeOnTerminate:= true;
-//            PlaySnd.Priority:= tpLower;
-//            PlaySnd.Execute;
-//            credit:= credit + bet - 1;
-//            bet:= 1
-//          end
-//        else
-//        begin
-//          PlaySnd:= SndBetThread.Create(True);
-//          PlaySnd.FreeOnTerminate:= true;
-//          PlaySnd.Priority:= tpLower;
-//          PlaySnd.Execute;
-//          bet:= 1;
-//          credit:= credit + 4
-//        end;
-//        bpressed:= true;
-//    end;
-//  deal.bt:= bet;
-//  BetAmountLabel.Text:= bet.ToString;
-//  if credit < 0 then
-//    credit:= 0;
-//  CreditAmountLabel.Text:= credit.ToString;
 end;
 
 procedure TForm1.Card1ImgClick(Sender: TObject);
@@ -549,10 +464,10 @@ begin
     nm:= 'img\back.gif'
   else nm:= 'img/back.gif';
   (FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 4));
   (FindComponent('Card' + number.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
   (FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 4));
 end;
 
 procedure TForm1.showone(number: integer);
@@ -564,10 +479,10 @@ begin
   PlaySnd.Execute;
   nm:= 'img\' + definevalue(deal.cards[number]) + definecolor(deal.cards[number]) + '.gif';
   (FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'RevFloatAnimation') As TFloatAnimation).Duration * 1000 + 4));
   (FindComponent('Card' + number.ToString + 'Img') As TImage).Bitmap.LoadFromFile(nm);
   (FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Start;
-  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 10));
+  Delay(Trunc((FindComponent('Card' + number.ToString + 'FwdFloatAnimation') As TFloatAnimation).Duration * 1000 + 4));
 end;
 
 procedure TForm1.ShowStatButtonClick(Sender: TObject);
@@ -897,8 +812,9 @@ var i: integer;
 begin
   if keychar = 'b' then
   begin
-    Betting;
-    NextDealButton.SetFocus
+    NextDealButton.SetFocus;
+//    BetButton.Pressed:= true;
+    Betting
   end;
   if keychar = 'n' then
   begin

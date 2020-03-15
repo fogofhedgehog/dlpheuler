@@ -149,6 +149,7 @@ function modgoldennugget: int64;
 function progressivepsq(number: int64): int64;
 function sumdifsquares: int64;
 function torritriangle(number: int64): int64;
+function beamreflect: int64;
 
 implementation
 
@@ -5691,7 +5692,6 @@ begin
               if p + q + r1 <= number then
                 res.Add(p + q + r1);
               break
-//              showmessage(p.ToString + ' ' + q.ToString + ' ' + r1.ToString)
             end;
           n1:= n1 + 1;
           if n1 = first2.Count then
@@ -5705,6 +5705,34 @@ begin
   result:= 0;
   for i:= 0 to res.Count - 1 do
     result:= result + res[i]
+end;
+
+function beamreflect: int64;
+var x1, x2, y1, y2, slope1, slope2, slope3, tgfall, b, discr, x3, x4: extended;
+begin
+  result:= 0;
+  x1:= 0;
+  y1:= 10.1;
+  x2:= 1.4;
+  y2:= -9.6;
+  while (((x1 > 0.01) or (x1 < -0.01)) or (y1 < 0)) or (result = 0) do
+  begin
+    slope1:= (y2 - y1) / (x2 - x1);
+    slope2:= -4 * x2 / y2;
+    tgfall:= (slope1 - slope2) / (1 + slope1 * slope2);
+    slope3:= (slope2 - tgfall) / (1 + slope2 * tgfall);
+    b:= y2 - slope3 * x2;
+    discr:= (2 * slope3 * b) * (2 * slope3 * b) - 4 * (4 + slope3 * slope3) * (b * b - 100);
+    x3:= (-(2 * slope3 * b) + sqrt(discr))/(2 * (4 + slope3 * slope3));
+    x4:= (-(2 * slope3 * b) - sqrt(discr))/(2 * (4 + slope3 * slope3));
+    x1:= x2;
+    y1:= y2;
+    if abs(x3 - x2) < abs(x4 - x2) then x2:= x4
+    else x2:= x3;
+    y2:= slope3 * x2 + b;
+    result:= result + 1
+  end;
+  result:= result - 1
 end;
 
 end.

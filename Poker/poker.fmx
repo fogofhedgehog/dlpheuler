@@ -249,7 +249,7 @@ object Form1: TForm1
       OnClick = Card1ImgClick
       object Card1RevFloatAnimation: TFloatAnimation
         AnimationType = Out
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         Interpolation = Exponential
         OnFinish = Card1RevFloatAnimationFinish
         PropertyName = 'Scale.X'
@@ -258,7 +258,7 @@ object Form1: TForm1
       end
       object Card1FwdFloatAnimation: TFloatAnimation
         AnimationType = Out
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         Interpolation = Exponential
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
@@ -363,13 +363,13 @@ object Form1: TForm1
       Size.PlatformDefault = False
       OnClick = Card2ImgClick
       object Card2FwdFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card2RevFloatAnimation: TFloatAnimation
-        Duration = 0.175999999046325700
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
@@ -473,13 +473,13 @@ object Form1: TForm1
       Size.PlatformDefault = False
       OnClick = Card3ImgClick
       object Card3FwdFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card3RevFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
@@ -583,13 +583,13 @@ object Form1: TForm1
       Size.PlatformDefault = False
       OnClick = Card4ImgClick
       object Card4FwdFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card4RevFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
@@ -693,13 +693,13 @@ object Form1: TForm1
       Size.PlatformDefault = False
       OnClick = Card5ImgClick
       object Card5FwdFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 0.000000000000000000
         StopValue = 1.000000000000000000
       end
       object Card5RevFloatAnimation: TFloatAnimation
-        Duration = 0.170000001788139300
+        Duration = 0.129999995231628400
         PropertyName = 'Scale.X'
         StartValue = 1.000000000000000000
         StopValue = 0.000000000000000000
