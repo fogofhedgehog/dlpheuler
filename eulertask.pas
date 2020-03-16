@@ -150,6 +150,7 @@ function progressivepsq(number: int64): int64;
 function sumdifsquares: int64;
 function torritriangle(number: int64): int64;
 function beamreflect: int64;
+function reversenum: int64;
 
 implementation
 
@@ -5733,6 +5734,89 @@ begin
     result:= result + 1
   end;
   result:= result - 1
+end;
+
+function reversenum: int64;
+var i, j, k, l, num1, num2, num3: integer;
+    hlpr, hlpr1, hlpr2: string;
+    flag: boolean;
+begin
+  result:= 0;
+  for i:= 1 to 9 do
+  begin
+    for j:= 1 to i do
+    begin
+      if ((i + j) mod 10) mod 2 <> 0 then
+      begin
+        for k:= 0 to 999999 do
+        begin
+          hlpr2:= k.ToString;
+          hlpr:= i.ToString + hlpr2 + j.ToString;
+          num1:= hlpr.ToInteger;
+          hlpr1:= '';
+          for l:= 0 to length(hlpr) - 1 do
+            hlpr1:= hlpr1 + hlpr[length(hlpr) - l];
+          num2:= hlpr1.ToInteger;
+          num3:= num2 + num1;
+          hlpr:= num3.ToString;
+          flag:= true;
+          for l:= 1 to length(hlpr) do
+            if (hlpr[l] = '0') or (hlpr[l] = '2') or (hlpr[l] = '4') or
+            (hlpr[l] = '6') or (hlpr[l] = '8') then
+            begin
+              flag:= false;
+              break
+            end;
+          if flag then
+            result:= result + 1;
+          while length(hlpr2) < 6 do
+          begin
+            hlpr2:= '0' + hlpr2;
+            hlpr:= i.ToString + hlpr2 + j.ToString;
+            num1:= hlpr.ToInteger;
+            hlpr1:= '';
+            for l:= 0 to length(hlpr) - 1 do
+              hlpr1:= hlpr1 + hlpr[length(hlpr) - l];
+            num2:= hlpr1.ToInteger;
+            num3:= num2 + num1;
+            hlpr:= num3.ToString;
+            flag:= true;
+            for l:= 1 to length(hlpr) do
+              if (hlpr[l] = '0') or (hlpr[l] = '2') or (hlpr[l] = '4') or
+              (hlpr[l] = '6') or (hlpr[l] = '8') then
+              begin
+                flag:= false;
+                break
+              end;
+            if flag then
+              result:= result + 1;
+          end;
+        end;
+      end;
+    end;
+  end;
+  for i:= 1 to 9 do
+    for j:= 1 to i do
+    begin
+      if ((i + j) mod 10) mod 2 <> 0 then
+      begin
+        num1:= 10 * i + j;
+        num2:= 10 * j + i;
+        num2:= num2 + num1;
+        hlpr:= num2.ToString;
+        flag:= true;
+        for l:= 1 to length(hlpr) do
+          if (hlpr[l] = '0') or (hlpr[l] = '2') or (hlpr[l] = '4') or
+          (hlpr[l] = '6') or (hlpr[l] = '8') then
+          begin
+            flag:= false;
+            break
+          end;
+        if flag then
+          result:= result + 1;
+      end;
+    end;
+    result:= result * 2
 end;
 
 end.

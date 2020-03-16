@@ -393,6 +393,8 @@ begin
   resulting:= torritriangle(Param1);
   if TaskChoise = 144 then
   resulting:= beamreflect;
+  if TaskChoise = 145 then
+  resulting:= reversenum;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
