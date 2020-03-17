@@ -535,7 +535,10 @@ end;
 procedure TForm1.Nxtdeal;
 var i, game, win: integer;
     PlaySnd: SndShuffleThread;
+    OldKey: TKeyEvent;
 begin
+  OldKey:= Form1.OnKeyDown;
+  Form1.OnKeyDown:= nil;
   nomore:= false;
   GameLabel.Visible:= false;
   GameStatusLabel.Visible:= false;
@@ -804,6 +807,7 @@ begin
     NextDealButton.Enabled:= true;
     BetButton.Enabled:= True
   end;
+  Form1.OnKeyDown:= OldKey;
 end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
