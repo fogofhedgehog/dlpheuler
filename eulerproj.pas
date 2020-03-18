@@ -395,6 +395,8 @@ begin
   resulting:= beamreflect;
   if TaskChoise = 145 then
   resulting:= reversenum;
+  if TaskChoise = 146 then
+  resulting:= primepattern(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);

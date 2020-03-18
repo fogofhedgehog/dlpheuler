@@ -6,6 +6,23 @@ uses
   System.SysUtils, Classes, math, FMX.Dialogs, Generics.Collections, eulclass,
   velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals;
 
+type primenumber = record
+       number, value: integer
+end;
+
+type Primes = class
+     public
+     valuesA: array of integer;
+     valuesL: TList<integer>;
+     procedure GetPrimesArrayByValue(largest: integer);
+     procedure GetPrimesListByValue(largest: integer);
+//     function GetPrimesListByIndex(largest: integer): TList<integer>;
+//     function GetPrimesListByIndexWithInd(largest: integer): array of integer;
+//     const prfilename = 'primes.val';
+     constructor Create; overload;
+end;
+  
+
 function CheckPalindrNum (number:int64): boolean;   //  check if the number is palindrome
 function CheckPalindrStr (txt: string): boolean;
 function IsPrime (number:int64): boolean;
@@ -68,10 +85,86 @@ function check5on5(qset: TList<int64>): boolean;   // helper function for task 1
 function check6on6(qset: TList<int64>): boolean;   // helper function for task 105
 function nextpermutation(a: string): string;
 function addbin(a, b: string): string;
+function arrsum(a: array of integer): int64;
+function ispalindromic(number: int64): boolean;
+function greatcomdiv(first, second: int64): int64;
+function radical(number: int64): int64;
+function fractionperiod(number: int64): int64;
+function digitsn(number: int64): integer;
 
 implementation
 
 uses eulertask;
+
+constructor Primes.Create;
+begin
+  inherited;
+  setlength(self.valuesA, 1);
+  self.valuesA[0]:= 2;
+end;
+
+procedure Primes.GetPrimesArrayByValue(largest: integer);
+var f: file of primenumber;
+    prm: primenumber;
+    i, j: integer;
+begin
+  if j > 2002000 then
+  begin
+    largest:= 2002000;
+    showmessage('Parameter exceed maximum value: max prime in list is less than 2002000, returning whole existing list')
+  end;
+  assign(f,'primes.val');
+  reset(f);
+  i:= 0;
+  j:= 0;
+  while j < largest do
+  begin
+    read(f, prm);
+    i:= i + 1;
+    j:= prm.value
+  end;
+  Close(f);
+  setlength(Self.valuesA, i - 1);
+  Reset(f);
+  for i:= 0 to length(Self.valuesA) - 1 do
+  begin
+    Read(f, prm);
+    self.valuesA[i]:= prm.value;
+  end;
+  Close(f)
+end;
+
+procedure Primes.GetPrimesListByValue(largest: integer);
+var f: file of primenumber;
+    prm: primenumber;
+    i, j: integer;
+begin
+  if j > 2002000 then
+  begin
+    largest:= 2002000;
+    showmessage('Parameter exceed maximum value: max prime in list is less than 2002000, returning whole existing list')
+  end;
+  assign(f,'primes.val');
+  reset(f);
+  i:= 0;
+  j:= 0;
+  while j < largest do
+  begin
+    read(f, prm);
+    i:= i + 1;
+    j:= prm.value
+  end;
+  Close(f);
+  self.valuesL:= TList<integer>.Create;
+  Reset(f);
+  for i:= 1 to i do
+  begin
+    Read(f, prm);
+    self.valuesL.Add(prm.value);
+  end;
+  Close(f)
+end;
+
 
 function CheckPalindrNum (number:int64):boolean;    //  check if the number is palindrome
 var straight, reverse:string;
@@ -97,16 +190,20 @@ end;
 
 function IsPrime (number:int64): boolean;      // check if the number is prime
 var i:int64;
-    helper:extended;
 begin
-result:=true;
-helper:=number;
-  for i := 2 to trunc(sqrt(helper))+1 do
+  result:=true;
+  if number mod 2 = 0 then result:= false
+  else
   begin
-    if number mod i = 0 then
+    i:= 3;
+    while i < trunc(sqrt(number)) + 1 do
     begin
-      result:=false;
-      break
+      if number mod i = 0 then
+      begin
+        result:=false;
+        break
+      end;
+      i:= i + 2
     end;
   end;
 if (number = 2) or (number = 3) then result:=True;
@@ -433,12 +530,16 @@ end;
 
 function nextprime (number: int64): int64;   // returns the next prime value
 begin
-  if number= 2 then result:= 3
+  if number = 2
+  then
+    result:= 3
   else
-  begin
-    result:= number + 2;
-    while not IsPrime(result) do result:= result + 2
-  end;
+    if number mod 2 = 0
+    then
+      result:= number + 1
+    else
+      result:= number + 2;
+  while not IsPrime(result) do result:= result + 2
 end;
 
 function exactfourprimedivs (number: int64): boolean;       //helper function for task 47
@@ -1898,6 +1999,110 @@ begin
       i:= i - 1
     end
   end
+end;
+
+function arrsum(a: array of integer): int64;
+var i: integer;
+begin
+  result:= 0;
+  for i:= 0 to length(a) - 1 do
+  begin
+    result:= result + a[i]
+  end
+end;
+
+function ispalindromic(number: int64): boolean;
+var str: string;
+begin
+  result:= false;
+  if reversenumber(number) = number
+  then
+    result:= true;
+end;
+
+function greatcomdiv(first, second: int64): int64;
+var reminder, fir, sec: int64;
+begin
+  if second > first then
+  begin
+    fir:= second;
+    sec:= first
+  end
+  else
+  begin
+    fir:= first;
+    sec:= second
+  end;
+  reminder:= 1;
+  while reminder > 0 do
+  begin
+    reminder:= fir mod sec;
+    fir:= sec;
+    sec:= reminder
+  end;
+    result:= fir;
+end;
+
+function radical(number: int64): int64;
+var curr, divis, prevdivis: int64;
+begin
+  curr:= number;
+  divis:= 2;
+  prevdivis:= 1;
+  if isprime(curr) then
+    result:= curr
+  else
+  begin
+    result:= 1;
+    while curr > 1 do
+    if curr mod divis = 0 then
+    begin
+      curr:= curr div divis;
+      if divis <> prevdivis then
+      begin
+        result:= result * divis;
+        prevdivis:= divis
+      end;
+    end
+    else
+      if divis = 2
+      then
+        divis:= 3
+      else
+        divis:= divis + 2
+  end;
+end;
+
+function fractionperiod(number: int64): int64;
+var reminder: int64;
+    found: boolean;
+begin
+  while number mod 2 = 0 do
+    number:= number div 2;
+  result:= 1;
+  reminder:= 1;
+  found:= false;
+  while not found do
+  begin
+    reminder:= reminder * 10;
+    if reminder mod number <> 1 then
+    begin
+      result:= result + 1;
+      reminder:= reminder mod number
+    end
+    else
+      found:= true;
+    if reminder = 0 then
+    begin
+      found:= true;
+      result:= 0
+    end;
+  end;
+end;
+
+function digitsn(number: int64): integer;
+begin
+  result:= length(number.ToString);
 end;
 
 end.

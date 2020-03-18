@@ -91,6 +91,9 @@ function greatcomdiv(first, second: int64): int64;
 function radical(number: int64): int64;
 function fractionperiod(number: int64): int64;
 function digitsn(number: int64): integer;
+function modpow(a, b, c: int64): int64;
+function milrabprimecheck(a, number: int64): boolean;
+function isprimemr(number: int64): boolean;
 
 implementation
 
@@ -2103,6 +2106,67 @@ end;
 function digitsn(number: int64): integer;
 begin
   result:= length(number.ToString);
+end;
+
+function modpow (a, b, c: int64): int64;
+var i, b1, k: int64;
+    d: bigdecimal;
+begin
+  k:= 0;
+  b1:= b;
+  while b1 > 0 do
+  begin
+    b1:= b1 div 2;
+    k:= k + 1
+  end;
+  d:= 1;
+  for i:= k - 1 downto 0 do
+  begin
+    d:= d * d mod c;
+    if ((b div powerint64(2, i)) mod 2) > 0 then
+      d:= d * a mod c
+  end;
+  result:= trunc(d)
+end;
+
+function milrabprimecheck(a, number: int64): boolean;
+var i, t, u, xi1, xi2: int64;
+begin
+  result:= false;
+  t:= 0;
+  u:= number - 1;
+  while u mod 2 = 0 do
+  begin
+    t:= t + 1;
+    u:= u div 2
+  end;
+  xi1:= modpow(a, u, number);
+  for i:= 0 to t do
+  begin
+    xi2:= modpow(xi1, 2, number);
+    if (xi2 = 1) and (xi1 <> 1) and (xi1 <> number - 1) then
+    begin
+      result:= true;
+      break
+    end;
+    xi1:= xi2
+  end;
+  if xi1 <> 1 then result:= true
+end;
+
+function isprimemr(number: int64): boolean;
+var i: int64;
+begin
+  result:= true;
+  if (number <= 1) or (number mod 2 = 0) or (number mod 3 = 0) or (number mod 5 = 0)
+  or (number mod 7 = 0) then result:= false;
+  if (number <> 3) and (number <> 5) and (number <> 7) then
+  for i:= 2 to 3 do
+    if milrabprimecheck(i, number) then
+    begin
+      result:= false;
+      break
+    end;
 end;
 
 end.

@@ -151,6 +151,7 @@ function sumdifsquares: int64;
 function torritriangle(number: int64): int64;
 function beamreflect: int64;
 function reversenum: int64;
+function primepattern (number: int64): int64;
 
 implementation
 
@@ -5817,6 +5818,27 @@ begin
       end;
     end;
     result:= result * 2
+end;
+
+function primepattern (number: int64): int64;
+var i, chk: int64;
+begin
+//if isprimemr(number) then result:= number else result:= 0;
+
+
+  i:= 10;
+  result:= 0;
+  while i < number do
+  begin
+    chk:= i * i;
+    if (chk mod 3 = 1) and ((chk mod 7 = 2) or (chk mod 7 = 3)) and
+    (chk mod 9 <> 0) and (chk mod 13 <> 0) and (chk mod 27 <>0) then
+      if isprimemr(chk + 1) and isprimemr(chk + 3) and isprimemr(chk + 7)
+      and isprimemr(chk + 9) and isprimemr(chk + 13) and isprimemr(chk + 27)
+      and (not isprimemr(chk + 19)) and (not isprimemr(chk + 21)) then
+        result:= result + i;
+    i:= i + 10
+  end;
 end;
 
 end.
