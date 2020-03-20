@@ -152,6 +152,7 @@ function torritriangle(number: int64): int64;
 function beamreflect: int64;
 function reversenum: int64;
 function primepattern (number: int64): int64;
+function gridrect(x, y: int64): int64;
 
 implementation
 
@@ -5823,9 +5824,6 @@ end;
 function primepattern (number: int64): int64;
 var i, chk: int64;
 begin
-//if isprimemr(number) then result:= number else result:= 0;
-
-
   i:= 10;
   result:= 0;
   while i < number do
@@ -5839,6 +5837,22 @@ begin
         result:= result + i;
     i:= i + 10
   end;
+end;
+
+function gridrect(x, y: int64): int64;
+var i, j, straight, diagonal: int64;
+begin
+  result:= 0;
+  for i:= 1 to x do
+    for j:= 1 to y do
+    begin
+      straight:= i * (i + 1) * j * (j + 1) div 4;
+      if i >= j then
+        diagonal:= j * ((2 * i - j) * (4 * j * j - 1) - 3) div 6
+      else
+        diagonal:= i * ((2 * j - i) * (4 * i * i - 1) - 3) div 6;
+      result:= result + straight + diagonal;
+    end;
 end;
 
 end.

@@ -397,6 +397,8 @@ begin
   resulting:= reversenum;
   if TaskChoise = 146 then
   resulting:= primepattern(Param1);
+  if TaskChoise = 147 then
+  resulting:= gridrect(Param1, Param2);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
