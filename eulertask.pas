@@ -153,6 +153,7 @@ function beamreflect: int64;
 function reversenum: int64;
 function primepattern (number: int64): int64;
 function gridrect(x, y: int64): int64;
+function div7pascal(number: int64): int64;
 
 implementation
 
@@ -5853,6 +5854,22 @@ begin
         diagonal:= i * ((2 * j - i) * (4 * i * i - 1) - 3) div 6;
       result:= result + straight + diagonal;
     end;
+end;
+
+function div7pascal(number: int64): int64;
+var powr, discrete, reminder, i, lin: integer;
+begin
+  powr:= trunc(ln(number)/ln(7));
+  discrete:= powerint64(7, powr);
+  result:= 0;
+  i:= powr;
+  while i > 1 do
+  begin
+    result:= result + 21 * (((powerint64(7, i - 1) - 1 + 1) * ((powerint64(7, i - 1)) - 1)) div 2)
+    * powerint64(28, powr - i);
+    i:= i - 1;
+  end;
+
 end;
 
 end.

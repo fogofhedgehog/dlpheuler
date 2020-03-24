@@ -399,6 +399,8 @@ begin
   resulting:= primepattern(Param1);
   if TaskChoise = 147 then
   resulting:= gridrect(Param1, Param2);
+  if TaskChoise = 148 then
+  resulting:= div7pascal(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
