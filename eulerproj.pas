@@ -9,7 +9,7 @@ uses
   Generics.Collections, NewTaskCreate, eulertask, FMX.ListView.Types,
   FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView,
   FMX.ScrollBox, FMX.Memo, FMX.Clipboard, System.Rtti,
-  FMX.Platform, FMX.Surfaces;
+  FMX.Platform, FMX.Surfaces, fogmath;
 
 type
   TForm1 = class(TForm)

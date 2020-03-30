@@ -94,6 +94,8 @@ function digitsn(number: int64): integer;
 function modpow(a, b, c: int64): int64;
 function milrabprimecheck(a, number: int64): boolean;
 function isprimemr(number: int64): boolean;
+function divto7148(level: integer): int64;
+function divto7148u49(number: int64): int64;
 
 implementation
 
@@ -2167,6 +2169,34 @@ begin
       result:= false;
       break
     end;
+end;
+
+function divto7148(level: integer): int64;
+var i: integer;
+begin
+  i:= level;
+  result:= 0;
+  while i > 1 do
+  begin
+    result:= result + 21 * (((powerint64(7, i - 1) - 1 + 1) * ((powerint64(7, i - 1)) - 1)) div 2)
+    * powerint64(28, level - i);
+    i:= i - 1;
+  end;
+end;
+
+function divto7148u49(number: int64): int64;
+var i, j: integer;
+begin
+  result:= 0;
+  for i:= 1 to 7 do
+  begin
+    for j:= 1 to 7 do
+    begin
+      result:= result + (i + i * (j - 1));
+      if j + 7 * (i - 1) = number then break
+    end;
+    if j + 7 * (i - 1) = number then break
+  end;
 end;
 
 end.

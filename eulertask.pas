@@ -5857,19 +5857,60 @@ begin
 end;
 
 function div7pascal(number: int64): int64;
-var powr, discrete, reminder, i, lin: integer;
+var powr, discrete, remainder, trngl, smallround, biground: int64;
 begin
-  powr:= trunc(ln(number)/ln(7));
-  discrete:= powerint64(7, powr);
   result:= 0;
-  i:= powr;
-  while i > 1 do
+  powr:= trunc(ln(number)/ln(7));
+  remainder:= number;
+  discrete:= powerint64(7, powr);
+  biground:= 1;
+  while remainder > 0 do
   begin
-    result:= result + 21 * (((powerint64(7, i - 1) - 1 + 1) * ((powerint64(7, i - 1)) - 1)) div 2)
-    * powerint64(28, powr - i);
-    i:= i - 1;
+    smallround:= 1;
+    trngl:= (discrete - 1) * discrete div 2;
+    while remainder >= discrete do
+    begin
+      result:= result + (smallround - 1) * biground * trngl + divto7148(powr) * biground * smallround;
+      remainder:= remainder - discrete;
+      smallround:= smallround + 1
+    end;
+    result:= result + ((discrete - 1) + (discrete - remainder)) * remainder div 2 * (smallround - 1) * biground;
+    powr:= powr - 1;
+    if (remainder < 49) and (remainder > 0) then
+    begin;
+//      if discrete > 49 then
+//        result:= result + biground * ((discrete - 1) + (discrete - remainder)) * remainder div 2;
+      result:= result + biground * smallround * ((remainder + 1) * remainder div 2 - divto7148u49(remainder));
+      remainder:= 0;
+    end;
+    biground:= smallround * biground;
+    discrete:= discrete div 7;
   end;
 
+
+//  result:= divto7148(powr);
+//  reminder:= number - discrete;
+//  lin:= 1;
+//  lin1:= 1;
+//  powr1:= powr;
+//  while discrete > 0 do
+//  begin
+//    while reminder >= discrete do
+//    begin
+//      result:= result + lin * (powerint64(7, powr) * (powerint64(7, powr) - 1) div 2) + divto7148(powr) * (lin + 1);
+//      reminder:= reminder - discrete;
+//      lin:= lin + 1
+//    end;
+//    if lin = 1 then
+//      if discrete = 7 then break
+//        else result:= result + (powerint64(7, powr) - 1 + (powerint64(7, powr) - reminder)) * reminder div 2
+//      else result:= result + (lin - 1) * lin1 * (powerint64(7, powr) - 1 + (powerint64(7, powr) - reminder)) * reminder div 2;
+//    powr:= powr - 1;
+//    discrete:= discrete div 7;
+//    lin1:= lin;
+//    lin:= 1;
+//  end;
+  result:= (number + 1) * number div 2 - result;
 end;
 
 end.
