@@ -154,6 +154,8 @@ function reversenum: int64;
 function primepattern (number: int64): int64;
 function gridrect(x, y: int64): int64;
 function div7pascal(number: int64): int64;
+function lagfibgenmax: int64;
+//function exmpl: int64;
 
 implementation
 
@@ -5878,39 +5880,64 @@ begin
     powr:= powr - 1;
     if (remainder < 49) and (remainder > 0) then
     begin;
-//      if discrete > 49 then
-//        result:= result + biground * ((discrete - 1) + (discrete - remainder)) * remainder div 2;
       result:= result + biground * smallround * ((remainder + 1) * remainder div 2 - divto7148u49(remainder));
       remainder:= 0;
     end;
     biground:= smallround * biground;
     discrete:= discrete div 7;
   end;
-
-
-//  result:= divto7148(powr);
-//  reminder:= number - discrete;
-//  lin:= 1;
-//  lin1:= 1;
-//  powr1:= powr;
-//  while discrete > 0 do
-//  begin
-//    while reminder >= discrete do
-//    begin
-//      result:= result + lin * (powerint64(7, powr) * (powerint64(7, powr) - 1) div 2) + divto7148(powr) * (lin + 1);
-//      reminder:= reminder - discrete;
-//      lin:= lin + 1
-//    end;
-//    if lin = 1 then
-//      if discrete = 7 then break
-//        else result:= result + (powerint64(7, powr) - 1 + (powerint64(7, powr) - reminder)) * reminder div 2
-//      else result:= result + (lin - 1) * lin1 * (powerint64(7, powr) - 1 + (powerint64(7, powr) - reminder)) * reminder div 2;
-//    powr:= powr - 1;
-//    discrete:= discrete div 7;
-//    lin1:= lin;
-//    lin:= 1;
-//  end;
   result:= (number + 1) * number div 2 - result;
+end;
+
+function lagfibgenmax: int64;
+const n = 2000;
+var ver, hor, diagv, diagh, adiagv, adiagh, seq: TList<int64>;
+    i, j, seqcurr, vi, hi: int64;
+    f: text;
+begin
+  seq:= TList<int64>.Create;
+  hor:= TList<int64>.Create;
+  ver:= TList<int64>.Create;
+  diagv:= TList<int64>.Create;
+  diagh:= TList<int64>.Create;
+  adiagv:= TList<int64>.Create;
+  adiagh:= TList<int64>.Create;
+  for i:= 1 to n * n do
+  begin
+    if i <= 55 then
+      seqcurr:= (100003 - 200003 * i + 300007 * i * i * i) mod 1000000 - 500000
+      else seqcurr:= (seq[i - 56] + seq[i - 25] + 1000000) mod 1000000 - 500000;
+    seq.Add(seqcurr);
+  end;
+  result:= seq[1];
+  for i:= 1 to 2000 do
+  begin
+    for j := 1 to 2000 do
+    begin
+      ver.Add(seq[i - 1 + 2000 * (j - 1)]);
+      hor.Add(seq[2000 * (i - 1) + j - 1]);
+      if i + j <= 2000
+      then
+        diagh.Add(seq[i - 1 + 2000 * (j - 1) + j - 1]);
+      if 2001 * j - 2000 * i < 2000
+      then
+        diagv.Add(seq[3997999 - 2000 * i + 2001 * j]);
+      if i + j <= 2000
+      then
+        adiagh.Add(seq[2000 - i + 2000 * (j - 1) - j]);
+      if 2000 * (i - 1) >= 2000 * (j - 1) - j
+      then
+        adiagv.Add(seq[3999999 - 2000 * (i - 1) + 2000 * (j - 1) - j]);
+    end;
+    result:= max(result, maxadjsum(ver));
+    result:= max(result, maxadjsum(hor));
+    ver.Clear;
+    hor.Clear;
+    diagv.Clear;
+    diagh.Clear;
+    adiagv.Clear;
+    adiagh.Clear
+  end;
 end;
 
 end.

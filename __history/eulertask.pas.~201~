@@ -148,6 +148,14 @@ function holeincenter(largest: int64): int64;
 function modgoldennugget: int64;
 function progressivepsq(number: int64): int64;
 function sumdifsquares: int64;
+function torritriangle(number: int64): int64;
+function beamreflect: int64;
+function reversenum: int64;
+function primepattern (number: int64): int64;
+function gridrect(x, y: int64): int64;
+function div7pascal(number: int64): int64;
+function lagfibgenmax: int64;
+function exmpl: int64;
 
 implementation
 
@@ -5605,6 +5613,362 @@ begin
     end;
     i:= i + 1;
   end;
+end;
+
+function torritriangle(number: int64): int64;
+var p, q, r1, r2: int64;
+    m, n, i, n1: integer;
+    flag1: boolean;
+    first, first2, firstsecond, second, secondfirst, second2, res: Tlist<int64>;
+begin
+  first:= TList<int64>.Create;
+  firstsecond:= TList<int64>.Create;
+  second:= TList<int64>.Create;
+  secondfirst:= TList<int64>.Create;
+  second2:= TList<int64>.Create;
+  first2:= TList<int64>.Create;
+  for m:= 2 to trunc(sqrt(number)) do
+    for n:= 1 to m - 1 do
+    begin
+      if (greatcomdiv(m, n) = 1) and ((m - n) mod 3 <> 0) then
+      begin
+        p:= 2 * m * n + n * n;
+        q:= m * m - n * n;
+        if p + q > number then
+          break;
+        if p < q then
+        begin
+          q:= q - p;
+          p:= q + p;
+          q:= p - q
+        end;
+        first.Add(p);
+        firstsecond.Add(p * 1000000000 + q);
+        secondfirst.Add(q * 1000000000 + p);
+        i:= 2;
+        while i * (p + q) < number do
+        begin
+          first.Add(i * p);
+          firstsecond.Add(i * p * 1000000000 + i * q);
+          secondfirst.Add(i * q * 1000000000 + i * p);
+          i:= i + 1
+        end;
+      end;
+    end;
+  first.Sort;
+  firstsecond.Sort;
+  for i:= 0 to firstsecond.Count - 1 do
+    second.Add(firstsecond[i] mod 1000000000);
+  secondfirst.Sort;
+  for i:= 0 to secondfirst.Count - 1 do
+  begin
+    second2.Add(secondfirst[i] div 1000000000);
+    first2.Add(secondfirst[i] mod 1000000000)
+  end;
+  res:= TList<int64>.Create;
+  for i:= 0 to first.Count - 1 do
+  begin
+    p:= first[i];
+    q:= second[i];
+    m:= 0;
+    while second2[m] <> p do
+    begin
+      m:= m + 1;
+      if m = second2.Count then
+        break
+    end;
+    n:= 0;
+    while second2[n] <> q do
+    begin
+      n:= n + 1;
+      if n = second2.Count then
+        break
+    end;
+    if (m <> second2.Count) and (n <> second2.Count) then
+      while second2[m] = p do
+      begin
+        r1:= first2[m];
+        n1:= n;
+        while second2[n1] = q do
+        begin
+          r2:= first2[n1];
+          if r1 = r2 then
+            if not res.Contains(p + q + r1) then
+            begin
+              if p + q + r1 <= number then
+                res.Add(p + q + r1);
+              break
+            end;
+          n1:= n1 + 1;
+          if n1 = first2.Count then
+            break
+        end;
+        m:= m + 1;
+        if m = first2.Count then
+          break
+      end;
+  end;
+  result:= 0;
+  for i:= 0 to res.Count - 1 do
+    result:= result + res[i]
+end;
+
+function beamreflect: int64;
+var x1, x2, y1, y2, slope1, slope2, slope3, tgfall, b, discr, x3, x4: extended;
+begin
+  result:= 0;
+  x1:= 0;
+  y1:= 10.1;
+  x2:= 1.4;
+  y2:= -9.6;
+  while (((x1 > 0.01) or (x1 < -0.01)) or (y1 < 0)) or (result = 0) do
+  begin
+    slope1:= (y2 - y1) / (x2 - x1);
+    slope2:= -4 * x2 / y2;
+    tgfall:= (slope1 - slope2) / (1 + slope1 * slope2);
+    slope3:= (slope2 - tgfall) / (1 + slope2 * tgfall);
+    b:= y2 - slope3 * x2;
+    discr:= (2 * slope3 * b) * (2 * slope3 * b) - 4 * (4 + slope3 * slope3) * (b * b - 100);
+    x3:= (-(2 * slope3 * b) + sqrt(discr))/(2 * (4 + slope3 * slope3));
+    x4:= (-(2 * slope3 * b) - sqrt(discr))/(2 * (4 + slope3 * slope3));
+    x1:= x2;
+    y1:= y2;
+    if abs(x3 - x2) < abs(x4 - x2) then x2:= x4
+    else x2:= x3;
+    y2:= slope3 * x2 + b;
+    result:= result + 1
+  end;
+  result:= result - 1
+end;
+
+function reversenum: int64;
+var i, j, k, l, num1, num2, num3: integer;
+    hlpr, hlpr1, hlpr2: string;
+    flag: boolean;
+begin
+  result:= 0;
+  for i:= 1 to 9 do
+  begin
+    for j:= 1 to i do
+    begin
+      if ((i + j) mod 10) mod 2 <> 0 then
+      begin
+        for k:= 0 to 999999 do
+        begin
+          hlpr2:= k.ToString;
+          hlpr:= i.ToString + hlpr2 + j.ToString;
+          num1:= hlpr.ToInteger;
+          hlpr1:= '';
+          for l:= 0 to length(hlpr) - 1 do
+            hlpr1:= hlpr1 + hlpr[length(hlpr) - l];
+          num2:= hlpr1.ToInteger;
+          num3:= num2 + num1;
+          hlpr:= num3.ToString;
+          flag:= true;
+          for l:= 1 to length(hlpr) do
+            if (hlpr[l] = '0') or (hlpr[l] = '2') or (hlpr[l] = '4') or
+            (hlpr[l] = '6') or (hlpr[l] = '8') then
+            begin
+              flag:= false;
+              break
+            end;
+          if flag then
+            result:= result + 1;
+          while length(hlpr2) < 6 do
+          begin
+            hlpr2:= '0' + hlpr2;
+            hlpr:= i.ToString + hlpr2 + j.ToString;
+            num1:= hlpr.ToInteger;
+            hlpr1:= '';
+            for l:= 0 to length(hlpr) - 1 do
+              hlpr1:= hlpr1 + hlpr[length(hlpr) - l];
+            num2:= hlpr1.ToInteger;
+            num3:= num2 + num1;
+            hlpr:= num3.ToString;
+            flag:= true;
+            for l:= 1 to length(hlpr) do
+              if (hlpr[l] = '0') or (hlpr[l] = '2') or (hlpr[l] = '4') or
+              (hlpr[l] = '6') or (hlpr[l] = '8') then
+              begin
+                flag:= false;
+                break
+              end;
+            if flag then
+              result:= result + 1;
+          end;
+        end;
+      end;
+    end;
+  end;
+  for i:= 1 to 9 do
+    for j:= 1 to i do
+    begin
+      if ((i + j) mod 10) mod 2 <> 0 then
+      begin
+        num1:= 10 * i + j;
+        num2:= 10 * j + i;
+        num2:= num2 + num1;
+        hlpr:= num2.ToString;
+        flag:= true;
+        for l:= 1 to length(hlpr) do
+          if (hlpr[l] = '0') or (hlpr[l] = '2') or (hlpr[l] = '4') or
+          (hlpr[l] = '6') or (hlpr[l] = '8') then
+          begin
+            flag:= false;
+            break
+          end;
+        if flag then
+          result:= result + 1;
+      end;
+    end;
+    result:= result * 2
+end;
+
+function primepattern (number: int64): int64;
+var i, chk: int64;
+begin
+  i:= 10;
+  result:= 0;
+  while i < number do
+  begin
+    chk:= i * i;
+    if (chk mod 3 = 1) and ((chk mod 7 = 2) or (chk mod 7 = 3)) and
+    (chk mod 9 <> 0) and (chk mod 13 <> 0) and (chk mod 27 <>0) then
+      if isprimemr(chk + 1) and isprimemr(chk + 3) and isprimemr(chk + 7)
+      and isprimemr(chk + 9) and isprimemr(chk + 13) and isprimemr(chk + 27)
+      and (not isprimemr(chk + 19)) and (not isprimemr(chk + 21)) then
+        result:= result + i;
+    i:= i + 10
+  end;
+end;
+
+function gridrect(x, y: int64): int64;
+var i, j, straight, diagonal: int64;
+begin
+  result:= 0;
+  for i:= 1 to x do
+    for j:= 1 to y do
+    begin
+      straight:= i * (i + 1) * j * (j + 1) div 4;
+      if i >= j then
+        diagonal:= j * ((2 * i - j) * (4 * j * j - 1) - 3) div 6
+      else
+        diagonal:= i * ((2 * j - i) * (4 * i * i - 1) - 3) div 6;
+      result:= result + straight + diagonal;
+    end;
+end;
+
+function div7pascal(number: int64): int64;
+var powr, discrete, remainder, trngl, smallround, biground: int64;
+begin
+  result:= 0;
+  powr:= trunc(ln(number)/ln(7));
+  remainder:= number;
+  discrete:= powerint64(7, powr);
+  biground:= 1;
+  while remainder > 0 do
+  begin
+    smallround:= 1;
+    trngl:= (discrete - 1) * discrete div 2;
+    while remainder >= discrete do
+    begin
+      result:= result + (smallround - 1) * biground * trngl + divto7148(powr) * biground * smallround;
+      remainder:= remainder - discrete;
+      smallround:= smallround + 1
+    end;
+    result:= result + ((discrete - 1) + (discrete - remainder)) * remainder div 2 * (smallround - 1) * biground;
+    powr:= powr - 1;
+    if (remainder < 49) and (remainder > 0) then
+    begin;
+      result:= result + biground * smallround * ((remainder + 1) * remainder div 2 - divto7148u49(remainder));
+      remainder:= 0;
+    end;
+    biground:= smallround * biground;
+    discrete:= discrete div 7;
+  end;
+  result:= (number + 1) * number div 2 - result;
+end;
+
+function lagfibgenmax: int64;
+const n = 2000;
+var ver, hor, diag, adiag, seq: TList<int64>;
+//    seq: array [1 .. 55] of int64;
+    i, j, seqcurr, vi, hi: int64;
+    f: text;
+begin
+//  AssignFile(f, 'tst.txt');
+//  Rewrite(f);
+  seq:= TList<int64>.Create;
+//  for i:= 1 to n do
+//  begin
+//    ver[i]:= 0;
+//    hor[i]:= 0;
+//    diagver[i]:= 0;
+//    diaghor[i]:= 0;
+//    adiagver[i]:= 0;
+//    adiaghor[i]:= 0
+//  end;
+  for i:= 1 to n * n do
+  begin
+    if i <= 55 then
+      seqcurr:= (100003 - 200003 * i + 300007 * i * i * i) mod 1000000 - 500000
+      else seqcurr:= (seq[i - 56] + seq[i - 25] + 1000000) mod 1000000 - 500000;
+    seq.Add(seqcurr);
+//    for j:= 1 to 54 do
+//      seq[j]:= seq[j + 1];
+//      seq[55]:= seqcurr;
+//    write(f, setcurr);
+//    vi:= (i - 1) div n + 1;
+//    hi:= i mod n;
+//    if hi = 0 then hi:= n;
+//    ver[hi]:= ver[hi] + seqcurr;
+//    hor[vi]:= hor[vi] + seqcurr;
+//    if hi >= vi
+//    then
+//      diaghor[hi - vi + 1]:= diaghor[hi - vi + 1] + seqcurr
+//    else
+//      diagver[vi - hi]:= diagver[vi - hi] + seqcurr;
+//    if hi + vi - 1 <= n
+//    then
+//      adiagver[hi + vi - 1]:= adiagver[hi + vi - 1] + seqcurr
+//    else
+//      adiaghor[hi + vi - n]:= adiaghor[hi + vi - n] + seqcurr;
+  end;
+//  close(f);
+  result:= seq[1];
+  for i:= 1 to 2000 do
+  begin
+
+  end;
+//  for i:= 2 to n do
+//    result:= max(result, ver[i]);
+//  for i:= 1 to n do
+//    result:= max(result, hor[i]);
+//  for i:= 1 to n do
+//    result:= max(result, diaghor[i]);
+//  for i:= 1 to n do
+//    result:= max(result, adiaghor[i]);
+//  for i:= 1 to n do
+//    result:= max(result, diagver[i]);
+//  for i:= 1 to n do
+//    result:= max(result, adiagver[i]);
+end;
+
+function exmpl: int64;
+var a: Tlist<int64>;
+begin
+  a:= Tlist<int64>.Create;
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  a.Add(7000);
+  result:= maxadjsum(a);
 end;
 
 end.

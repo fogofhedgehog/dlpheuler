@@ -86,16 +86,17 @@ function check6on6(qset: TList<int64>): boolean;   // helper function for task 1
 function nextpermutation(a: string): string;
 function addbin(a, b: string): string;
 function arrsum(a: array of integer): int64;
-function ispalindromic(number: int64): boolean;
-function greatcomdiv(first, second: int64): int64;
+function ispalindromic(number: int64): boolean;    // check if the number is palindromic
+function greatcomdiv(first, second: int64): int64; // greatest common divisor (Euclidus algorythm)
 function radical(number: int64): int64;
 function fractionperiod(number: int64): int64;
 function digitsn(number: int64): integer;
-function modpow(a, b, c: int64): int64;
-function milrabprimecheck(a, number: int64): boolean;
-function isprimemr(number: int64): boolean;
-function divto7148(level: integer): int64;
-function divto7148u49(number: int64): int64;
+function modpow(a, b, c: int64): int64;           // modpow function
+function milrabprimecheck(a, number: int64): boolean;  //  helper for miller-rabin pseudoprimarily test
+function isprimemr(number: int64): boolean;       // miller-rabin pseudoprimarily test
+function divto7148(level: integer): int64;        // for task 148 usage only
+function divto7148u49(number: int64): int64;      // for task 148 usage only
+function maxadjsum(seq: TList<int64>): int64;     // calculates highest sum of consecutive numbers in list
 
 implementation
 
@@ -2110,7 +2111,7 @@ begin
   result:= length(number.ToString);
 end;
 
-function modpow (a, b, c: int64): int64;
+function modpow (a, b, c: int64): int64;        // calculates MODPOW function
 var i, b1, k: int64;
     d: bigdecimal;
 begin
@@ -2156,7 +2157,7 @@ begin
   if xi1 <> 1 then result:= true
 end;
 
-function isprimemr(number: int64): boolean;
+function isprimemr(number: int64): boolean;     //probabilistic miller-rabin check if the number is prime
 var i: int64;
 begin
   result:= true;
@@ -2171,7 +2172,7 @@ begin
     end;
 end;
 
-function divto7148(level: integer): int64;
+function divto7148(level: integer): int64;  // for task 148 usage only
 var i: integer;
 begin
   i:= level;
@@ -2184,7 +2185,7 @@ begin
   end;
 end;
 
-function divto7148u49(number: int64): int64;
+function divto7148u49(number: int64): int64;   // for task 148 usage only
 var i, j: integer;
 begin
   result:= 0;
@@ -2196,6 +2197,53 @@ begin
       if j + 7 * (i - 1) = number then break
     end;
     if j + 7 * (i - 1) = number then break
+  end;
+end;
+
+function maxadjsum(seq: TList<int64>): int64;     // calculates highest sum of consecutive numbers in list
+var i, j, nexti, sum: int64;
+    neg, found: boolean;
+begin
+  result:= seq[0];
+  i:= 0;
+  while i <= seq.Count - 1 do
+  begin
+    if seq[i] > 0 then
+    begin
+      j:= i + 1;      
+      neg:= false;
+      found:= false;
+      while j <= seq.Count - 1 do
+      begin
+        if seq[j] < 0
+        then
+          neg:= true;
+        if neg and (seq[j] > 0) then
+        begin
+          nexti:= j;
+          found:= true;
+          break
+        end;
+        j:= j + 1;
+        if found 
+        then
+          break
+      end;
+      sum:= 0;
+      for j := i to seq.Count - 1 do
+      begin
+        sum:= sum + seq[j];
+        if sum > result
+        then
+          result:= sum;
+      end;
+      if not found
+      then
+        break;
+      i:= nexti
+    end
+    else
+      i:= i + 1;
   end;
 end;
 

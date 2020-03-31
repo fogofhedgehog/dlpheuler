@@ -9,7 +9,7 @@ uses
   Generics.Collections, NewTaskCreate, eulertask, FMX.ListView.Types,
   FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView,
   FMX.ScrollBox, FMX.Memo, FMX.Clipboard, System.Rtti,
-  FMX.Platform, FMX.Surfaces;
+  FMX.Platform, FMX.Surfaces, fogmath;
 
 type
   TForm1 = class(TForm)
@@ -387,6 +387,20 @@ begin
   resulting:= modgoldennugget;
   if TaskChoise = 141 then
   resulting:= progressivepsq(Param1);
+  if TaskChoise = 142 then
+  resulting:= sumdifsquares;
+  if TaskChoise = 143 then
+  resulting:= torritriangle(Param1);
+  if TaskChoise = 144 then
+  resulting:= beamreflect;
+  if TaskChoise = 145 then
+  resulting:= reversenum;
+  if TaskChoise = 146 then
+  resulting:= primepattern(Param1);
+  if TaskChoise = 147 then
+  resulting:= gridrect(Param1, Param2);
+  if TaskChoise = 148 then
+  resulting:= div7pascal(Param1);
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);
   TimeEnd:=DateTimeToTimeStamp(Time);
