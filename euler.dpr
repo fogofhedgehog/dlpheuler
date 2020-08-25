@@ -19,6 +19,7 @@ uses
   Velthuis.BigRationals in '..\..\..\GitHub\DelphiBigNumbers\Source\Velthuis.BigRationals.pas';
 
 {$R *.res}
+{$MAXSTACKSIZE 26000000}
 
 begin
   Application.Initialize;

@@ -403,6 +403,8 @@ begin
   resulting:= div7pascal(Param1);
   if TaskChoise = 149 then
   resulting:= lagfibgenmax;
+  if TaskChoise = 150 then
+  resulting:= trianglesummin;
 //  resulting:= exmpl;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);

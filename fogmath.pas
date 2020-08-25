@@ -114,10 +114,10 @@ var f: file of primenumber;
     prm: primenumber;
     i, j: integer;
 begin
-  if j > 2002000 then
+  if largest > 2002000 then
   begin
     largest:= 2002000;
-    showmessage('Parameter exceed maximum value: max prime in list is less than 2002000, returning whole existing list')
+    showmessage('Parameter exceed maximum value: max prime in list is less than 2010000, returning whole existing list')
   end;
   assign(f,'primes.val');
   reset(f);
@@ -145,7 +145,7 @@ var f: file of primenumber;
     prm: primenumber;
     i, j: integer;
 begin
-  if j > 2002000 then
+  if largest > 2002000 then
   begin
     largest:= 2002000;
     showmessage('Parameter exceed maximum value: max prime in list is less than 2002000, returning whole existing list')
@@ -157,16 +157,18 @@ begin
   while j < largest do
   begin
     read(f, prm);
-    i:= i + 1;
+    i:= prm.number;
     j:= prm.value
   end;
   Close(f);
   self.valuesL:= TList<integer>.Create;
   Reset(f);
-  for i:= 1 to i do
+  j:= 1;
+  while j < i do
   begin
     Read(f, prm);
     self.valuesL.Add(prm.value);
+    j:= prm.number
   end;
   Close(f)
 end;

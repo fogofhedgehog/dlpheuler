@@ -88,3 +88,62 @@ Any natural number. 3000000000 demands about 20 sec.
 No parameter.
 No parameter. Charset is in file 'tsk89.txt'.
 No parameter.
+Any natural number. 500 demands about 8.5 min.
+Any natural number. Default takes about 5 sec. 40000000 - 23 sec.
+No parameter.
+Any natural number. Default takes about 53 sec.
+Any natural number. Default takes about 10 sec. 5000000 takes about 2 min.
+No parameter. Puzzles are in file 'tsk96.txt'.
+No parameter.
+No parameter. Paricipating words are in file 'tsk98.txt'. Calculations demands about 2.5 min.
+No parameter. Numbers (expotentials) are in file 'tsk99.txt'.
+Any natural number less then 9400000000000000000. Calculations are fast.
+No parameter.
+No parameter. Points' coordinates are in file 'tsk102.txt'.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+Any natural number between 11 and 350.
+Any natural number between 3 and 68.
+No parameter.
+Any natural number between 1 and 88.
+Any natural number between 1 and 67.
+No parameter.
+Any natural number between 1 and 31.
+Any natural number between 3 and 3024616.
+Any natural number between 2 and 100. 22 takes about 10 sec. 23 - 18. Grow exponentially.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+No parameter.
+Any natural number, but default takes about 10 hours.
+Any natural number below ~ 1000000. 100000 takes about 3.5 min. Default in "no time".
+No parameter.
+Any natural number below ~ 3000. 100 takes about 14 sec.
+No parameter.
+No parameter.
+No parameter.
+Any natural number, but default takes over 1.5 hour.
+Difference is any natural between 4 and ~360000000. Amount is any positive integer.
+Difference is any natural between 4 and ~360000000. Amount is any positive integer.
+Any natural number from 1 to 14.
+Any natural number from 1 to 14.
+Any natural number below ~2100000000. 2000000000 demands about 2.5 mins.
+No parameter.
+Any natural number below ~ 10e18. 10e14 demands about 10 sec.
+No parameter.
+Any natural number below 999999999. Default demands about 80 sec.
+No parameter.
+Calculations takes about 13 sec.
+Any natural number, but default takes about 28 min.
+Any naturals with approximately square less then 4400000 units
+Any natural between 1 and 3037000499.
+Calculations takes about 13 sec.
