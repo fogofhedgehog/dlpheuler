@@ -405,6 +405,8 @@ begin
   resulting:= lagfibgenmax;
   if TaskChoise = 150 then
   resulting:= trianglesummin;
+  if TaskChoise = 151 then
+  resulting:= onesheetinenvelope;
 //  resulting:= exmpl;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);

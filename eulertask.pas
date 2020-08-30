@@ -156,6 +156,7 @@ function gridrect(x, y: int64): int64;
 function div7pascal(number: int64): int64;
 function lagfibgenmax: int64;
 function trianglesummin: int64;
+function onesheetinenvelope: int64;
 //function exmpl: int64;
 
 implementation
@@ -5881,7 +5882,79 @@ begin
           result:= locsum;
       end;
     end;
+end;
 
+function onesheetinenvelope: int64;
+type c = array [1 .. 4] of integer;
+     combinat = record
+     prob: extended;
+     combi: c;
+     end;
+var prevsoc, cursoc: TList<combinat>;
+    state, state1: combinat;
+    check: TList<c>;
+    batch, i, j, k, factor: int64;
+    resultflt: Extended;
+begin
+  prevsoc:= TList<combinat>.Create;
+  cursoc:= TList<combinat>.Create;
+  check:= TList<c>.Create;
+  batch:= 15;
+  for i:= 1 to 4 do
+    state.combi[i]:= 1;
+  state.prob:= 1;
+  prevsoc.Add(state);
+  resultflt:= 0;
+  while batch > 2 do
+  begin
+    for i:= 0 to prevsoc.Count - 1 do
+    begin
+      state:= prevsoc[i];
+      factor:= 0;
+      for j:= 1 to 4 do
+        factor:= factor + state.combi[j];
+      for j:= 1 to 4 do
+        begin
+          if state.combi[j] <> 0 then
+          begin
+            for k:= 1 to 4 do
+            begin
+              if k < j then
+                state1.combi[k]:= state.combi[k];
+              if k = j then
+                state1.combi[k]:= state.combi[k] - 1;
+              if k > j then
+                state1.combi[k]:= state.combi[k] + 1;
+            end;
+            state1.prob:= state.prob * state.combi[j] / factor;
+            cursoc.Add(state1)
+          end;
+        end;
+    end;
+    prevsoc.Clear;
+    check.Clear;
+    for j:= 0 to cursoc.Count - 1 do
+      if not check.Contains(cursoc[j].combi) then
+        check.Add(cursoc[j].combi);
+    for j:= 0 to check.Count - 1 do
+    begin
+      state.combi:= check[j];
+      state.prob:= 0;
+      for k:= 0 to cursoc.Count - 1 do
+      begin
+        if (cursoc[k].combi[1] = check[j][1]) and (cursoc[k].combi[2] = check[j][2])
+        and (cursoc[k].combi[3] = check[j][3]) and (cursoc[k].combi[4] = check[j][4]) then
+          state.prob:= state.prob + cursoc[k].prob
+      end;
+      prevsoc.Add(state)
+    end;
+    for j:= 0 to prevsoc.Count - 1 do
+      if prevsoc[j].combi[1] + prevsoc[j].combi[2] + prevsoc[j].combi[3] + prevsoc[j].combi[4] = 1 then
+        resultflt:= resultflt + prevsoc[j].prob;
+    batch:= batch - 1;
+    cursoc.Clear
+  end;
+  result:= Round(resultflt * 1000000)
 end;
 
 end.
