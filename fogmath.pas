@@ -538,6 +538,10 @@ end;
 
 function nextprime (number: int64): int64;   // returns the next prime value
 begin
+  if number < 2
+  then
+    result:= 2
+  else
   if number = 2
   then
     result:= 3

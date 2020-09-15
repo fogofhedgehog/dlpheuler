@@ -5959,8 +5959,8 @@ begin
   result:= Round(resultflt * 1000000)
 end;
 
-function invsquaresum: int64;
-var cursum, chk: extended;               // 2,3,4,5,6, 7,8,9,10,12, 13,14,15,16,18, 20,21,24,27,28, 30,32,35,36,39, 40,42,45,48,52, 54,56,60,63,64, 65,70,72,80
+function invsquaresum: int64;                    //Task 152 - 301
+var cursum, chk: extended;
     chkvar: Tlist<integer>;
     sumfrac, nomin: array [1 .. 40] of extended;
     allowed: array [1 .. 39] of integer;
@@ -6094,24 +6094,38 @@ begin
   end;
 end;
 
-function alldivisorssum(number: int64): int64;
+function alldivisorssum(number: int64): int64;      //Task 153 - 17971254122360635
 var re, im, num, den: int64;
 begin
   result:= 0;
-  for re:= 1 to trunc(sqrt(number)) + 1 do
-  begin;
-    for im:= 1 to trunc(sqrt(number)) + 1 do
+  for re:= 1 to trunc(sqrt(number)) do
+  begin
+    for im:= re + 1 to trunc(sqrt(number)) do
     begin
-      num:= greatcomdiv(re, im);
-      den:= re * re + im * im;
-      if den mod num = 0 then
-        den:= den div num;
-      result:= result + (number div den) * 2 * (re + im);
+      if greatcomdiv(re, im) = 1 then
+      begin
+        den:= re * re + im * im;
+        num:= 1;
+        while num * den <= number do
+        begin
+          result:= result + num * (re + im) * 2 * (number div (den * num));
+          inc(num)
+        end;
+      end;
     end;
   end;
-  for re:= 1 to trunc(sqrt(number)) + 1 do
-    result:= result + (number div re) * re;
+  for re:= 1 to number div 2 do
+  begin
+    den:= 2 * re;
+    result:= result + re * 2 * (number div den)
+  end;
+  for re:= 2 to number div 2 do
+  begin
+    result:= result + re * (number div re - 1);
+  end;
   result:= result + number;
+  for re:= 2 to number do
+    result:= result + re;
 end;
 
 end.
