@@ -407,6 +407,10 @@ begin
   resulting:= trianglesummin;
   if TaskChoise = 151 then
   resulting:= onesheetinenvelope;
+  if TaskChoise = 152 then
+  resulting:= invsquaresum;
+  if TaskChoise = 153 then
+  resulting:= alldivisorssum(Param1);
 //  resulting:= exmpl;
   if TPlatformServices.Current.SupportsPlatformService(IFMXExtendedClipboardService, clpbrd) then
     Clpbrd.SetText(resulting.ToString);

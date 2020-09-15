@@ -157,6 +157,8 @@ function div7pascal(number: int64): int64;
 function lagfibgenmax: int64;
 function trianglesummin: int64;
 function onesheetinenvelope: int64;
+function invsquaresum: int64;
+function alldivisorssum(number: int64): int64;
 //function exmpl: int64;
 
 implementation
@@ -5955,6 +5957,161 @@ begin
     cursoc.Clear
   end;
   result:= Round(resultflt * 1000000)
+end;
+
+function invsquaresum: int64;
+var cursum, chk: extended;               // 2,3,4,5,6, 7,8,9,10,12, 13,14,15,16,18, 20,21,24,27,28, 30,32,35,36,39, 40,42,45,48,52, 54,56,60,63,64, 65,70,72,80
+    chkvar: Tlist<integer>;
+    sumfrac, nomin: array [1 .. 40] of extended;
+    allowed: array [1 .. 39] of integer;
+    i, j, k, opcount: integer;
+    undrflow: boolean;
+    look: array [1 .. 39] of integer;
+begin
+  allowed[1]:= 2;
+  allowed[2]:= 3;
+  allowed[3]:= 4;
+  allowed[4]:= 5;
+  allowed[5]:= 6;
+  allowed[6]:= 7;
+  allowed[7]:= 8;
+  allowed[8]:= 9;
+  allowed[9]:= 10;
+  allowed[10]:= 12;
+  allowed[11]:= 13;
+  allowed[12]:= 14;
+  allowed[13]:= 15;
+  allowed[14]:= 16;
+  allowed[15]:= 18;
+  allowed[16]:= 20;
+  allowed[17]:= 21;
+  allowed[18]:= 24;
+  allowed[19]:= 27;
+  allowed[20]:= 28;
+  allowed[21]:= 30;
+  allowed[22]:= 32;
+  allowed[23]:= 35;
+  allowed[24]:= 36;
+  allowed[25]:= 39;
+  allowed[26]:= 40;
+  allowed[27]:= 42;
+  allowed[28]:= 45;
+  allowed[29]:= 48;
+  allowed[30]:= 52;
+  allowed[31]:= 54;
+  allowed[32]:= 56;
+  allowed[33]:= 60;
+  allowed[34]:= 63;
+  allowed[35]:= 64;
+  allowed[36]:= 65;
+  allowed[37]:= 70;
+  allowed[38]:= 72;
+  allowed[39]:= 80;
+  chkvar:=TList<Integer>.Create;
+  cursum:= 0;
+  sumfrac[40]:= 0;
+  opcount:= 0;
+  result:= 0;
+  for i:= 39 downto 1 do
+  begin
+    nomin[i]:= 1 / (allowed[i] * allowed[i]);
+    sumfrac[i]:= sumfrac[i + 1] + nomin[i];
+    look[i]:= 0;
+  end;
+  i:= 1;
+  cursum:= 0;
+  undrflow:= false;
+  while not undrflow do
+  begin
+    chkvar.Add(i);
+    cursum:= cursum + nomin[i];
+    look[chkvar.Count]:= allowed[i];
+    if (cursum > 0.5) or (Abs(cursum - 0.5) < 1e-9) or (cursum = 0.5)  then
+    begin
+      if (Abs(cursum - 0.5) < 1e-9) then
+      begin
+        chk:= 0;
+        for j:= 0 to chkvar.Count - 1 do
+          chk:= chk + nomin[chkvar[j]];
+        if Abs(chk - 0.5) < 1e-11 then
+          result:= result + 1
+      end;
+      cursum:= cursum - nomin[chkvar[chkvar.Count - 1]];
+      look[chkvar.Count]:= 0;
+      inc(opcount);
+      chkvar.Delete(chkvar.Count - 1);
+      if (i >= 39) or (cursum + nomin[39] > 0.500000001) then
+      begin
+        i:= chkvar[chkvar.Count - 1];
+        cursum:= cursum - nomin[chkvar[chkvar.Count - 1]];
+        look[chkvar.Count]:= 0;
+        inc(opcount);
+        chkvar.Delete(chkvar.Count - 1)
+      end;
+      inc(i)
+    end
+    else
+    begin
+      if chkvar[chkvar.Count - 1] + 1 <= 39 then
+        if cursum + sumfrac[chkvar[chkvar.Count - 1] + 1] < 0.499999999 then
+        begin
+          if chkvar.Count = 1 then
+          begin
+            undrflow:= true;
+            break
+          end;
+          cursum:= cursum - nomin[chkvar[chkvar.Count - 1]];
+          inc(opcount);
+          look[chkvar.Count]:= 0;
+          chkvar.Delete(chkvar.Count - 1);
+          i:= chkvar[chkvar.Count - 1];
+          cursum:= cursum - nomin[chkvar[chkvar.Count - 1]];
+          look[chkvar.Count]:= 0;
+          chkvar.Delete(chkvar.Count - 1)
+        end;
+      inc(i);
+      if i > 39 then
+      begin
+        cursum:= cursum - nomin[chkvar[chkvar.Count - 1]];
+        inc(opcount);
+        look[chkvar.Count]:= 0;
+        chkvar.Delete(chkvar.Count - 1);
+        i:= chkvar[chkvar.Count - 1];
+        cursum:= cursum - nomin[chkvar[chkvar.Count - 1]];
+        inc(opcount);
+        look[chkvar.Count]:= 0;
+        chkvar.Delete(chkvar.Count - 1);
+        inc(i)
+      end;
+    end;
+    if opcount >= 5000 then
+    begin
+      cursum:= 0;
+      opcount:= 0;
+      for j:= 0 to chkvar.Count - 1 do
+        cursum:= cursum + nomin[chkvar[j]]
+    end
+  end;
+end;
+
+function alldivisorssum(number: int64): int64;
+var re, im, num, den: int64;
+begin
+  result:= 0;
+  for re:= 1 to trunc(sqrt(number)) + 1 do
+  begin;
+    for im:= 1 to trunc(sqrt(number)) + 1 do
+    begin
+      num:= greatcomdiv(re, im);
+      den:= re * re + im * im;
+      if den mod num = 0 then
+        den:= den div num;
+      result:= result + (number div den) * 2 * (re + im);
+    end;
+  end;
+  for re:= 1 to trunc(sqrt(number)) + 1 do
+    result:= result + (number div re) * re;
+  result:= result + number;
 end;
 
 end.
