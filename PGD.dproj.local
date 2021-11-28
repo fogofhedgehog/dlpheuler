@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2021/09/16 23:43:13.298,=rtl.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:13.433,=FireDAC.Phys.PG</Transaction>
+    <Transaction>2021/09/16 23:43:13.458,=designide.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:13.487,=vcl.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:13.518,=vclactnband.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:13.542,=vclx.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:13.566,=xmlrtl.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:26.665,=dbrtl.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:26.690,=FireDACCommonDriver.dcp</Transaction>
+    <Transaction>2021/09/16 23:43:26.719,=FireDACCommon.dcp</Transaction>
+  </Transactions>
+</BorlandProject>

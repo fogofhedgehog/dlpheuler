@@ -1,0 +1,105 @@
+unit connect;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ActiveX, NiApiLib_TLB;
+
+type NIsession=class
+public
+  session:Tsrvrsession;
+  //creation
+  constructor create;
+  destructor destroy; override;
+  //methods
+  procedure connect;
+  procedure disconnect;
+  //events
+  procedure onlogin(ASender:Tobject;LoginResult:Integer);
+  procedure Onconnectionlost(Asender:TObject);
+end;
+
+type
+  TForm1 = class(TForm)
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Button1: TButton;
+    Label1: TLabel;
+    Button2: TButton;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  Nis : NiSession;
+implementation
+
+{$R *.dfm}
+//constructor for session
+constructor NIsession.create;
+begin
+ session:=tsrvrsession.create(nil);
+ session.onlogin:=self.onlogin;
+ session.onconnectionlost:=self.onconnectionlost;
+end;
+
+destructor Nisession.destroy;
+begin
+  freeandnil(session);
+end;
+
+procedure NIsession.connect;
+begin
+ session.HostAddr:=Form1.Edit1.Text;
+ session.HostPort:=strtoint(form1.edit2.text);
+ session.Name:=Form1.edit3.Text;
+ session.Password:=form1.edit4.Text;
+ session.Connect1;
+end;
+
+procedure NIsession.disconnect;
+begin
+ session.disconnect1;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  Nis.connect;
+end;
+
+procedure NIsession.onlogin(Asender:TObject;loginresult:integer);
+begin
+ Form1.Label1.caption:='Connected';
+end;
+
+procedure Nisession.onconnectionlost(Asender:TObject);
+begin
+ Form1.Label1.caption:='disconnected';
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+ CoInitialize( nil ) ;
+ Nis:=NISession.Create;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+ Nis.disconnect;
+end;
+
+end.

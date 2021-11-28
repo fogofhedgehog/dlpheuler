@@ -129,12 +129,12 @@ Any natural number below ~ 1000000. 100000 takes about 3.5 min. Default in "no t
 No parameter.
 Any natural number below ~ 3000. 100 takes about 14 sec.
 No parameter.
-No parameter.
+Calculations takes about 12 sec.
 No parameter.
 Any natural number, but default takes over 1.5 hour.
 Difference is any natural between 4 and ~360000000. Amount is any positive integer.
 Difference is any natural between 4 and ~360000000. Amount is any positive integer.
-Any natural number from 1 to 14.
+Any natural number from 1 to 24.
 Any natural number from 1 to 14.
 Any natural number below ~2100000000. 2000000000 demands about 2.5 mins.
 No parameter.
@@ -147,3 +147,7 @@ Any natural number, but default takes about 28 min.
 Any naturals with approximately square less then 4400000 units
 Any natural between 1 and 3037000499.
 Calculations takes about 13 sec.
+Calculations takes about 3.5 min.
+No parameter.
+Calculations take about 17 sec.
+Any natural number less than 2.5 billions. Default takes about 20 sec.

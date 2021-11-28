@@ -1,0 +1,40 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 485
+  ClientWidth = 630
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clRed
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ConnectLabel: TLabel
+    Left = 472
+    Top = 441
+    Width = 93
+    Height = 19
+    Caption = 'Disconnected'
+    Color = clRed
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+  end
+  object ConnectButton: TButton
+    Left = 472
+    Top = 400
+    Width = 75
+    Height = 25
+    Caption = 'Connect'
+    TabOrder = 0
+    OnClick = ConnectButtonClick
+  end
+end

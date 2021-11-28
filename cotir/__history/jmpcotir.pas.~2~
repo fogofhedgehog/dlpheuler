@@ -1,0 +1,43 @@
+unit jmpcotir;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+connct = procedure(a: string); stdcall;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var libr: THandle;
+    rtrn, host, name, pass, cat: string;
+    Port: integer;
+begin
+  host:= 'nidemo.mfd.ru';
+  Port:= 2900;
+  name:= 'hedgehog';
+  pass:= '4DFq7H8m';
+  cat:=  'ni_catalog.xml';
+  libr:= LoadLibrary('NiApi.dll');
+  @connct(Self):= GetProcAddress(libr,'SrvrSession');
+  connct(host);
+end;
+
+end.

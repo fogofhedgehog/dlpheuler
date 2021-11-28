@@ -1,0 +1,79 @@
+unit jmpcotir;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, NiApiLib_TLB, connect;
+
+//type NIsession=class
+//public
+//  session: Tsrvrsession;
+//  //creation
+//  constructor create;
+//  destructor destroy; override;
+//  //methods
+//  procedure connect;
+//  procedure disconnect;
+//  //events
+//end;
+
+
+type
+  TForm1 = class(TForm)
+    ConnectButton: TButton;
+    ConnectLabel: TLabel;
+    procedure ConnectButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+connct = procedure(a: string); stdcall;
+
+var
+  Form1: TForm1;
+  conct: NIsession;
+
+implementation
+
+{$R *.dfm}
+
+//constructor NIsession.create;
+//begin
+// session:=Tsrvrsession.create(nil);
+//end;
+//
+//destructor Nisession.destroy;
+//begin
+//  freeandnil(session);
+//end;
+//
+//procedure NIsession.connect;
+//begin
+// session.HostAddr:= 'nidemo.mfd.ru';
+// session.HostPort:= 2900;
+// session.Name:= 'hedgehog';
+// session.Password:= '4DFq7H8m';
+// session.Connect1;
+//end;
+//
+//procedure NIsession.disconnect;
+//begin
+// session.disconnect1;
+//end;
+
+
+procedure TForm1.ConnectButtonClick(Sender: TObject);
+var libr: THandle;
+    rtrn, host, name, pass, cat: string;
+    Port: integer;
+begin
+  conct:= Nisession.create;
+  Form2.Show;
+  conct.connect;
+
+end;
+
+end.

@@ -1,0 +1,109 @@
+object Form2: TForm2
+  Left = 192
+  Top = 107
+  Caption = #1057#1086#1077#1076#1080#1085#1077#1085#1080#1077
+  ClientHeight = 304
+  ClientWidth = 498
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object StatusLabel: TLabel
+    Left = 368
+    Top = 32
+    Width = 64
+    Height = 13
+    Caption = 'disconnected'
+  end
+  object AddresLabel: TLabel
+    Left = 40
+    Top = 32
+    Width = 34
+    Height = 13
+    Caption = #1040#1076#1088#1077#1089':'
+  end
+  object PortLabel: TLabel
+    Left = 40
+    Top = 64
+    Width = 28
+    Height = 13
+    Caption = #1055#1086#1088#1090':'
+  end
+  object LoginLabel: TLabel
+    Left = 40
+    Top = 96
+    Width = 34
+    Height = 13
+    Caption = #1051#1086#1075#1080#1085':'
+  end
+  object PasswdLabel: TLabel
+    Left = 32
+    Top = 128
+    Width = 41
+    Height = 13
+    Caption = #1055#1072#1088#1086#1083#1100':'
+  end
+  object StatusLabelLabel: TLabel
+    Left = 328
+    Top = 32
+    Width = 33
+    Height = 13
+    Caption = 'Status:'
+  end
+  object AddressEdit: TEdit
+    Left = 80
+    Top = 32
+    Width = 177
+    Height = 21
+    TabOrder = 0
+    Text = 'nidemo.mfd.ru'
+  end
+  object PortEdit: TEdit
+    Left = 80
+    Top = 64
+    Width = 177
+    Height = 21
+    TabOrder = 1
+    Text = '2900'
+  end
+  object LoginEdit: TEdit
+    Left = 80
+    Top = 96
+    Width = 177
+    Height = 21
+    TabOrder = 2
+    Text = 'hedgehog'
+  end
+  object Edit4: TEdit
+    Left = 80
+    Top = 128
+    Width = 177
+    Height = 21
+    TabOrder = 3
+    Text = 'n113'
+  end
+  object ConnButton: TButton
+    Left = 64
+    Top = 184
+    Width = 169
+    Height = 25
+    Caption = 'Connect'
+    TabOrder = 4
+    OnClick = ConnButtonClick
+  end
+  object DisconnButton: TButton
+    Left = 64
+    Top = 224
+    Width = 169
+    Height = 25
+    Caption = 'Disconnect'
+    TabOrder = 5
+    OnClick = DisconnButtonClick
+  end
+end

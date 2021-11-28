@@ -1,0 +1,118 @@
+unit connect;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ActiveX, NiApiLib_TLB;
+
+type NIsession=class
+public
+  session:Tsrvrsession;
+  //creation
+  constructor create;
+  destructor destroy; override;
+  //methods
+  procedure connect;
+  procedure disconnect;
+  //events
+  procedure onlogin (ASender: Tobject; LoginResult: Integer);
+  procedure Onconnectionlost (Asender: TObject);
+end;
+
+type
+  TForm2 = class(TForm)
+    AddressEdit: TEdit;
+    PortEdit: TEdit;
+    LoginEdit: TEdit;
+    Edit4: TEdit;
+    ConnButton: TButton;
+    StatusLabel: TLabel;
+    DisconnButton: TButton;
+    AddresLabel: TLabel;
+    PortLabel: TLabel;
+    LoginLabel: TLabel;
+    PasswdLabel: TLabel;
+    StatusLabelLabel: TLabel;
+    procedure ConnButtonClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure DisconnButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form2: TForm2;
+  Nis : NiSession;
+  logres: integer;
+implementation
+
+uses jmpcotir;
+
+{$R *.dfm}
+//constructor for session
+constructor NIsession.create;
+begin
+  logres:= 0;
+  session:= tsrvrsession.create(nil);
+  session.onlogin:= self.onlogin;
+  session.onconnectionlost:= self.onconnectionlost;
+end;
+
+destructor Nisession.destroy;
+begin
+  freeandnil(session);
+end;
+
+procedure NIsession.connect;
+begin
+  session.HostAddr:= Form2.AddressEdit.Text;
+  session.HostPort:= strtoint(Form2.PortEdit.text);
+  session.Name:= Form2.LoginEdit.Text;
+  session.Password:= Form2.edit4.Text;
+  session.Connect1;
+end;
+
+procedure NIsession.disconnect;
+begin
+  session.disconnect1;
+end;
+
+procedure TForm2.ConnButtonClick (Sender: TObject);
+begin
+  Nis.connect;
+end;
+
+procedure NIsession.onlogin (Asender: TObject; LoginResult: integer);
+begin
+  if LoginResult = 0
+  then
+  begin
+    logres:= 1;
+    Form2.Close;
+    Form2.StatusLabel.caption:= 'Connected';
+  end;
+end;
+
+procedure Nisession.onconnectionlost(Asender:TObject);
+begin
+  Form2.StatusLabel.caption:= 'disconnected';
+  Form1.ConnectLabel.Caption:= 'Disconnected';
+  Form1.ConnectLabel.Font.Color:= clRed;
+  Form1.ConnectButton.Caption:= 'Connect'
+end;
+
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+  CoInitialize (nil) ;
+  Nis:= NISession.Create;
+end;
+
+procedure TForm2.DisconnButtonClick(Sender: TObject);
+begin
+  Nis.disconnect;
+end;
+
+end.
