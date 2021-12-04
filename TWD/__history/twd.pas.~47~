@@ -64,9 +64,7 @@ type
     WarningSeasonAddLabel: TLabel;
     WorkQuery: TFDQuery;
     GroupActionComboBox: TComboBox;
-    GroupAddEdit: TEdit;
     WarningGroupAddLabel: TLabel;
-    GroupAddButton: TButton;
     GroupEditLayout: TLayout;
     BindSourceDB3: TBindSourceDB;
     GroupEditStringGrid: TStringGrid;
@@ -151,6 +149,15 @@ type
     ColumnDeleteDateEdit: TDateEdit;
     ColumnDeleteConfirmButton: TButton;
     ColumnDeleteCancelButton: TButton;
+    SeasonEditCancelButton: TButton;
+    SeasonRemoveCancelButton: TButton;
+    GroupRemoveCancelButton: TButton;
+    GroupAddLabel: TLabel;
+    GroupAddEdit: TEdit;
+    GroupAddButton: TButton;
+    GroupAddCancelButton: TButton;
+    GroupRenameCancelButton: TButton;
+    StatWeekReturnButton: TButton;
     procedure TargetComboBoxMouseEnter(Sender: TObject);
     procedure TargetComboBoxChange(Sender: TObject);
     procedure SeasonActionComboBoxMouseEnter(Sender: TObject);
@@ -209,6 +216,12 @@ type
     procedure StatDate2DateEditChange(Sender: TObject);
     procedure StatShowButtonClick(Sender: TObject);
     procedure ColumnDeleteConfirmButtonClick(Sender: TObject);
+    procedure SeasonEditCancelButtonClick(Sender: TObject);
+    procedure SeasonRemoveCancelButtonClick(Sender: TObject);
+    procedure GroupRemoveCancelButtonClick(Sender: TObject);
+    procedure GroupAddCancelButtonClick(Sender: TObject);
+    procedure GroupRenameCancelButtonClick(Sender: TObject);
+    procedure StatWeekReturnButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -246,7 +259,6 @@ end;
 function chstrtodate(str: string): TDate;
 var m, d, y: string;
     i: integer;
-    a: TDate;
 begin
   m:= '';
   i:= 1;
@@ -335,10 +347,10 @@ type summary = record
      end;
 var dat: TDate;
     plN, grN: TDictionary<string, string>;
-    datSQL, datSQLw, st, st1, n1, n2: string;
+    datSQL, st, st1, n1, n2: string;
     i, j, k, flds, fieldIndex: integer;
     diff: real;
-    flag, maybe: boolean;
+    flag: boolean;
     chks1_1: TList<integer>;
     player: summary;
     players: TList<summary>;
@@ -569,6 +581,8 @@ end;
 procedure TForm1.SeasonAddCancelButtonClick(Sender: TObject);
 begin
   SeasonActionComboBox.ItemIndex:= 0;
+  SeasonEditLayout.Visible:= False;
+  SeasonEditLayout.Enabled:= False;
   SeasonActionComboBox.Enabled:= False;
   SeasonActionComboBox.Visible:= False;
   TargetComboBox.ItemIndex:= 0;
@@ -769,6 +783,8 @@ begin
       ColumnDeleteCancelButton.Visible:= False;
       ColumnDeleteCancelButton.Enabled:= False;
       SeasonActionComboBox.ItemIndex:= 0;
+      SeasonEditLayout.Visible:= False;
+      SeasonEditLayout.Enabled:= False;
       SeasonActionComboBox.Visible:= False;
       SeasonActionComboBox.Enabled:= False;
       TargetComboBox.ItemIndex:= 0;
@@ -793,10 +809,13 @@ begin
   if actn = 'Add'
   then
   begin
-    GroupAddEdit.Position.X:= 251;
-    GroupAddEdit.Position.Y:= 280;
     GroupAddEdit.Visible:= True;
-    GroupAddEdit.Enabled:= True
+    GroupAddEdit.Enabled:= True;
+    GroupAddLabel.Visible:= True;
+    GroupAddButton.Visible:= True;
+    GroupAddButton.Enabled:= False;
+    GroupAddCancelButton.Visible:= True;
+    GroupAddCancelButton.Enabled:= True
   end;
   if (actn = 'Edit') or (actn = 'Remove')
   then
@@ -817,16 +836,22 @@ begin
       GroupRenameButton.Position.Y:= 353;
       GroupRenameButton.Visible:= True;
       GroupRenameButton.Enabled:= True;
+      GroupRenameCancelButton.Visible:= True;
+      GroupRenameCancelButton.Enabled:= True;
       GroupRenameLabel.Position.X:= 192;
       GroupRenameLabel.Position.Y:= 8;
       GroupRenameLabel.Visible:= True
     end
     else
     begin
-      GroupEditRemoveButton.Position.X:= 440;
-      GroupEditRemoveButton.Position.Y:= 353;
+      GroupEditRemoveButton.Position.X:= 240;
+      GroupEditRemoveButton.Position.Y:= 363;
       GroupEditRemoveButton.Visible:= True;
       GroupEditRemoveButton.Enabled:= True;
+      GroupRemoveCancelButton.Position.X:= 540;
+      GroupRemoveCancelButton.Position.Y:= 363;
+      GroupRemoveCancelButton.Visible:= True;
+      GroupRemoveCancelButton.Enabled:= True;
       GroupRemoveLabel.Position.X:= 192;
       GroupRemoveLabel.Position.Y:= 8;
       GroupRemoveLabel.Visible:= True
@@ -864,7 +889,6 @@ begin
     WorkQuery.SQL.Clear;
     WorkQuery.SQL.Text:= 'INSERT INTO "Groups" ("Id", "Name") VALUES (' + id.ToString + ', ''' +
     nam + ''')';
-    ShowMessage(WorkQuery.SQL.Text);
     try
       WorkQuery.ExecSQL;
       ShowMessage('Group "' + nam + ' successfully added.');
@@ -886,9 +910,34 @@ begin
     ShowMessage('Group already exist. Id = ' + (id - 1).ToString + '. Try other name');
   GroupActionComboBox.Visible:= False;
   GroupActionComboBox.ItemIndex:= 0;
+  GroupAddLabel.Visible:= False;
+  GroupAddEdit.Visible:= False;
+  GroupAddEdit.Enabled:= False;
+  GroupAddButton.Visible:= False;
+  GroupAddButton.Enabled:= False;
+  GroupAddCancelButton.Visible:= False;
+  GroupAddCancelButton.Enabled:= False;
+  GroupActionComboBox.Visible:= False;
+  GroupActionComboBox.Enabled:= False;
   TargetComboBox.ItemIndex:= 0;
   TargetComboBox.Enabled:= True;
   nams.Destroy
+end;
+
+procedure TForm1.GroupAddCancelButtonClick(Sender: TObject);
+begin
+  GroupActionComboBox.ItemIndex:= 0;
+  GroupAddLabel.Visible:= False;
+  GroupAddEdit.Visible:= False;
+  GroupAddEdit.Enabled:= False;
+  GroupAddButton.Visible:= False;
+  GroupAddButton.Enabled:= False;
+  GroupAddCancelButton.Visible:= False;
+  GroupAddCancelButton.Enabled:= False;
+  GroupActionComboBox.Visible:= False;
+  GroupActionComboBox.Enabled:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True;
 end;
 
 procedure TForm1.GroupAddEditChange(Sender: TObject);
@@ -918,19 +967,12 @@ begin
   if length(GroupAddEdit.Text) <> 0
   then
   begin
-    GroupAddButton.Position.X:= 428;
-    GroupAddButton.Position.Y:= 592;
-    GroupAddButton.Visible:= True;
     GroupAddButton.Enabled:= True;
-    WarningGroupAddLabel.Position.X:= 251;
-    WarningGroupAddLabel.Position.Y:= 472;
-    WarningGroupAddLabel.Visible:= True
   end;
   if length(GroupAddEdit.Text) = 0
   then
   begin
     GroupAddButton.Enabled:= False;
-    WarningGroupAddLabel.Visible:= False
   end
 end;
 
@@ -941,6 +983,7 @@ begin
   idGlob:= GroupEditStringGrid.Cells[0, GroupEditStringGrid.Row].ToInteger;
   nameGlob:= GroupEditStringGrid.Cells[1, GroupEditStringGrid.Row];
   lbl:= lbl + nameGlob + ' press "Confirm" button!';
+  GroupEditRemoveButton.Enabled:= False;
   GroupRemoveConfirmLabel.Text:= lbl;
   GroupRemoveConfirmLabel.Visible:= True;
   GroupRemoveConfirmLabel.Enabled:= True;
@@ -988,18 +1031,42 @@ begin
   end
   else
     ShowMessage('Group ' + nam + ' already exist!');
+  GroupActionComboBox.ItemIndex:= 0;
+  GroupRenameLabel.Visible:= False;
+  GroupEditStringGrid.Visible:= False;
+  GroupEditStringGrid.Enabled:= False;
+  GroupRenameButton.Visible:= False;
+  GroupRenameButton.Enabled:= False;
+  GroupRenameCancelButton.Visible:= False;
+  GroupRenameCancelButton.Enabled:= False;
   GroupEditUpdateButton.Visible:= False;
   GroupEditUpdateButton.Enabled:= False;
   GroupNewNameEdit.Visible:= False;
   GroupNewNameEdit.Enabled:= False;
-  GroupListQuery.Active:= False;
-  GroupActionComboBox.Visible:= False;
+  GroupEditLayout.Visible:= False;
+  GroupEditLayout.Enabled:= False;
   GroupActionComboBox.Enabled:= False;
-  GroupActionComboBox.ItemIndex:= 0;
+  GroupActionComboBox.Visible:= False;
   TargetComboBox.ItemIndex:= 0;
   TargetComboBox.Enabled:= True;
+end;
+
+procedure TForm1.GroupRemoveCancelButtonClick(Sender: TObject);
+begin
+  GroupActionComboBox.ItemIndex:= 0;
+  GroupRemoveLabel.Visible:= False;
+  GroupEditRemoveButton.Visible:= False;
+  GroupEditRemoveButton.Enabled:= False;
+  GroupRemoveCancelButton.Visible:= False;
+  GroupRemoveCancelButton.Enabled:= False;
+  GroupEditStringGrid.Visible:= False;
+  GroupEditStringGrid.Enabled:= False;
+  GroupActionComboBox.Visible:= False;
+  GroupActionComboBox.Enabled:= False;
   GroupEditLayout.Visible:= False;
-  GroupEditLayout.Enabled:= False
+  GroupEditLayout.Enabled:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True
 end;
 
 procedure TForm1.GroupRemoveConfirmButtonClick(Sender: TObject);
@@ -1046,6 +1113,28 @@ begin
   GroupNewNameEdit.Enabled:= True;
   GroupEditUpdateButton.Visible:= True;
   GroupEditUpdateButton.Enabled:= True;
+end;
+
+procedure TForm1.GroupRenameCancelButtonClick(Sender: TObject);
+begin
+  GroupActionComboBox.ItemIndex:= 0;
+  GroupRenameLabel.Visible:= False;
+  GroupEditStringGrid.Visible:= False;
+  GroupEditStringGrid.Enabled:= False;
+  GroupRenameButton.Visible:= False;
+  GroupRenameButton.Enabled:= False;
+  GroupRenameCancelButton.Visible:= False;
+  GroupRenameCancelButton.Enabled:= False;
+  GroupEditUpdateButton.Visible:= False;
+  GroupEditUpdateButton.Enabled:= False;
+  GroupNewNameEdit.Visible:= False;
+  GroupNewNameEdit.Enabled:= False;
+  GroupEditLayout.Visible:= False;
+  GroupEditLayout.Enabled:= False;
+  GroupActionComboBox.Enabled:= False;
+  GroupActionComboBox.Visible:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True;
 end;
 
 procedure TForm1.PlayerActionComboBoxChange(Sender: TObject);
@@ -1346,11 +1435,48 @@ begin
   if flag then
     ShowMessage('Players have common resultative weeks, merging impossible!')
   else
-    for base in BL do
     begin
+      for base in BL do
+      begin
+        WorkQuery.SQL.Clear;
+        WorkQuery.SQL.Text:= 'SELECT * FROM ' + base + 'WHERE "player" = ' +
+        Player1MergeEdit.Text;
+        WorkQuery.Open();
+        firstPlayer.Clear;
+        fields:= TList<string>.Create;
+        for i:= 1 to WorkQuery.Fields.Count - 2 do
+        begin
+          fields.Add(WorkQuery.Fields[i].FieldName);
+          if WorkQuery.Fields[i].AsString <> ''
+          then
+            firstPlayer.Add(WorkQuery.Fields[i].AsInteger)
+          else
+            firstPlayer.Add(-1);
+        end;
+        fields.Add(WorkQuery.Fields[WorkQuery.Fields.Count - 1].FieldName);
+        if WorkQuery.Fields[WorkQuery.Fields.Count - 1].AsString <> ''
+        then
+          firstPlayer.Add(WorkQuery.Fields[WorkQuery.Fields.Count - 1].AsInteger)
+        else
+          firstPlayer.Add(-1);
+        WorkQuery.SQL.Clear;
+        WorkQuery.SQL.Text:= 'UPDATE ' + base + ' SET ';
+        st:= '';
+        for i := 0 to firstPlayer.Count - 1 do
+          if firstPlayer[i] <> -1 then
+            st:= st + '"' + fields[i] + '" = ' + firstPlayer[i].ToString + ', ';
+        Delete(st, length(st) - 1, 1);
+        WorkQuery.SQL.Text:= WorkQuery.SQL.Text + st + 'WHERE "player" = ' +
+        Player2MergeEdit.Text;
+        WorkQuery.ExecSQL;
+        WorkQuery.SQL.Clear;
+        WorkQuery.SQL.Text:= 'DELETE FROM ' + base + ' WHERE "player" = ' +
+        Player1MergeEdit.Text;
+        WorkQuery.ExecSQL;
+      end;
       WorkQuery.SQL.Clear;
-      WorkQuery.SQL.Text:= 'SELECT * FROM ' + base + 'WHERE "player" IN (' +
-      Player1MergeEdit.Text + ', ' + Player1MergeEdit.Text + ')';
+      WorkQuery.SQL.Text:= 'SELECT * FROM "teams" WHERE "player" = ' +
+      Player1MergeEdit.Text;
       WorkQuery.Open();
       firstPlayer.Clear;
       fields:= TList<string>.Create;
@@ -1369,20 +1495,6 @@ begin
         firstPlayer.Add(WorkQuery.Fields[WorkQuery.Fields.Count - 1].AsInteger)
       else
         firstPlayer.Add(-1);
-      WorkQuery.SQL.Clear;
-      WorkQuery.SQL.Text:= 'UPDATE ' + base + ' SET ';
-      st:= '';
-      for i := 0 to firstPlayer.Count - 1 do
-        if firstPlayer[i] <> -1 then
-          st:= st + '"' + fields[i] + '" = ' + firstPlayer[i].ToString + ', ';
-      Delete(st, length(st) - 1, 1);
-      WorkQuery.SQL.Text:= WorkQuery.SQL.Text + st + 'WHERE "player" = ' +
-      Player2MergeEdit.Text;
-      WorkQuery.ExecSQL;
-      WorkQuery.SQL.Clear;
-      WorkQuery.SQL.Text:= 'DELETE FROM ' + base + ' WHERE "player" = ' +
-      Player1MergeEdit.Text;
-      WorkQuery.ExecSQL;
       WorkQuery.SQL.Text:= 'UPDATE "teams" SET ';
       st:= '';
       for i := 0 to firstPlayer.Count - 1 do
@@ -1397,7 +1509,7 @@ begin
       Player1MergeEdit.Text;
       WorkQuery.ExecSQL;
       WorkQuery.SQL.Clear;
-      WorkQuery.SQL.Text:= 'DELETE FROM "players" WHERE "player" = ' +
+      WorkQuery.SQL.Text:= 'DELETE FROM "players" WHERE "Id" = ' +
       Player1MergeEdit.Text;
       WorkQuery.ExecSQL;
       PlayerActionComboBox.ItemIndex:= 0;
@@ -1550,13 +1662,13 @@ begin
 end;
 
 procedure TForm1.SeasonActionComboBoxChange(Sender: TObject);
-var nam: TList<string>;
-    sea: TList<integer>;
-    st1, st2, st3, st4, st5, st6, fin: TList<TDate>;
-    i: integer;
+var i: integer;
 begin
   actn:= SeasonActionComboBox.Items[SeasonActionComboBox.ItemIndex];
   SeasonActionComboBox.Enabled:= False;
+  SeasonEditButton.Visible:= False;
+  SeasonEditCancelButton.Visible:= False;
+  SeasonEditLabel.Visible:= False;
   amnt:= 0;
   name:= '';
   if actn = 'Add'
@@ -1572,12 +1684,23 @@ begin
       SeasonRoundsComboBox.ListBox.ListItems[i].StyledSettings:= SeasonRoundsComboBox.ListBox.ListItems[i].StyledSettings - [TStyledSetting.Size];
     end;
     SeasonAddButton.Visible:= True;
-    SeasonAddButton.Position.X:= 416;
-    SeasonAddButton.Position.Y:= 427
+    SeasonAddButton.Enabled:= False;
+    SeasonAddButton.Position.X:= 232;
+    SeasonAddButton.Position.Y:= 427;
+    SeasonAddCancelButton.Visible:= True;
+    SeasonAddCancelButton.Enabled:= True;
+    SeasonAddCancelButton.Position.X:= 624;
+    SeasonAddCancelButton.Position.Y:= 427
   end
   else
     if SeasonActionComboBox.Items[SeasonActionComboBox.ItemIndex] <> 'Delete column'  then
     begin
+      SeasonDeleteLabel.Visible:= False;
+      SeasonRemoveConfirmLabel.Visible:= False;
+      SeasonRemoveConfirmButton.Visible:= False;
+      SeasonRemoveButton.Visible:= False;
+      SeasonRemoveConfirmButton.Visible:= False;
+      SeasonRemoveCancelButton.Visible:= False;
       SeasonEditLayout.Position.X:= 8;
       SeasonEditLayout.Position.Y:= 192;
       SeasonEditLayout.Visible:= True;
@@ -1593,20 +1716,32 @@ begin
       begin
         SeasonDeleteLabel.Enabled:= True;
         SeasonDeleteLabel.Visible:= True;
-        SeasonRemoveButton.Position.X:= 467;
+        SeasonRemoveButton.Position.X:= 296;
         SeasonRemoveButton.Position.Y:= 513;
         SeasonRemoveButton.Visible:= True;
-        SeasonRemoveButton.Enabled:= True
+        SeasonRemoveCancelButton.Enabled:= True;
+        SeasonRemoveCancelButton.Position.X:= 560;
+        SeasonRemoveCancelButton.Position.Y:= 513;
+        SeasonRemoveCancelButton.Visible:= True;
+        SeasonRemoveCancelButton.Enabled:= True
       end
       else
       begin
+        SeasonRemoveButton.Visible:= False;
+        SeasonRemoveButton.Enabled:= False;
+        SeasonRemoveConfirmLabel.Visible:= False;
+        SeasonRemoveConfirmLabel.Visible:= False;
         SeasonDeleteLabel.Visible:= False;
         SeasonEditLabel.Visible:= True;
         SeasonEditLabel.Enabled:= True;
-        SeasonEditButton.Position.X:= 456;
+        SeasonEditButton.Position.X:= 296;
         SeasonEditButton.Position.Y:= 520;
+        SeasonEditCancelButton.Position.X:= 560;
+        SeasonEditCancelButton.Position.Y:= 520;
         SeasonEditButton.Visible:= True;
-        SeasonEditButton.Enabled:= True
+        SeasonEditButton.Enabled:= True;
+        SeasonEditCancelButton.Visible:= True;
+        SeasonEditCancelButton.Enabled:= True
       end;
     end
     else
@@ -1793,6 +1928,7 @@ begin
     SeasonFinishDateEdit.Date:= chstrtodate(SeasonStringGrid.Cells[8, SeasonStringGrid.Row]);
     SeasonFinishDateEdit.IsEmpty:= False
   end;
+  SeasonEditLabel.Visible:= False;
   SeasonStringGrid.Visible:= False;
   SeasonStringGrid.Enabled:= False;
   SeasonUpdateButton.Position.X:= 323;
@@ -1811,6 +1947,24 @@ begin
   SeasonEditLabel.Enabled:= False;
   SeasonEditLayout.Visible:= False;
   SeasonEditLayout.Enabled:= False
+end;
+
+procedure TForm1.SeasonEditCancelButtonClick(Sender: TObject);
+begin
+  SeasonActionComboBox.ItemIndex:= 0;
+  SeasonActionComboBox.Visible:= False;
+  SeasonActionComboBox.Enabled:= False;
+  SeasonEditLabel.Visible:= False;
+  SeasonEditButton.Visible:= False;
+  SeasonEditButton.Enabled:= False;
+  SeasonEditCancelButton.Visible:= False;
+  SeasonEditCancelButton.Enabled:= False;
+  SeasonStringGrid.Visible:= False;
+  SeasonStringGrid.Enabled:= False;
+  SeasonEditLayout.Visible:= False;
+  SeasonEditLayout.Enabled:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True;
 end;
 
 procedure TForm1.SeasonRemoveButtonClick(Sender: TObject);
@@ -1839,6 +1993,26 @@ begin
   SeasonRemoveConfirmButton.Enabled:= True;
 end;
 
+procedure TForm1.SeasonRemoveCancelButtonClick(Sender: TObject);
+begin
+  SeasonActionComboBox.ItemIndex:= 0;
+  SeasonActionComboBox.Visible:= False;
+  SeasonActionComboBox.Enabled:= False;
+  SeasonDeleteLabel.Visible:= False;
+  SeasonEditLabel.Visible:= False;
+  SeasonRemoveConfirmLabel.Visible:= True;
+  SeasonRemoveButton.Visible:= False;
+  SeasonRemoveButton.Enabled:= False;
+  SeasonRemoveCancelButton.Visible:= False;
+  SeasonRemoveCancelButton.Enabled:= False;
+  SeasonStringGrid.Visible:= False;
+  SeasonStringGrid.Enabled:= False;
+  SeasonEditLayout.Visible:= False;
+  SeasonEditLayout.Enabled:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True
+end;
+
 procedure TForm1.SeasonRemoveConfirmButtonClick(Sender: TObject);
 begin
   WorkQuery.SQL.Clear;
@@ -1849,6 +2023,9 @@ begin
   except
     ShowMessage('Something went wrong.')
   end;
+  SeasonActionComboBox.ItemIndex:= 0;
+  SeasonRemoveCancelButton.Visible:= False;
+  SeasonRemoveCancelButton.Enabled:= False;
   SeasonRemoveConfirmLabel.Text:= '';
   SeasonRemoveConfirmLabel.Visible:= False;
   SeasonRemoveConfirmLabel.Enabled:= False;
@@ -2216,7 +2393,6 @@ var grp, basedat, basedat1, base, plrsSQL: string;
     dat, dat1: TDate;
     plrs: TList<string>;
     ordrs: TDictionary<string, string>;
-    f: text;
 begin
   grp:= StatGroupComboBox.Items[StatGroupComboBox.ItemIndex];
   dat:= StatDate2DateEdit.Date;
@@ -2230,7 +2406,7 @@ begin
   basedat1:= chdt(dat1);
   WorkQuery.SQL.Clear;
   WorkQuery.SQL.Text:= 'SELECT "player" FROM "teams" where "' + basedat + '" = ' + id.ToString +
-  ' AND "' + basedat1 + '" = ' + id.ToString + ' ORDER BY "player"';
+  ' AND "' + basedat1 + '" IS NOT NULL ORDER BY "player"';
   WorkQuery.Open();
   plrs:= TList<string>.Create;
   plrs.Clear;
@@ -2253,8 +2429,8 @@ begin
       WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[plrs.Count - 1] + ') ORDER BY "' +
       basedat + '" - "' + basedat1 + '" DESC'
     end;
-    ShowMessage(WorkQuery.SQL.Text);
     WorkQuery.Open();
+    StatWeekStringGrid.RowCount:= plrs.Count + 1;
     plrs.Clear;
     i:= 0;
     while not WorkQuery.Eof do
@@ -2264,11 +2440,11 @@ begin
       i:= i + 1;
       WorkQuery.Next
     end;
+    StatWeekStringGrid.Cells[0, plrs.Count]:= plrs.Count.ToString;
     plrsSQL:= '(';
     for i:= 0 to plrs.Count - 2 do
       plrsSQL:= plrsSQL + plrs[i] + ', ';
     plrsSQL:= plrsSQL + plrs[plrs.Count - 1] + ') ';
-    StatWeekStringGrid.RowCount:= plrs.Count;
     WorkQuery.SQL.Clear;
     WorkQuery.SQL.Text:= 'SELECT * FROM "players" WHERE "Id" IN ' + plrsSQL;
     WorkQuery.Open();
@@ -2296,14 +2472,33 @@ begin
       for j:= 0 to plrs.Count - 1 do
         StatWeekStringGrid.Cells[i, j]:= ordrs[plrs[j]];
       i:= i + 1
-    end
+    end;
+    j:= StatWeekStringGrid.RowCount - 1;
+    StatWeekStringGrid.Cells[1, j]:= 'Total';
+    for i:= 2 to 12 do
+    begin
+      id:= 0;
+      for k:= 0 to j - 1 do
+         id:= id + StatWeekStringGrid.Cells[i, k].ToInteger;
+      StatWeekStringGrid.Cells[i, j]:= id.ToString
+    end;
   end
   else
     ShowMessage('No players played in group this week')
 end;
 
+procedure TForm1.StatWeekReturnButtonClick(Sender: TObject);
+begin
+  StatActionComboBox.ItemIndex:= 0;
+  StatLayout.Visible:= False;
+  StatLayout.Enabled:= False;
+  StatActionComboBox.Enabled:= False;
+  StatActionComboBox.Visible:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True
+end;
+
 procedure TForm1.TargetComboBoxChange(Sender: TObject);
-var i: integer;
 begin
   target:= TargetComboBox.Items[TargetComboBox.ItemIndex];
   TargetComboBox.Enabled:= False;

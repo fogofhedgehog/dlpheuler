@@ -1120,8 +1120,8 @@ object Form1: TForm1
     Visible = False
     TabOrder = 78
     object StatDate2DateEdit: TDateEdit
-      Date = 44507.000000000000000000
-      IsEmpty = True
+      Date = 44534.000000000000000000
+      TodayDefault = True
       OnChange = StatDate2DateEditChange
       Enabled = False
       Position.X = 856.000000000000000000
@@ -1298,7 +1298,7 @@ object Form1: TForm1
     TabStop = False
   end
   object ColumnDeleteDateEdit: TDateEdit
-    Date = 44528.000000000000000000
+    Date = 44534.000000000000000000
     TodayDefault = True
     Enabled = False
     Position.X = 448.000000000000000000

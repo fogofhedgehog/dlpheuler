@@ -2332,6 +2332,7 @@ begin
   if StatActionComboBox.Items[StatActionComboBox.ItemIndex] = 'Group week'
   then
   begin
+    StatGroupComboBox.Items.Clear;
     StatGroupLabel.Visible:= True;
     StatGroupLabel.Enabled:= True;
     StatDate1Label.Visible:= True;
@@ -2406,7 +2407,7 @@ begin
   basedat1:= chdt(dat1);
   WorkQuery.SQL.Clear;
   WorkQuery.SQL.Text:= 'SELECT "player" FROM "teams" where "' + basedat + '" = ' + id.ToString +
-  ' AND "' + basedat1 + '" = ' + id.ToString + ' ORDER BY "player"';
+  ' AND "' + basedat1 + '" IS NOT NULL ORDER BY "player"';
   WorkQuery.Open();
   plrs:= TList<string>.Create;
   plrs.Clear;
@@ -2489,6 +2490,8 @@ end;
 
 procedure TForm1.StatWeekReturnButtonClick(Sender: TObject);
 begin
+  WorkQuery.Close;
+  StatWeekStringGrid.RowCount:= 0;
   StatActionComboBox.ItemIndex:= 0;
   StatLayout.Visible:= False;
   StatLayout.Enabled:= False;

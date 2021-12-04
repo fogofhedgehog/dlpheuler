@@ -1,8 +1,8 @@
 object Form1: TForm1
   Left = 600
   Top = 180
-  Caption = 'Form1'
-  ClientHeight = 865
+  Caption = 'TWDStat-Admin'
+  ClientHeight = 1000
   ClientWidth = 1076
   Position = Designed
   FormFactor.Width = 320
@@ -1086,7 +1086,7 @@ object Form1: TForm1
   end
   object CheckDuplicatesButton: TButton
     Position.X = 24.000000000000000000
-    Position.Y = 808.000000000000000000
+    Position.Y = 936.000000000000000000
     Size.Width = 209.000000000000000000
     Size.Height = 30.000000000000000000
     Size.PlatformDefault = False
@@ -1113,9 +1113,9 @@ object Form1: TForm1
   object StatLayout: TLayout
     Enabled = False
     Position.X = 8.000000000000000000
-    Position.Y = 192.000000000000000000
+    Position.Y = 199.000000000000000000
     Size.Width = 1060.000000000000000000
-    Size.Height = 608.000000000000000000
+    Size.Height = 786.000000000000000000
     Size.PlatformDefault = False
     Visible = False
     TabOrder = 78
@@ -1184,12 +1184,12 @@ object Form1: TForm1
       Position.X = 8.000000000000000000
       Position.Y = 88.000000000000000000
       Size.Width = 1044.000000000000000000
-      Size.Height = 473.000000000000000000
+      Size.Height = 613.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 5
       Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
       Viewport.Width = 1024.000000000000000000
-      Viewport.Height = 448.000000000000000000
+      Viewport.Height = 588.000000000000000000
       object StringColumn1: TStringColumn
         HorzAlign = Center
         Header = 'Id'
@@ -1209,46 +1209,55 @@ object Form1: TForm1
         Size.Width = 75.000000000000000000
       end
       object StringColumn4: TStringColumn
+        HorzAlign = Trailing
         Header = 'raiders defeated'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn5: TStringColumn
+        HorzAlign = Trailing
         Header = 'missions played'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn6: TStringColumn
+        HorzAlign = Trailing
         Header = 'missions completed'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn7: TStringColumn
+        HorzAlign = Trailing
         Header = 'shots fired'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn8: TStringColumn
+        HorzAlign = Trailing
         Header = 'stash collected'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn9: TStringColumn
+        HorzAlign = Trailing
         Header = 'total power heroes'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn10: TStringColumn
+        HorzAlign = Trailing
         Header = 'total power weapons'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn11: TStringColumn
+        HorzAlign = Trailing
         Header = 'cards collected'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
       end
       object StringColumn12: TStringColumn
+        HorzAlign = Trailing
         Header = 'survivors rescued'
         Padding.Right = 10.000000000000000000
         Size.Width = 75.000000000000000000
@@ -1258,6 +1267,19 @@ object Form1: TForm1
         Header = 'level changed'
         Size.Width = 40.000000000000000000
       end
+    end
+    object StatWeekReturnButton: TButton
+      StyledSettings = [Family, FontColor]
+      Position.X = 464.000000000000000000
+      Position.Y = 728.000000000000000000
+      Size.Width = 153.000000000000000000
+      Size.Height = 41.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 6
+      Text = 'Return'
+      TextSettings.Font.Size = 20.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      OnClick = StatWeekReturnButtonClick
     end
   end
   object ColumnDeleteLabel: TLabel
@@ -1276,7 +1298,7 @@ object Form1: TForm1
     TabStop = False
   end
   object ColumnDeleteDateEdit: TDateEdit
-    Date = 44516.000000000000000000
+    Date = 44532.000000000000000000
     TodayDefault = True
     Enabled = False
     Position.X = 448.000000000000000000
