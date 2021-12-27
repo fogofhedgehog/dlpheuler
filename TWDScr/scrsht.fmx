@@ -1,0 +1,28 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 729
+  ClientWidth = 465
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Button1: TButton
+    Position.X = 88.000000000000000000
+    Position.Y = 552.000000000000000000
+    Size.Width = 297.000000000000000000
+    Size.Height = 113.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'Button1'
+    OnClick = Button1Click
+  end
+  object Layout1: TLayout
+    Position.Y = -16.000000000000000000
+    Size.Width = 505.000000000000000000
+    Size.Height = 793.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+  end
+end

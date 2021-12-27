@@ -158,6 +158,9 @@ type
     GroupAddCancelButton: TButton;
     GroupRenameCancelButton: TButton;
     StatWeekReturnButton: TButton;
+    StatSeasonGroupLabel: TLabel;
+    StatSeasonGroupComboBox: TComboBox;
+    StatSeasonReturnButton: TButton;
     procedure TargetComboBoxMouseEnter(Sender: TObject);
     procedure TargetComboBoxChange(Sender: TObject);
     procedure SeasonActionComboBoxMouseEnter(Sender: TObject);
@@ -222,6 +225,8 @@ type
     procedure GroupAddCancelButtonClick(Sender: TObject);
     procedure GroupRenameCancelButtonClick(Sender: TObject);
     procedure StatWeekReturnButtonClick(Sender: TObject);
+    procedure StatSeasonReturnButtonClick(Sender: TObject);
+    procedure StatSeasonGroupComboBoxChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -2329,14 +2334,15 @@ end;
 procedure TForm1.StatActionComboBoxChange(Sender: TObject);
 begin
   StatActionComboBox.Enabled:= false;
-  if StatActionComboBox.Items[StatActionComboBox.ItemIndex] = 'Group week'
+  if (StatActionComboBox.Items[StatActionComboBox.ItemIndex] = 'Group week') or
+  (StatActionComboBox.Items[StatActionComboBox.ItemIndex] = 'Group season')
   then
   begin
     StatGroupComboBox.Items.Clear;
     StatGroupLabel.Visible:= True;
     StatGroupLabel.Enabled:= True;
-    StatDate1Label.Visible:= True;
-    StatDate1Label.Enabled:= True;
+    StatShowButton.Enabled:= False;
+    StatShowButton.Visible:= True;
     StatGroupComboBox.Items.Add('Choose group');
     WorkQuery.SQL.Clear;
     WorkQuery.SQL.Text:= 'SELECT * FROM "Groups" ORDER BY "Name"';
@@ -2350,23 +2356,57 @@ begin
     StatGroupComboBox.ItemIndex:= 0;
     StatGroupComboBox.Visible:= True;
     StatGroupComboBox.Enabled:= True;
-    StatDate2DateEdit.IsEmpty:= True;
-    StatDate2DateEdit.Visible:= True;
-    StatDate2DateEdit.Enabled:= True;
-    StatShowButton.Enabled:= False;
-    StatShowButton.Visible:= True;
+    if (StatActionComboBox.Items[StatActionComboBox.ItemIndex] = 'Group week')
+    then
+    begin
+      StatDate1Label.Visible:= True;
+      StatDate1Label.Enabled:= True;
+      StatDate2DateEdit.IsEmpty:= True;
+      StatDate2DateEdit.Visible:= True;
+      StatDate2DateEdit.Enabled:= True;
+      StatWeekReturnButton.Visible:= True;
+      StatWeekReturnButton.Enabled:= True;
+      end;
+    if StatActionComboBox.Items[StatActionComboBox.ItemIndex] = 'Group season'
+    then
+    begin
+      StatSeasonGroupLabel.Visible:= True;
+      StatSeasonGroupComboBox.Items.Clear;
+      StatSeasonGroupComboBox.Items.Add('Choose season');
+      WorkQuery.SQL.Clear;
+      WorkQuery.SQL.Text:= 'SELECT * FROM "seasons" ORDER BY "Id" DESC';
+      WorkQuery.Open();
+      while not WorkQuery.Eof do
+      begin
+        StatSeasonGroupComboBox.Items.Add(WorkQuery.FieldByName('Name').AsString +
+        ' ' + WorkQuery.FieldByName('Start1').AsString);
+        WorkQuery.Next
+      end;
+      StatSeasonGroupComboBox.ItemIndex:= 0;
+      StatSeasonGroupComboBox.Visible:= True;
+      StatSeasonGroupComboBox.Enabled:= True;
+      StatSeasonReturnButton.Visible:= True;
+      StatSeasonReturnButton.Enabled:= True
+    end;
     StatLayout.Visible:= True;
     StatLayout.Enabled:= True;
   end;
 end;
 
 procedure TForm1.StatActionComboBoxMouseEnter(Sender: TObject);
+var i: integer;
 begin
   if StatActionComboBox.Items.Count < 2
   then
   begin
-    StatActionComboBox.Items.Add('Group week')
+    StatActionComboBox.Items.Add('Group week');
+    StatActionComboBox.Items.Add('Group season')
   end;
+  for i:= 0 to StatActionComboBox.Count - 1 do
+    begin
+      StatActionComboBox.ListBox.ListItems[i].TextSettings.Font.Size:= 15;
+      StatActionComboBox.ListBox.ListItems[i].StyledSettings:= StatActionComboBox.ListBox.ListItems[i].StyledSettings - [TStyledSetting.Size];
+    end;
 end;
 
 procedure TForm1.StatDate2DateEditChange(Sender: TObject);
@@ -2381,115 +2421,357 @@ end;
 
 procedure TForm1.StatGroupComboBoxChange(Sender: TObject);
 begin
-  if (StatGroupComboBox.ItemIndex <> 0) and not StatDate2DateEdit.IsEmpty
+  if StatSeasonGroupComboBox.Visible
+  then
+    if (StatGroupComboBox.ItemIndex <> 0) and (StatSeasonGroupComboBox.ItemIndex <> 0)
+    then
+      StatShowButton.Enabled:= True
+    else
+      StatShowButton.Enabled:= False
+  else
+    if (StatGroupComboBox.ItemIndex <> 0) and not StatDate2DateEdit.IsEmpty
+    then
+      StatShowButton.Enabled:= True
+    else
+      StatShowButton.Enabled:= False
+end;
+
+procedure TForm1.StatSeasonGroupComboBoxChange(Sender: TObject);
+begin
+  if (StatSeasonGroupComboBox.ItemIndex <> 0) and (StatGroupComboBox.ItemIndex <> 0)
   then
     StatShowButton.Enabled:= True
   else
     StatShowButton.Enabled:= False
 end;
 
+procedure TForm1.StatSeasonReturnButtonClick(Sender: TObject);
+begin
+  StatSeasonGroupLabel.Visible:= False;
+  StatSeasonGroupComboBox.Visible:= False;
+  StatSeasonGroupComboBox.Enabled:= False;
+  StatGroupComboBox.Visible:= False;
+  StatGroupComboBox.Enabled:= False;
+  StatGroupLabel.Visible:= False;
+  StatSeasonReturnButton.Visible:= False;
+  StatSeasonReturnButton.Enabled:= False;
+  WorkQuery.Close;
+  StatWeekStringGrid.RowCount:= 0;
+  StatActionComboBox.ItemIndex:= 0;
+  StatLayout.Visible:= False;
+  StatLayout.Enabled:= False;
+  StatActionComboBox.Enabled:= False;
+  StatActionComboBox.Visible:= False;
+  TargetComboBox.ItemIndex:= 0;
+  TargetComboBox.Enabled:= True
+end;
+
 procedure TForm1.StatShowButtonClick(Sender: TObject);
-var grp, basedat, basedat1, base, plrsSQL: string;
+type a = array [0..2] of integer;
+     rec = array [0..11] of integer;
+var grp, seas, basedat, basedat1, base, plrsSQL, fldsSQL: string;
     i, j, k, id: integer;
     dat, dat1: TDate;
-    plrs: TList<string>;
+    dt: rec;
+    alldat, alldat1: TList<rec>;
+    pl: a;
+    ppl: TList<a>;
+    plrs, dats: TList<string>;
     ordrs: TDictionary<string, string>;
 begin
   grp:= StatGroupComboBox.Items[StatGroupComboBox.ItemIndex];
-  dat:= StatDate2DateEdit.Date;
-  dat:= downToThursday(dat);
-  dat1:= dat - 7;
   id:= Length(grp);
   while grp[id] <> ' ' do
     id:= id - 1;
   id:= StrToInt(copy(grp, id, length(grp)));
-  basedat:= chdt(dat);
-  basedat1:= chdt(dat1);
-  WorkQuery.SQL.Clear;
-  WorkQuery.SQL.Text:= 'SELECT "player" FROM "teams" where "' + basedat + '" = ' + id.ToString +
-  ' AND "' + basedat1 + '" IS NOT NULL ORDER BY "player"';
-  WorkQuery.Open();
-  plrs:= TList<string>.Create;
-  plrs.Clear;
-  while not WorkQuery.Eof do
+  if StatSeasonGroupComboBox.Visible
+  then
   begin
-    plrs.Add(WorkQuery.Fields[0].AsString);
-    WorkQuery.Next
-  end;
-  WorkQuery.SQL.Clear;
-  WorkQuery.SQL.Text:= 'SELECT "player" FROM "missions_completed" where "player" IN (';
-  if plrs.Count <> 0 then
-  begin
-    if plrs.Count = 1 then
-      WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[0] + ') ORDER BY "' +
-      basedat + '" - "' + basedat1 + '" DESC'
+    seas:= StatSeasonGroupComboBox.Items[StatSeasonGroupComboBox.ItemIndex];
+    i:= Length(seas);
+    while seas[i] <> ' ' do
+      i:= i - 1;
+    seas:= copy(seas, 1, i - 1);
+    WorkQuery.SQL.Clear;
+    WorkQuery.SQL.Text:= 'SELECT * FROM "seasons" WHERE "Name" = ''' + seas + '''';
+    WorkQuery.Open();
+    i:= WorkQuery.FieldByName('rounds').AsInteger;
+    dats:= TList<string>.Create;
+    dats.Clear;
+    for j:= 1 to i do
+      if WorkQuery.FieldByName('Start' + j.ToString).AsDateTime < Date.Now
+      then
+        dats.Add(chdt(WorkQuery.FieldByName('Start' + j.ToString).AsDateTime));
+    if (dats.Count < 2) and (i > 1)
+    then
+      ShowMessage('First round of this season is not yet completed')
     else
     begin
-      for i:= 0 to plrs.Count - 2 do
-        WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[i] + ', ';
-      WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[plrs.Count - 1] + ') ORDER BY "' +
-      basedat + '" - "' + basedat1 + '" DESC'
-    end;
+      dat:= WorkQuery.FieldByName('Finish').AsDateTime + 1;
+      basedat:= chdt(Date.Now);
+      if basedat > chdt(dat)
+      then
+        dats.Add(chdt(dat));
+      if dats.Count < 2
+      then
+        ShowMessage('First round of this season is not yet completed')
+      else
+      begin
+        fldsSQL:= '"';
+        for i:= 0 to dats.Count - 2 do
+          fldsSQL:= fldsSQL + dats[i] + '", "';
+        fldsSQL:= fldsSQL + dats[dats.Count - 1] + '"';
+        WorkQuery.SQL.Clear;
+        WorkQuery.SQL.Text:= 'SELECT "player", ' + fldsSQL + ' FROM "teams" WHERE "';
+        for i:= 0 to dats.Count - 2 do
+          WorkQuery.SQL.Text:= WorkQuery.SQL.Text + dats[i] + '" = ' + id.ToString + ' OR "';
+        WorkQuery.SQL.Text:= WorkQuery.SQL.Text + dats[dats.Count - 1] + '" = ' + id.ToString +
+        ' ORDER BY "player"';
+        WorkQuery.Open();
+        ppl:=TList<a>.Create;
+        while not WorkQuery.Eof do
+        begin
+          for i:= 1 to WorkQuery.Fields.Count - 1 do
+            if WorkQuery.Fields[i].AsInteger = id then
+              break;
+          if i <> WorkQuery.Fields.Count - 1
+          then
+            for j:= WorkQuery.Fields.Count - 1 downto 1 do
+              if WorkQuery.Fields[j].AsInteger = id then
+                break;
+          if (i <> j) and (i <> WorkQuery.Fields.Count - 1)
+          then
+          begin
+            pl[0]:= WorkQuery.Fields[0].AsInteger;
+            pl[1]:= i;
+            pl[2]:= j;
+            ppl.Add(pl)
+          end;
+          WorkQuery.Next
+        end;
+        if ppl.Count = 0
+        then
+          ShowMessage('Nobody played continuously ih this group this season')
+        else
+        begin
+          StatWeekStringGrid.RowCount:= ppl.Count + 1;
+          plrsSQL:= '"player" = ';
+          if ppl.Count > 1
+          then
+          begin
+            for i:= 0 to ppl.Count - 2 do
+              plrsSQL:= plrsSQL + ppl[i][0].ToString + ' OR "player" = ';
+            plrsSQL:= plrsSQL + ppl[ppl.Count - 1][0].ToString
+          end
+          else
+            plrsSQL:= plrsSQL + ppl[0][0].ToString;
+          alldat:= TList<rec>.Create;
+          alldat.Clear;
+          for i:= 0 to ppl.Count - 1 do
+          begin
+            dt[0]:= ppl[i][0];
+            for j:= 1 to 11 do
+              dt[j]:= 0;
+            alldat.Add(dt)
+          end;
+          j:= 0;
+          alldat1:= TList<rec>.Create;
+          for base in BL do
+          begin
+            WorkQuery.SQL.Clear;
+            WorkQuery.SQL.Text:= 'SELECT "player", ' + fldsSQL + ' FROM ' +
+              base + ' WHERE ' + plrsSQL + ' ORDER BY "player"';
+            WorkQuery.Open();
+            i:= 0;
+            alldat1.Clear;
+            while not WorkQuery.Eof do
+            begin
+              dt:= alldat[i];
+              if dt[0] <> WorkQuery.Fields[0].AsInteger
+              then
+                ShowMessage('Error in data');
+              dt[j + 1]:= WorkQuery.Fields[ppl[i][2]].AsInteger - WorkQuery.Fields[ppl[i][1]].AsInteger;
+              alldat1.Add(dt);
+              i:= i + 1;
+              WorkQuery.Next
+            end;
+            alldat.Clear;
+            for dt in alldat1 do
+              alldat.Add(dt);
+            j:= j + 1
+          end;
+          alldat1.Clear;
+          while alldat.Count > 0 do
+          begin
+            i:= 0;
+            k:= 0;
+            for j:= 0 to alldat.Count - 1 do
+            begin
+              if alldat[j][1] > i
+              then
+              begin
+                i:= alldat[j][1];
+                k:= j
+              end;
+            end;
+            alldat1.Add(alldat[k]);
+            alldat.Delete(k)
+          end;
+          alldat.Clear;
+          while alldat1.Count > 0 do
+          begin
+            i:= 0;
+            k:= 0;
+            for j:= 0 to alldat1.Count - 1 do
+            begin
+              if alldat1[j][4] > i
+              then
+              begin
+                i:= alldat1[j][4];
+                k:= j
+              end;
+            end;
+            alldat.Add(alldat1[k]);
+            alldat1.Delete(k)
+          end;
+          plrsSQL:= '(';
+          for dt in alldat do
+            plrsSQL:= plrsSQL + dt[0].ToString + ', ';
+          plrsSQL:= copy(plrsSQL, 1, length(plrsSQL) - 2) + ')';
+          WorkQuery.SQL.Clear;
+          WorkQuery.SQL.Text:= 'SELECT * FROM "players" WHERE "Id" in ' + plrsSQL;
+          WorkQuery.Open();
+          ordrs:= TDictionary<String, String>.Create;
+          while not WorkQuery.Eof do
+          begin
+            ordrs.Add(WorkQuery.Fields[0].AsString, WorkQuery.Fields[1].AsString);
+            WorkQuery.Next
+          end;
+          WorkQuery.Close;
+          for i:= 0 to alldat.Count - 1 do
+          begin
+            StatWeekStringGrid.Cells[0, i]:= alldat[i][0].ToString;
+            StatWeekStringGrid.Cells[1, i]:= ordrs[alldat[i][0].ToString]
+          end;
+          StatWeekStringGrid.Cells[0, alldat.Count]:= alldat.Count.ToString;
+          StatWeekStringGrid.Cells[1, alldat.Count]:= 'Total';
+          for i:= 0 to alldat.Count - 1 do
+            for j:= 1 to 11 do
+              StatWeekStringGrid.Cells[j + 1, i]:= alldat[i][j].ToString;
+          for i:= 1 to 11 do
+          begin
+            k:= 0;
+            for dt in alldat do
+              k:= k + dt[i];
+            StatWeekStringGrid.Cells[i + 1, alldat.Count]:= k.ToString
+          end;
+        end;
+      end;
+    end
+  end
+  else
+  begin
+    dat:= StatDate2DateEdit.Date;
+    dat:= downToThursday(dat);
+    dat1:= dat - 7;
+    basedat:= chdt(dat);
+    basedat1:= chdt(dat1);
+    WorkQuery.SQL.Clear;
+    WorkQuery.SQL.Text:= 'SELECT "player" FROM "teams" WHERE "' + basedat + '" = ' + id.ToString +
+    ' AND "' + basedat1 + '" IS NOT NULL ORDER BY "player"';
     WorkQuery.Open();
-    StatWeekStringGrid.RowCount:= plrs.Count + 1;
+    plrs:= TList<string>.Create;
     plrs.Clear;
-    i:= 0;
     while not WorkQuery.Eof do
     begin
       plrs.Add(WorkQuery.Fields[0].AsString);
-      StatWeekStringGrid.Cells[0, i]:= plrs[i];
-      i:= i + 1;
       WorkQuery.Next
     end;
-    StatWeekStringGrid.Cells[0, plrs.Count]:= plrs.Count.ToString;
-    plrsSQL:= '(';
-    for i:= 0 to plrs.Count - 2 do
-      plrsSQL:= plrsSQL + plrs[i] + ', ';
-    plrsSQL:= plrsSQL + plrs[plrs.Count - 1] + ') ';
     WorkQuery.SQL.Clear;
-    WorkQuery.SQL.Text:= 'SELECT * FROM "players" WHERE "Id" IN ' + plrsSQL;
-    WorkQuery.Open();
-    ordrs:= TDictionary<string, string>.Create;
-    while not WorkQuery.Eof do
+    WorkQuery.SQL.Text:= 'SELECT "player" FROM "missions_completed" where "player" IN (';
+    if plrs.Count <> 0 then
     begin
-      ordrs.Add(WorkQuery.Fields[0].AsString, WorkQuery.Fields[1].AsString);
-      WorkQuery.Next
-    end;
-    for i:= 0 to plrs.Count - 1 do
-      StatWeekStringGrid.Cells[1, i]:= ordrs[plrs[i]];
-    i:= 2;
-    for base in BL do
-    begin
-      ordrs.Clear;
-      WorkQuery.SQL.Clear;
-      WorkQuery.SQL.Text:= 'SELECT "player", "' + basedat + '" - "' + basedat1 +
-      '" FROM ' + base + ' WHERE "player" IN ' + plrsSQL;
+      if plrs.Count = 1 then
+        WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[0] + ') ORDER BY "' +
+        basedat + '" - "' + basedat1 + '" DESC'
+      else
+      begin
+        for i:= 0 to plrs.Count - 2 do
+          WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[i] + ', ';
+        WorkQuery.SQL.Text:= WorkQuery.SQL.Text + plrs[plrs.Count - 1] + ') ORDER BY "' +
+        basedat + '" - "' + basedat1 + '" DESC'
+      end;
       WorkQuery.Open();
+      StatWeekStringGrid.RowCount:= plrs.Count + 1;
+      plrs.Clear;
+      i:= 0;
+      while not WorkQuery.Eof do
+      begin
+        plrs.Add(WorkQuery.Fields[0].AsString);
+        StatWeekStringGrid.Cells[0, i]:= plrs[i];
+        i:= i + 1;
+        WorkQuery.Next
+      end;
+      StatWeekStringGrid.Cells[0, plrs.Count]:= plrs.Count.ToString;
+      plrsSQL:= '(';
+      for i:= 0 to plrs.Count - 2 do
+        plrsSQL:= plrsSQL + plrs[i] + ', ';
+      plrsSQL:= plrsSQL + plrs[plrs.Count - 1] + ') ';
+      WorkQuery.SQL.Clear;
+      WorkQuery.SQL.Text:= 'SELECT * FROM "players" WHERE "Id" IN ' + plrsSQL;
+      WorkQuery.Open();
+      ordrs:= TDictionary<string, string>.Create;
       while not WorkQuery.Eof do
       begin
         ordrs.Add(WorkQuery.Fields[0].AsString, WorkQuery.Fields[1].AsString);
         WorkQuery.Next
       end;
-      for j:= 0 to plrs.Count - 1 do
-        StatWeekStringGrid.Cells[i, j]:= ordrs[plrs[j]];
-      i:= i + 1
-    end;
-    j:= StatWeekStringGrid.RowCount - 1;
-    StatWeekStringGrid.Cells[1, j]:= 'Total';
-    for i:= 2 to 12 do
-    begin
-      id:= 0;
-      for k:= 0 to j - 1 do
-         id:= id + StatWeekStringGrid.Cells[i, k].ToInteger;
-      StatWeekStringGrid.Cells[i, j]:= id.ToString
-    end;
+      for i:= 0 to plrs.Count - 1 do
+        StatWeekStringGrid.Cells[1, i]:= ordrs[plrs[i]];
+      i:= 2;
+      for base in BL do
+      begin
+        ordrs.Clear;
+        WorkQuery.SQL.Clear;
+        WorkQuery.SQL.Text:= 'SELECT "player", "' + basedat + '" - "' + basedat1 +
+        '" FROM ' + base + ' WHERE "player" IN ' + plrsSQL;
+        WorkQuery.Open();
+        while not WorkQuery.Eof do
+        begin
+          ordrs.Add(WorkQuery.Fields[0].AsString, WorkQuery.Fields[1].AsString);
+          WorkQuery.Next
+        end;
+        for j:= 0 to plrs.Count - 1 do
+          StatWeekStringGrid.Cells[i, j]:= ordrs[plrs[j]];
+        i:= i + 1
+      end;
+      j:= StatWeekStringGrid.RowCount - 1;
+      StatWeekStringGrid.Cells[1, j]:= 'Total';
+      for i:= 2 to 12 do
+      begin
+        id:= 0;
+        for k:= 0 to j - 1 do
+           id:= id + StatWeekStringGrid.Cells[i, k].ToInteger;
+        StatWeekStringGrid.Cells[i, j]:= id.ToString
+      end;
+    end
+    else
+      ShowMessage('No players played in group this week')
   end
-  else
-    ShowMessage('No players played in group this week')
 end;
 
 procedure TForm1.StatWeekReturnButtonClick(Sender: TObject);
 begin
+  StatSeasonGroupLabel.Visible:= False;
+  StatSeasonGroupComboBox.Visible:= False;
+  StatSeasonGroupComboBox.Enabled:= False;
+  StatDate1Label.Visible:= False;
+  StatDate1Label.Enabled:= False;
+  StatDate2DateEdit.IsEmpty:= True;
+  StatDate2DateEdit.Visible:= False;
+  StatDate2DateEdit.Enabled:= False;
+  StatWeekReturnButton.Visible:= False;
+  StatWeekReturnButton.Enabled:= False;
   WorkQuery.Close;
   StatWeekStringGrid.RowCount:= 0;
   StatActionComboBox.ItemIndex:= 0;
