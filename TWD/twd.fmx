@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 600
-  Top = 180
+  Left = 630
+  Top = 0
   Caption = 'TWDStat-Admin'
   ClientHeight = 1013
   ClientWidth = 1101
@@ -9,8 +9,7 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
-  Left = 600
-  Top = 180
+  Left = 630
   DesignerMasterStyle = 0
   object TargetComboBox: TComboBox
     Items.Strings = (
@@ -1120,7 +1119,7 @@ object Form1: TForm1
     Visible = False
     TabOrder = 78
     object StatDate2DateEdit: TDateEdit
-      Date = 44557.000000000000000000
+      Date = 44581.000000000000000000
       TodayDefault = True
       OnChange = StatDate2DateEditChange
       Enabled = False
@@ -1342,7 +1341,7 @@ object Form1: TForm1
     TabStop = False
   end
   object ColumnDeleteDateEdit: TDateEdit
-    Date = 44557.000000000000000000
+    Date = 44581.000000000000000000
     TodayDefault = True
     Enabled = False
     Position.X = 448.000000000000000000
@@ -1446,7 +1445,8 @@ object Form1: TForm1
       'Server=pan-therra.ru'
       'User_Name=postgres'
       'Password=Ly)vwW-D2.c)o0Hp'
-      'Database=TWD')
+      'Database=TWD'
+      'Port=17344')
     Left = 1040
     Top = 8
   end

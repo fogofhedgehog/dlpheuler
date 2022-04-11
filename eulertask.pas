@@ -3,7 +3,19 @@ unit eulertask;
 interface
 
 uses math, fogmath, System.SysUtils, FMX.Dialogs, Generics.Collections, Classes,
-  eulclass, velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals;
+  eulclass, velthuis.bigintegers, velthuis.bigdecimals, velthuis.bigrationals, PythonEngine,
+  System.Types, System.UITypes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Memo.Types,
+  FMX.Controls.Presentation, FMX.ScrollBox, FMX.Memo;
+
+type
+  TForm2 = class(TForm)
+    py155: TMemo;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
 
 function parnam(Task, amount, number: integer): string;
 function setdefault(Task, amount, number: integer): string;
@@ -159,6 +171,16 @@ function trianglesummin: int64;
 function onesheetinenvelope: int64;
 function invsquaresum: int64;
 function alldivisorssum(number: int64): int64;
+function pascalpyramid: int64;
+function countcyph(i, j: int64): int64;
+function digsameqnum: int64;
+function fractions10powers(pwr: integer): int64;
+function onelexorderexact: int64;
+function digitrootsumfactors(number: int64): int64;
+
+var PE: TPythonEngine;
+    PI: TPythonInputOutput;
+    Form2: TForm2;
 // function exmpl: int64;
 
 implementation
@@ -6751,6 +6773,280 @@ begin
   result := result + number;
   for re := 2 to number do
     result := result + re;
+end;
+
+function pascalpyramid: int64; // Task 154 - 479742450
+var i, j, k: int64;
+    a: array[1..2, 0..200000] of int64;
+begin
+    a[1, 0]:= 0;
+    a[2, 0]:= 0;
+    a[1, 1]:= 0;
+    a[2, 1]:= 0;
+    for i:= 2 to 200000 do
+    begin
+      j:= 0;
+      k:= i;
+      while (k mod 2) = 0 do
+      begin
+        j:= j + 1;
+        k:= k div 2
+      end;
+      a[1, i]:= a[1, i - 1] + j;
+      j:= 0;
+      k:= i;
+      while k mod 5 = 0 do
+      begin
+        j:= j + 1;
+        k:= k div 5
+      end;
+      a[2, i]:= a[2, i - 1] + j;
+    end;
+    result:= 0;
+    for i:= 0 to 200000 do
+    begin
+      j:= 0;
+      while i + j <= 200000 do
+      begin
+        k:= 200000 - i - j;
+        if (a[1, 200000] - (a[1, i] + a[1, j] + a[1, k]) >= 12) and (a[2, 200000] - (a[2, i] + a[2, j] + a[2, k]) >= 12)
+        then
+          result:= result + 1;
+        j:= j + 1
+      end;
+    end;
+end;
+
+function countcyph(i, j: int64): int64;
+var h, g, s, t: int64;
+begin
+  result:= 0;
+  h:= i;
+  s:= 1;
+  while h >= 10 do
+  begin
+    h:= h div 10;
+    s:= s * 10
+  end;
+  if h > j then
+    result:= result + s
+  else
+  if h = j then
+    result:= result + i mod s + 1;
+  result:= result + h * (s div 10) * round(math.Log10(s));
+  t:= i mod s;
+  h:= t;
+  s:= 1;
+  while h >= 10 do
+  begin
+    while t >= 10 do
+    begin
+      t:= t div 10;
+      s:= s * 10;
+    end;
+    if t > j then
+      result:= result + s
+    else
+    if t = j then
+      result:= result + h - t * s + 1;
+    result:= result + t * (s div 10) * round(math.Log10(s));
+    t:= h mod s;
+    h:= t;
+    s:= 1;
+  end;
+  if h >= j then
+    result:= result + 1
+end;
+
+
+function digsameqnum: int64; // Task 156 - 21295121502550
+var i, j, k, l, n, o, p: int64;
+    g: TList<int64>;
+    f: text;
+begin
+  g:= TList<int64>.Create;
+  result:= 1;
+  g:= TList<int64>.Create;
+  for i:= 1 to 9 do
+  begin
+    j:= 10000;
+    k:= countcyph(j, i);
+    while j < 100000000000 do
+    begin
+      if j = countcyph(j, i) then
+      begin
+        g.Add(j);
+        result:= result + j;
+        j:= j + 1;
+        k:= countcyph(j, i)
+      end
+      else
+      begin
+        k:= countcyph(j, i);
+        if (Round(abs(j - k) * 1.1) > 20) then
+          j:= j + Round(abs(j - k) * 0.1)
+        else
+          j:= j + 1;
+      end;
+    end;
+  end;
+  Assign(f, 'cyphs.156');
+  Rewrite(f);
+  result:= 1;
+  for i:= 0 to g.Count - 1 do
+  begin
+    result:= result + g[i];
+    Writeln(f, g[i].ToString);
+  end;
+  close(f);
+end;
+
+function fractions10powers(pwr: integer): int64; // Task 157 - 53490
+var i, j, k, l, m, n1, n2: int64;
+begin
+  result:= 0;
+  for i:= 1 to pwr do
+  begin
+    for j:= 0 to 2 * i do
+      for l:= 0 to 2 * i do
+      begin
+        k:= 2 * i - j;
+        m:= 2 * i - l;
+        n1:= powerint64(2, j) * powerint64(5, l) + powerint64(10, i);
+        n2:= powerint64(2, k) * powerint64(5, m) + powerint64(10, i);
+        if n1 <= n2
+        then
+        begin
+          n1:= greatcomdiv(n1, n2);
+          n2:= 1;
+          while n2 * n2 <= n1 do
+          begin
+            if n1 mod n2 = 0
+            then
+              if powerint64(n1 div n2, 2) = n1
+              then
+                result:= result + 1
+              else
+                result:= result + 2;
+            n2:= n2 + 1;
+          end;
+        end;
+      end;
+  end;
+end;
+
+function onelexorderexact: int64;  // Task 158 - 409511334375
+var i, j, k, l, m, n, o: int64;
+begin
+  result:= 1;
+  i:= 2;
+  j:= 1;
+  while i < 26 do
+  begin
+    i:= i + 1;
+    j:= j + powerint64(2, i - 1) - 1;
+    k:= permutations(26, i);
+    if k * j > result then result:= k * j else break;
+  end;
+end;
+
+function digitrootsumfactors(number: int64): int64;
+var factors, dr: TList<int64>;
+    i, j, k1, k2, k3, k4: int64;
+    s: string;
+begin
+  factors:= TList<int64>.Create;
+  dr:= TList<int64>.Create;
+  result:= 0;
+  for i:= 2 to number do
+  begin
+    factors:= factorization(i);
+    dr.Clear;
+    for j in factors do
+      dr.Add(digitalrootbase10(j));
+    dr.Sort;
+    if dr.Count = 1 then
+      result:= result + dr[0]
+    else
+    begin
+      j:= dr.Count - 1;
+      while dr[j] >= 5 do
+      begin
+        result:= result + dr[j];
+        dr.Delete(j);
+        j:= j - 1;
+        if j = 0 then break
+      end;
+      if dr.Count > 0 then
+      begin
+        k1:= 0;
+        k2:= 0;
+        k3:= 0;
+        k4:= 0;
+        for j in dr do
+        begin
+          if j = 1 then
+            k1:= k1 + 1;
+          if j = 2 then
+            k2:= k2 + 1;
+          if j = 3 then
+            k3:= k3 + 1;
+          if j = 4 then
+            k4:= k4 + 1
+        end;
+        while k3 >= 2 do
+        begin
+          result:= result + 9;
+          k3:= k3 - 2;
+          dr.Delete(dr.IndexOf(3));
+          dr.Delete(dr.IndexOf(3))
+        end;
+        if k4 > 0 then
+        begin
+          while (k2 > 0) and (k4 > 0) do
+          begin
+            result:= result + 8;
+            k4:= k4 - 1;
+            k2:= k2 - 1;
+            dr.Delete(dr.IndexOf(2));
+            dr.Delete(dr.IndexOf(4))
+          end;
+        end;
+        if k2 = 0 then
+          for j in dr do
+            result:= result + j
+        else
+        begin
+          while k2 div 3 > 0 do
+          begin
+            k2:= k2 - 3;
+            result:= result + 8;
+            dr.Delete(dr.IndexOf(2));
+            dr.Delete(dr.IndexOf(2));
+            dr.Delete(dr.IndexOf(2))
+          end;
+          if k3 = 1 then
+            if k2 > 0 then
+            begin
+              result:= result + 6;
+              k3:= k3 - 1;
+              k2:= k2 - 1;
+              if k2 = 1 then
+                result:= result + 2
+            end
+            else
+              result:= result + 3
+          else
+            if k2 = 2 then
+              result:= result + 4
+            else
+              if k2 = 1 then
+                result:= result + 2;
+          result:= result + k1
+        end;
+      end;
+    end;
+  end;
 end;
 
 end.

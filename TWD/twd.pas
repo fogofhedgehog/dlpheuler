@@ -602,7 +602,7 @@ end;
 
 procedure TForm1.CheckDuplicatesButtonClick(Sender: TObject);
 begin
-checkNewPlayers(list1, list2, WorkQuery);
+  checkNewPlayers(list1, list2, WorkQuery);
 end;
 
 procedure TForm1.Player1MergeEditChange(Sender: TObject);

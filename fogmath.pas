@@ -116,6 +116,8 @@ type
   function divto7148u49(number: int64): int64; // for task 148 usage only
   function maxadjsum(seq: TList<int64>): int64;
   // calculates highest sum of consecutive numbers in list
+  function permutations(total, amount: int64): int64;
+  function digitalrootbase10(number: int64): int64;
 
 implementation
 
@@ -1680,13 +1682,13 @@ begin
   result := TList<int64>.Create;
   result.Clear;
   numb := number;
-  i := 2;
-  while i < sqrt(numb) do
+  i:= 2;
+  while i <= sqrt(numb) do
   begin
     if numb mod i = 0 then
     begin
       result.Add(i);
-      numb := numb div 2;
+      numb := numb div i;
     end
     else
       i := nextprime(i);
@@ -2651,16 +2653,8 @@ function greatcomdiv(first, second: int64): int64;
 var
   reminder, fir, sec: int64;
 begin
-  if second > first then
-  begin
-    fir := second;
-    sec := first
-  end
-  else
-  begin
-    fir := first;
-    sec := second
-  end;
+  fir := max(first, second);
+  sec := min(first, second);
   reminder := 1;
   while reminder > 0 do
   begin
@@ -2875,6 +2869,38 @@ begin
     end
     else
       i := i + 1;
+  end;
+end;
+
+function permutations(total, amount: int64): int64;
+var i: integer;
+begin
+  result:= 1;
+  for i:= 1 to amount do
+    result:= result * (total - i + 1) div i;
+end;
+
+function digitalrootbase10(number: int64): int64;
+var i, j: int64;
+    s, s1: string;
+begin
+  if number < 10
+  then
+    result:= number
+  else
+  begin
+    i:= number;
+    while i >= 10 do
+    begin
+      s:= i.ToString;
+      result:= 0;
+      for j:= 1 to length(s) do
+      begin
+        s1:= s[j];
+        result:= result + s1.ToInteger;
+      end;
+      i:= result
+    end;
   end;
 end;
 
